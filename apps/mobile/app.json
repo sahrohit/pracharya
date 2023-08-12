@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mobile",
-    "slug": "mobile",
+    "slug": "pracharya",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,8 +31,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "430d0e55-6eaf-4194-ac6c-4f72955b08b9"
+        "projectId": "859fb1a8-e41a-4330-abf6-70d5ed5675a2"
       }
-    }
+    },
+    "owner": "sahrohit"
   }
 }
