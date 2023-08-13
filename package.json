@@ -2,11 +2,16 @@
 	"name": "pracharya",
 	"version": "0.0.0",
 	"private": true,
-	"workspaces": [
-		"apps/*",
-		"packages/*",
-		"services/*"
-	],
+	"workspaces": {
+		"packages": [
+			"apps/*",
+			"packages/*",
+			"services/*"
+		],
+		"nohoist": [
+			"expo"
+		]
+	},
 	"scripts": {
 		"build": "turbo run build --no-daemon",
 		"dev": "turbo run dev --parallel --no-daemon",

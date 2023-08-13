@@ -2,6 +2,8 @@ import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import express from "express";
 import { appRouter } from "./server";
+import "dotenv/config";
+
 // created for each request
 const createContext = ({
 	req,
