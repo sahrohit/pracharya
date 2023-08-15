@@ -13,11 +13,12 @@ const generateAccessToken = (user: User) => {
 };
 
 export const authRouter = router({
-	me: authorizedProcedure.query((ctx) => {
-		return {
-			id: 1,
-			name: "JEEZ",
-		};
+	me: authorizedProcedure.query(async () => {
+		return await db
+			.select()
+			.from(users)
+			.where(eq(users.id, "1"))
+			.then((res) => res[0] ?? null);
 	}),
 	getUserById: publicProcedure
 		.input(z.string().uuid())
