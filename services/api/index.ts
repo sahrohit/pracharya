@@ -1,19 +1,30 @@
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
+import { config } from "dotenv";
 import express from "express";
-import { appRouter } from "./server";
-import "dotenv/config";
+import helmet from "helmet";
+import { appRouter } from "./src/router/_app";
+import { createContext } from "./src/server";
+import cors from "cors";
 
-// created for each request
-const createContext = ({
-	req,
-	res,
-}: trpcExpress.CreateExpressContextOptions) => ({}); // no context
-type Context = inferAsyncReturnType<typeof createContext>;
-const t = initTRPC.context<Context>().create();
+// Required for importing env variable
+config();
 
 const app = express();
 
+app.use(helmet());
+
+app.set("trust proxy", 1);
+
+app.use(
+	cors({
+		origin: (process.env.ALLOWED_ORIGINS!.split(",") || "").map(
+			(origin) => origin
+		),
+		credentials: true,
+	})
+);
+
+//Home router for testing
 app.get("/", (_req, res) => {
 	res.json({
 		status: "ok",
@@ -33,4 +44,4 @@ app.listen(parseInt(process.env.PORT!) || 4000, () =>
 	console.log(`Server listening on port ${process.env.PORT!}`)
 );
 
-export type { AppRouter } from "./server";
+export type AppRouter = typeof appRouter;

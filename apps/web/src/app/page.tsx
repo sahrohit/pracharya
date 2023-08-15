@@ -1,13 +1,19 @@
+import RegisterButton from "@/components/RegisterButton";
 import { trpc } from "@/utils/trpc";
-import { Button } from "@mantine/core";
+import { cache } from "react";
 
-export default async function Home() {
-	const user = await trpc.userById.query("1");
+export const revalidate = 0;
+
+const Home = cache(async () => {
+	const me = await trpc.auth.me.query();
 
 	return (
 		<div>
-			<p>{user?.name}</p>
-			<Button variant="filled">Button</Button>
+			<p>Hello {me.name}</p>
+
+			<RegisterButton />
 		</div>
 	);
-}
+});
+
+export default Home;

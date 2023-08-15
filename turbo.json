@@ -4,7 +4,15 @@
 		"build": {
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**"],
-			"env": ["PORT", "EXPO_PUBLIC_API_URL", "NEXT_PUBLIC_API_URL"]
+			"env": [
+				"PORT",
+				"EXPO_PUBLIC_API_URL",
+				"NEXT_PUBLIC_API_URL",
+				"DATABASE_URL",
+				"ALLOWED_ORIGINS",
+				"ACCESS_TOKEN_SECRET",
+				"REFREST_TOKEN_SECRET"
+			]
 		},
 		"lint": {
 			"outputs": []

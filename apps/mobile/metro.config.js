@@ -23,4 +23,5 @@ config.resolver.nodeModulesPaths = [
 config.resolver.disableHierarchicalLookup = true;
 config.resolver.sourceExts.push("mjs");
 
+config.resolver.unstable_enablePackageExports = true;
 module.exports = config;
