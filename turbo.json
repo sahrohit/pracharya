@@ -11,7 +11,8 @@
 				"DATABASE_URL",
 				"ALLOWED_ORIGINS",
 				"ACCESS_TOKEN_SECRET",
-				"REFREST_TOKEN_SECRET"
+				"REFRESH_TOKEN_SECRET",
+				"NODE_ENV"
 			]
 		},
 		"lint": {

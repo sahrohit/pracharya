@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 
 const generateAccessToken = (user: User) => {
 	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: "10m",
+		expiresIn: "7d",
 	});
 };
 
@@ -17,7 +17,7 @@ export const authRouter = router({
 		return await db
 			.select()
 			.from(users)
-			.where(eq(users.id, "1"))
+			.where(eq(users.email, "sahrohit9586@gmail.com"))
 			.then((res) => res[0] ?? null);
 	}),
 	getUserById: publicProcedure
@@ -69,9 +69,7 @@ export const authRouter = router({
 				.then((res) => res[0] ?? null);
 
 			const accessToken = generateAccessToken(user);
-			const refreshToken = jwt.sign(user, process.env.REFREST_TOKEN_SECRET);
-
-			console.log("Generated!");
+			const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 
 			return {
 				accessToken,

@@ -8,7 +8,20 @@ import { User } from "./db/schema";
 export const createContext = ({
 	req,
 	res,
-}: trpcExpressAdpater.CreateExpressContextOptions) => ({ req, res });
+}: trpcExpressAdpater.CreateExpressContextOptions) => {
+	const user = getUserFromToken(
+		req.headers["authorization"]
+			?.split(" ")[1]
+			.replace('"', "")
+			.replace('"', "") ?? ""
+	);
+
+	return {
+		req,
+		res,
+		user,
+	};
+};
 
 export type Context = inferAsyncReturnType<typeof createContext>;
 const t = initTRPC.context<Context>().create({
@@ -30,34 +43,30 @@ export const middleware = t.middleware;
 export const publicProcedure = t.procedure;
 
 export const authorizedProcedure = publicProcedure.use(({ ctx, next }) => {
-	const authorization = ctx.req.headers["authorization"];
-
-	if (!authorization) {
+	if (!ctx.user) {
 		throw new TRPCError({
 			code: "FORBIDDEN",
 			message: "Not Authenticated",
 		});
 	}
 
+	return next();
+});
+
+const getUserFromToken = (token: string) => {
+	let user: (User & { ias: number; eas: number }) | null = null;
 	try {
-		const token = authorization.split(" ")[1];
 		const payload = verify(token, process.env.ACCESS_TOKEN_SECRET) as User & {
-			iat: number;
-			eat: number;
+			ias: number;
+			eas: number;
 		};
 
-		if (!payload) {
-			throw new TRPCError({
-				code: "FORBIDDEN",
-				message: "Not Authenticated",
-			});
+		if (payload.id) {
+			user = payload;
 		}
-		return next();
 	} catch (err) {
-		console.log("Error", err);
-		throw new TRPCError({
-			code: "FORBIDDEN",
-			message: "Not Authenticated",
-		});
+		console.log(err);
+		user = null;
 	}
-});
+	return user;
+};
