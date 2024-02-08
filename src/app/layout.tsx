@@ -9,6 +9,8 @@ import Analytics from "@/components/analytics";
 import ModalProvider from "@/components/modal-provider";
 import TailwindIndicator from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
+import { auth } from "@/server/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,28 +53,32 @@ export const metadata = {
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
 };
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Analytics />
-            <Toaster richColors />
-            <ModalProvider />
-            <TailwindIndicator />
-          </ThemeProvider>
-        </TRPCReactProvider>
+        <SessionProvider session={session}>
+          <TRPCReactProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Analytics />
+              <Toaster richColors />
+              <ModalProvider />
+              <TailwindIndicator />
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </SessionProvider>
       </body>
     </html>
   );

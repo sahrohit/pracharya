@@ -2,41 +2,22 @@ import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTableCreator,
   primaryKey,
-  serial,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { type AdapterAccount } from "next-auth/adapters";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
-export const createTable = pgTableCreator((name) => `demo_${name}`);
+export const createTable = pgTableCreator((name) => `pracharya_${name}`);
 
-export const posts = createTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("createdById", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt"),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  })
-);
+export const userRoleEnum = pgEnum("user_role", [
+  "USER",
+  "CONTRIBUTOR",
+  "ADMIN",
+  "OWNER",
+]);
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -46,11 +27,22 @@ export const users = createTable("user", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
+  password: varchar("password"),
+  role: userRoleEnum("user_role").default("USER").notNull(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
 }));
+
+export const passwordResetTokens = createTable("password_reset_token", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  email: varchar("email", { length: 255 }).notNull(),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expires: timestamp("expires", {
+    mode: "date",
+  }),
+});
 
 export const accounts = createTable(
   "account",
@@ -59,7 +51,7 @@ export const accounts = createTable(
       .notNull()
       .references(() => users.id),
     type: varchar("type", { length: 255 })
-      .$type<AdapterAccount["type"]>()
+      // .$type<Adapter["type"]>()
       .notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
@@ -76,7 +68,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_userId_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -96,7 +88,7 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_userId_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -107,10 +99,11 @@ export const verificationTokens = createTable(
   "verificationToken",
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull(),
     token: varchar("token", { length: 255 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );
