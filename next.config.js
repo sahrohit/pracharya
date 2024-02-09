@@ -11,33 +11,33 @@ import nextra from "nextra";
 await import("./src/env.js");
 
 const withNextra = nextra({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.tsx",
+	theme: "nextra-theme-docs",
+	themeConfig: "./theme.config.tsx",
 });
 
 /** @type {import("next").NextConfig} */
 const config = {
-  reactStrictMode: true,
-  swcMinify: true,
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "utfs.io",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "loremflickr.com",
-        pathname: "**",
-      },
-    ],
-  },
+	reactStrictMode: true,
+	swcMinify: true,
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "lh3.googleusercontent.com",
+				pathname: "**",
+			},
+			{
+				protocol: "https",
+				hostname: "utfs.io",
+				pathname: "**",
+			},
+			{
+				protocol: "https",
+				hostname: "loremflickr.com",
+				pathname: "**",
+			},
+		],
+	},
 };
 
 export default withNextra(config);

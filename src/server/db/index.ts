@@ -8,6 +8,6 @@ import * as schema from "./schema";
 export const sql = neon(env.DATABASE_URL);
 
 export const db = drizzle(sql, {
-  schema,
-  logger: true,
+	schema,
+	logger: true,
 });

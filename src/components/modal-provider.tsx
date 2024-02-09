@@ -3,13 +3,13 @@
 import useMounted from "@/components/hooks/use-mounted";
 
 const ModalProvider = () => {
-  const mounted = useMounted();
+	const mounted = useMounted();
 
-  if (!mounted) {
-    return null;
-  }
+	if (!mounted) {
+		return null;
+	}
 
-  return <>{/* add your own modals here... */}</>;
+	return null;
 };
 
 export default ModalProvider;

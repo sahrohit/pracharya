@@ -1,9 +1,9 @@
 {
-  "index": {
-    "title": "Basic Electrical and Electronics Engineering",
-    "type": "page",
-    "href": "/"
-  },
-  "basic-electrical-and-electronics-engineering": "Basic Electrical and Electronics Engineering",
-  "digital-logic-and-microprocessor": "Digital Logic and Microprocessor"
+	"index": {
+		"title": "Basic Electrical and Electronics Engineering",
+		"type": "page",
+		"href": "/"
+	},
+	"basic-electrical-and-electronics-engineering": "Basic Electrical and Electronics Engineering",
+	"digital-logic-and-microprocessor": "Digital Logic and Microprocessor"
 }

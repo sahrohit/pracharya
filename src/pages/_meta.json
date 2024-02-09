@@ -1,14 +1,14 @@
 {
-  "index": {
-    "title": "Home",
-    "display": "hidden",
-    "theme": {
-      "layout": "raw"
-    }
-  },
-  "computer-engineering": {
-    "title": "Computer",
-    "type": "page",
-    "href": "/computer-engineering"
-  }
+	"index": {
+		"title": "Home",
+		"display": "hidden",
+		"theme": {
+			"layout": "raw"
+		}
+	},
+	"computer-engineering": {
+		"title": "Computer",
+		"type": "page",
+		"href": "/computer-engineering"
+	}
 }
