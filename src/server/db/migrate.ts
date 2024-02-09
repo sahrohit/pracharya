@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { migrate } from "drizzle-orm/neon-http/migrator";
 import { db } from ".";
 
 const runMigrate = async () => {
