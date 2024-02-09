@@ -1,4 +1,9 @@
 {
-	"index": "Basic Concept",
-	"network-theorems": "Network Theorems"
+	"index": "Syllabus",
+	"basic-concept": "Basic Concept",
+	"network-theorems": "Network Theorems",
+	"alternating-current-fundamentals": "Alternating Current fundamentals",
+	"semiconductor-devices": "Semiconductor devices",
+	"signal-generator": "Signal generator",
+	"amplifiers": "Amplifiers"
 }

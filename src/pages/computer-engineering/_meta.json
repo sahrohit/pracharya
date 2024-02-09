@@ -5,5 +5,13 @@
 		"href": "/"
 	},
 	"basic-electrical-and-electronics-engineering": "Basic Electrical and Electronics Engineering",
-	"digital-logic-and-microprocessor": "Digital Logic and Microprocessor"
+	"digital-logic-and-microprocessor": "Digital Logic and Microprocessor",
+	"programming-language-and-its-applications": "Programming Language and Its Applications",
+	"computer-organization-and-embedded-system": "Computer Organization and Embedded System",
+	"computer-network-and-network-security-system": "Computer Network and Network Security System",
+	"theory-of-computation-and-computer-graphics": "Theory of Computation and Computer Graphics",
+	"data-structures-and-algorithm-database-system-and-operating-system": "Data Structures and Algorithm Database System and Operating System",
+	"software-engineering-and-object-oriented-analysis-and-design": "Software Engineering and Object Oriented Analysis and Design",
+	"artificial-intelligence-and-neural-networks": "Artificial Intelligence and Neural Networks",
+	"project-planning-design-and-implementation": "Project Planning, Design and Implementation"
 }

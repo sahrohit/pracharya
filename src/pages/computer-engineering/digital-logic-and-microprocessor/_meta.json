@@ -1,4 +1,9 @@
 {
-	"index": "Digital Logic",
-	"combinational-and-arithmetic-circuits": "Combinational and Arithmetic Circuits"
+	"index": "Syllabus",
+	"digital-logic": "Digital Logic",
+	"combinational-and-arithmetic-circuits": "Combinational and Arithmetic Circuits",
+	"sequential-logic-circuits": "Sequential Logic Circuit",
+	"microprocessor": "Microprocessor",
+	"microprocessor-system": "Microprocessor System",
+	"interrupt-operations": "Interrupt operations"
 }
