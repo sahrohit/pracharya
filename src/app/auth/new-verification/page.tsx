@@ -38,10 +38,12 @@ const NewVerificationPage = () => {
 	}, [onSubmit]);
 
 	return (
-		<div className="flex w-full items-center justify-center">
-			{!success && !error && <p>Loading...</p>}
-			<FormSuccess message={success} />
-			{!success && <FormError message={error} />}
+		<div className="grid h-screen w-full place-items-center bg-zinc-900 text-white">
+			<div className="flex w-full items-center justify-center">
+				{!success && !error && <p>Loading...</p>}
+				<FormSuccess message={success} />
+				{!success && <FormError message={error} />}
+			</div>
 		</div>
 	);
 };

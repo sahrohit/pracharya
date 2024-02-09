@@ -1,11 +1,23 @@
+import Logo from "@/components/logo";
+
 const config = {
-	logo: <span>My Nextra Documentation</span>,
+	logo: (
+		<>
+			<Logo className="nx-h-8 nx-w-8" />
+			<span style={{ marginLeft: ".4em", fontWeight: 500, fontSize: "1.25em" }}>
+				Pracharya
+			</span>
+		</>
+	),
+
 	project: {
 		link: "https://github.com/sahrohit/pracharya",
 	},
 	docsRepositoryBase: "https://github.com/sahrohit/pracharya/tree/main",
 	sidebar: {
+		defaultMenuCollapseLevel: 2,
 		toggleButton: true,
+		autoCollapse: true,
 	},
 	footer: {
 		text: (

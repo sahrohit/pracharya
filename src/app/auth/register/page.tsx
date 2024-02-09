@@ -1,32 +1,57 @@
 import Link from "next/link";
 import Social from "@/components/auth/social";
 import RegisterForm from "@/components/forms/register-form";
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardHeader,
-	CardContent,
-	CardFooter,
-} from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
+import Logo from "@/components/logo";
+import { cn } from "@/lib/utils";
 
 const RegisterPage = () => (
-	<Card className="w-[400px] shadow-md">
-		<CardHeader>
-			<div className="flex w-full flex-col items-center justify-center gap-y-4">
-				<h1 className="text-3xl font-semibold">Create An Account</h1>
-				<p className="text-sm text-muted-foreground">Pracharya</p>
+	<div className="container relative hidden h-screen min-h-[600px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+		<Link
+			href="/auth/login"
+			className={cn(
+				buttonVariants({ variant: "ghost" }),
+				"absolute left-4 top-4 md:left-8 md:top-8"
+			)}
+		>
+			Login
+		</Link>
+		<div className="lg:p-8">
+			<div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+				<div className="flex flex-col space-y-2 text-center">
+					<h1 className="text-2xl font-semibold tracking-tight">
+						Create an account
+					</h1>
+					<p className="text-sm text-muted-foreground">
+						Enter your email below to create your account
+					</p>
+				</div>
+				<RegisterForm />
+				<div className="relative flex justify-center text-xs uppercase">
+					<span className="bg-background px-2 text-muted-foreground">
+						Or continue with
+					</span>
+				</div>
+				<Social />
 			</div>
-		</CardHeader>
-		<CardContent>
-			<RegisterForm />
-		</CardContent>
-		<CardFooter className="flex flex-col gap-2">
-			<Social />
-			<Button variant="link" className="w-full font-normal" size="sm" asChild>
-				<Link href="/auth/login">Already have a account, Login?</Link>
-			</Button>
-		</CardFooter>
-	</Card>
+		</div>
+		<div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+			<div className="absolute inset-0 bg-zinc-900" />
+			<div className="relative z-20 flex items-center gap-2 text-lg font-medium">
+				<Logo />
+				Pracharya
+			</div>
+			<div className="relative z-20 mt-auto">
+				<blockquote className="space-y-2">
+					<p className="text-lg">
+						&ldquo;If everyone is moving forward together, then success takes
+						care of itself.&rdquo;
+					</p>
+					<footer className="text-sm">Henry Ford</footer>
+				</blockquote>
+			</div>
+		</div>
+	</div>
 );
 
 export default RegisterPage;

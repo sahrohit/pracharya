@@ -53,7 +53,7 @@ const RegisterForm = () => {
 									<Input
 										{...field}
 										disabled={form.formState.isSubmitting}
-										placeholder="John Doe"
+										placeholder="Ram Bahadur"
 									/>
 								</FormControl>
 								<FormMessage />
@@ -70,7 +70,7 @@ const RegisterForm = () => {
 									<Input
 										{...field}
 										disabled={form.formState.isSubmitting}
-										placeholder="john.doe@example.com"
+										placeholder="name@example.com"
 										type="email"
 									/>
 								</FormControl>
@@ -88,7 +88,7 @@ const RegisterForm = () => {
 									<Input
 										{...field}
 										disabled={form.formState.isSubmitting}
-										placeholder="******"
+										placeholder="********"
 										type="password"
 									/>
 								</FormControl>

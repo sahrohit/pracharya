@@ -77,7 +77,7 @@ const LoginForm = () => {
 									<Input
 										{...field}
 										disabled={form.formState.isSubmitting || isPending}
-										placeholder="john.doe@example.com"
+										placeholder="name@example.com"
 										type="email"
 									/>
 								</FormControl>
@@ -95,7 +95,7 @@ const LoginForm = () => {
 									<Input
 										{...field}
 										disabled={form.formState.isSubmitting || isPending}
-										placeholder="******"
+										placeholder="********"
 										type="password"
 									/>
 								</FormControl>
@@ -117,7 +117,7 @@ const LoginForm = () => {
 					type="submit"
 					className="w-full"
 				>
-					Login
+					Sign In
 				</Button>
 			</form>
 		</Form>
