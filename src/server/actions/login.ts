@@ -17,7 +17,9 @@ const login = async (
 	const validatedFields = LoginFormSchema.safeParse(values);
 
 	if (!validatedFields.success) {
-		throw new Error("Invalid fields!");
+		return {
+			error: "Invalid fields!",
+		};
 	}
 
 	const { email, password } = validatedFields.data;
@@ -27,7 +29,9 @@ const login = async (
 	});
 
 	if (!existingUser?.email || !existingUser.password) {
-		throw new Error("Email does not exist!");
+		return {
+			error: "Email does not exist!",
+		};
 	}
 
 	if (!existingUser.emailVerified) {

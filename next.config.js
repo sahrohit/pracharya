@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // @ts-expect-error This pacakge is not being recongized, despite being installed
 import nextra from "nextra";
+import { withAxiom } from "next-axiom";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
@@ -40,4 +42,4 @@ const config = {
 	},
 };
 
-export default withNextra(config);
+export default withAxiom(withNextra(config));

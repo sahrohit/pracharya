@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import login from "@/server/actions/login";
-import { catchError } from "@/lib/catch-error";
 import { LoginFormSchema } from "@/components/schema/auth";
 
 export type LoginFormValues = z.infer<typeof LoginFormSchema>;
@@ -44,11 +43,23 @@ const LoginForm = () => {
 
 	const onSubmit = (values: LoginFormValues) => {
 		startTransition(async () => {
-			toast.promise(login(values, callbackUrl), {
-				loading: "Logging in...",
-				success: "Logged in!",
-				error: (error) => catchError(error, urlError ?? "Something went wrong"),
-			});
+			const loginToast = toast.loading("Logging in...");
+
+			const res = await login(values, callbackUrl);
+
+			if (res?.success) {
+				toast.success(res?.success, {
+					id: loginToast,
+				});
+			} else if (res?.error) {
+				toast.error(res?.error, {
+					id: loginToast,
+				});
+			} else if (urlError) {
+				toast.error(urlError, {
+					id: loginToast,
+				});
+			}
 		});
 	};
 
