@@ -1,16 +1,25 @@
 {
-  "name": "demo",
+  "name": "pracharya",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
-    "db:push": "drizzle-kit push:pg",
-    "db:studio": "drizzle-kit studio",
+    "prepare": "husky",
     "dev": "next dev",
+    "turbo": "next dev --turbo",
     "lint": "next lint",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
     "start": "next start",
-    "db:pull": "drizzle-kit introspect:pg"
+    "build": "next build",
+    "preview": "next build && next start",
+    "email": "email dev --dir src/emails --port 3333",
+    "db:push": "dotenv drizzle-kit push:pg",
+    "db:generate": "dotenv drizzle-kit generate:pg",
+    "db:studio": "dotenv drizzle-kit studio",
+    "db:migrate": "dotenv tsx src/server/db/migrate.ts",
+    "db:seed": "dotenv tsx src/server/db/seed.ts",
+    "db:drop-migration": "dotenv drizzle-kit drop --config=drizzle.config.ts"
   },
   "dependencies": {
     "@auth/core": "^0.26.3",
@@ -56,6 +65,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@next/bundle-analyzer": "^14.1.0",
+    "@next/eslint-plugin-next": "^14.1.0",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/eslint": "^8.44.7",
@@ -67,10 +80,15 @@
     "autoprefixer": "^10.4.14",
     "drizzle-kit": "^0.20.9",
     "eslint": "^8.54.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-next": "^14.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.10",
     "postcss": "^8.4.31",
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
+    "sharp": "^0.33.2",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.1.6"
   },

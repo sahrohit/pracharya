@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "aaron-bond.better-comments",
+    "vivaxy.vscode-conventional-commits"
+  ]
+}
