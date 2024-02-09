@@ -20,7 +20,10 @@ export const userRoleEnum = pgEnum("user_role", [
 ]);
 
 export const users = createTable("user", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
@@ -28,6 +31,7 @@ export const users = createTable("user", {
   }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
   password: varchar("password"),
+  dakshina: integer("dakshina").default(0),
   role: userRoleEnum("user_role").default("USER").notNull(),
 });
 

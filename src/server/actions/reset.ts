@@ -1,17 +1,12 @@
 "use server";
 
-import * as z from "zod";
+import { type z } from "zod";
 
 import { getUserByEmail } from "../data/user";
+import { ResetPasswordSchema } from "@/components/schema/auth";
 
-export const ResetSchema = z.object({
-  email: z.string().email({
-    message: "Email is required",
-  }),
-});
-
-export const reset = async (values: z.infer<typeof ResetSchema>) => {
-  const validatedFields = ResetSchema.safeParse(values);
+export const reset = async (values: z.infer<typeof ResetPasswordSchema>) => {
+  const validatedFields = ResetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { error: "Invalid emaiL!" };

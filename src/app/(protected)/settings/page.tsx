@@ -3,7 +3,7 @@
 import type * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition, useState } from "react";
+import { useTransition } from "react";
 import { useSession } from "next-auth/react";
 
 import { Switch } from "@/components/ui/switch";
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SettingsSchema, settings } from "@/server/actions/settings";
+import { settings } from "@/server/actions/settings";
 import {
   Form,
   FormField,
@@ -27,21 +27,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
+import { SettingsFormSchema } from "@/components/schema/settings";
+import { toast } from "sonner";
 
-type SettingFormValues = z.infer<typeof SettingsSchema>;
+type SettingFormValues = z.infer<typeof SettingsFormSchema>;
 
 const SettingsPage = () => {
   const session = useSession();
 
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-  const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<SettingFormValues>({
-    resolver: zodResolver(SettingsSchema),
+    resolver: zodResolver(SettingsFormSchema),
     defaultValues: {
       password: undefined,
       newPassword: undefined,
@@ -53,18 +50,14 @@ const SettingsPage = () => {
 
   const onSubmit = (values: SettingFormValues) => {
     startTransition(() => {
-      settings(values)
-        .then(async (data) => {
-          if (data.error) {
-            setError(data.error);
-          }
-
-          if (data.success) {
-            await update();
-            setSuccess(data.success);
-          }
-        })
-        .catch(() => setError("Something went wrong!"));
+      toast.promise(settings(values), {
+        loading: "Updating settings...",
+        success: async () => {
+          await session.update();
+          return "Settings updated!";
+        },
+        error: "Something went wrong!",
+      });
     });
   };
 
@@ -201,8 +194,6 @@ const SettingsPage = () => {
                 />
               )}
             </div>
-            <FormError message={error} />
-            <FormSuccess message={success} />
             <Button disabled={isPending} type="submit">
               Save
             </Button>

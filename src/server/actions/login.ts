@@ -1,31 +1,22 @@
 "use server";
 
-import * as z from "zod";
+import { type z } from "zod";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/server/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
 import { generateVerificationToken } from "@/lib/tokens";
 import { db } from "@/server/db";
-
-export const LoginSchema = z.object({
-  email: z.string().email({
-    message: "Email is required",
-  }),
-  password: z.string().min(1, {
-    message: "Password is required",
-  }),
-  code: z.optional(z.string()),
-});
+import { LoginFormSchema } from "@/components/schema/auth";
 
 export const login = async (
-  values: z.infer<typeof LoginSchema>,
+  values: z.infer<typeof LoginFormSchema>,
   callbackUrl?: string | null,
 ) => {
-  const validatedFields = LoginSchema.safeParse(values);
+  const validatedFields = LoginFormSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    throw new Error("Invalid fields!");
   }
 
   const { email, password } = validatedFields.data;
@@ -35,7 +26,7 @@ export const login = async (
   });
 
   if (!existingUser?.email || !existingUser.password) {
-    return { error: "Email does not exist!" };
+    throw new Error("Email does not exist!");
   }
 
   if (!existingUser.emailVerified) {
@@ -58,9 +49,9 @@ export const login = async (
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credentials!" };
+          throw new Error("Invalid credentials!");
         default:
-          return { error: "Something went wrong!" };
+          throw new Error("Something went wrong!");
       }
     }
 

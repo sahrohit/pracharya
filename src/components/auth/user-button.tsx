@@ -10,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { LogoutButton } from "@/components/auth/logout-button";
 import { useSession } from "next-auth/react";
+import { logout } from "@/server/actions/logout";
 
 export const UserButton = () => {
   const session = useSession();
@@ -27,12 +27,10 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
-        <LogoutButton>
-          <DropdownMenuItem>
-            <RxExit className="mr-2 h-4 w-4" />
-            Logout
-          </DropdownMenuItem>
-        </LogoutButton>
+        <DropdownMenuItem onClick={() => logout()}>
+          <RxExit className="mr-2 h-4 w-4" />
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

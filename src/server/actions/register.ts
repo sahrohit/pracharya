@@ -1,30 +1,18 @@
 "use server";
 
-import * as z from "zod";
+import { type z } from "zod";
 import bcrypt from "bcryptjs";
 
 import { db } from "@/server/db";
 import { getUserByEmail } from "../data/user";
 import { users } from "../db/schema";
-import { generateId } from "@/lib/nanoid";
+import { RegisterFormSchema } from "@/components/schema/auth";
 
-export const RegisterSchema = z.object({
-  email: z.string().email({
-    message: "Email is required",
-  }),
-  password: z.string().min(6, {
-    message: "Minimum 6 characters required",
-  }),
-  name: z.string().min(1, {
-    message: "Name is required",
-  }),
-});
-
-export const register = async (values: z.infer<typeof RegisterSchema>) => {
-  const validatedFields = RegisterSchema.safeParse(values);
+export const register = async (values: z.infer<typeof RegisterFormSchema>) => {
+  const validatedFields = RegisterFormSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    throw new Error("Invalid fields!");
   }
 
   const { email, password, name } = validatedFields.data;
@@ -33,12 +21,12 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
-    return { error: "Email already in use!" };
+    throw new Error("Email already in use!");
   }
 
   await db
     .insert(users)
-    .values({ id: generateId("user-"), name, email, password: hashedPassword })
+    .values({ name, email, password: hashedPassword })
     .returning();
 
   // TODO: Send Verification Email

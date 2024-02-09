@@ -1,6 +1,6 @@
 "use server";
 
-import * as z from "zod";
+import { type z } from "zod";
 import bcrypt from "bcryptjs";
 
 import { update } from "@/server/auth";
@@ -9,54 +9,19 @@ import { currentUser } from "@/lib/auth";
 import { users } from "../db/schema";
 import { getUserByEmail, getUserById } from "../data/user";
 import { eq } from "drizzle-orm";
+import { type SettingsFormSchema } from "@/components/schema/settings";
 
-export const SettingsSchema = z
-  .object({
-    name: z.optional(z.string()),
-    isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum(users.role.enumValues),
-    email: z.optional(z.string().email()),
-    password: z.optional(z.string().min(6)),
-    newPassword: z.optional(z.string().min(6)),
-  })
-  .refine(
-    (data) => {
-      if (data.password && !data.newPassword) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "New password is required!",
-      path: ["newPassword"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.newPassword && !data.password) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "Password is required!",
-      path: ["password"],
-    },
-  );
-
-export const settings = async (values: z.infer<typeof SettingsSchema>) => {
+export const settings = async (values: z.infer<typeof SettingsFormSchema>) => {
   const user = await currentUser();
 
   if (!user) {
-    return { error: "Unauthorized" };
+    throw new Error("Unauthorized");
   }
 
   const dbUser = await getUserById(user.id);
 
   if (!dbUser) {
-    return { error: "Unauthorized" };
+    throw new Error("Unauthorized");
   }
 
   if (user.isOAuth) {
@@ -70,7 +35,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     const existingUser = await getUserByEmail(values.email);
 
     if (existingUser && existingUser.id !== user.id) {
-      return { error: "Email already in use!" };
+      throw new Error("Email already in use!");
     }
 
     // TODO: Send Verificaiton Mail here
@@ -90,7 +55,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     );
 
     if (!passwordsMatch) {
-      return { error: "Incorrect password!" };
+      throw new Error("Incorrect password!");
     }
 
     const hashedPassword = await bcrypt.hash(values.newPassword, 10);
