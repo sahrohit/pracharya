@@ -12,7 +12,7 @@ export const env = createEnv({
 			.string()
 			.url()
 			.refine(
-				(str) => !str.includes("YOUR_MYSQL_URL_HERE"),
+				(str) => !str.includes("YOUR_POSTGRESQL_URL_HERE"),
 				"You forgot to change the default URL"
 			),
 		NODE_ENV: z
@@ -22,7 +22,7 @@ export const env = createEnv({
 			process.env.NODE_ENV === "production"
 				? z.string()
 				: z.string().optional(),
-		NEXTAUTH_URL: z.preprocess(
+		AUTH_URL: z.preprocess(
 			// This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
 			// Since NextAuth.js automatically uses the VERCEL_URL if present.
 			(str) => process.env.VERCEL_URL ?? str,
@@ -42,8 +42,10 @@ export const env = createEnv({
 	 * `NEXT_PUBLIC_`.
 	 */
 	client: {
-		// NEXT_PUBLIC_CLIENTVAR: z.string(),
-		NEXT_PUBLIC_APP_URL: z.string().url(),
+		NEXT_PUBLIC_APP_URL: z.preprocess(
+			(str) => process.env.VERCEL_URL ?? str,
+			process.env.VERCEL ? z.string() : z.string().url()
+		),
 		NEXT_PUBLIC_MEASUREMENT_ID: z.string(),
 	},
 
@@ -55,7 +57,7 @@ export const env = createEnv({
 		DATABASE_URL: process.env.DATABASE_URL,
 		NODE_ENV: process.env.NODE_ENV,
 		AUTH_SECRET: process.env.AUTH_SECRET,
-		NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+		AUTH_URL: process.env.AUTH_URL,
 		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
 		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 		NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
