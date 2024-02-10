@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Social from "@/components/auth/social";
 import NewPasswordForm from "@/components/forms/new-password-form";
 import { Button } from "@/components/ui/button";
 import {
