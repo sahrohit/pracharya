@@ -1,9 +1,8 @@
 import "@/styles/globals.css";
 
-import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import { GeistSans } from "geist/font/sans";
 import siteConfig from "@/config/site";
-
 import { TRPCReactProvider } from "@/trpc/react";
 import ThemeProvider from "@/components/providers";
 import Analytics from "@/components/analytics";
@@ -11,11 +10,6 @@ import ModalProvider from "@/components/modal-provider";
 import TailwindIndicator from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/server/auth";
-
-const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-sans",
-});
 
 export const metadata = {
 	title: {
@@ -62,7 +56,7 @@ export default async function RootLayout({
 
 	return (
 		<html suppressHydrationWarning lang="en">
-			<body className={`font-sans ${inter.variable}`}>
+			<body className={`font-sans ${GeistSans.variable}`}>
 				<SessionProvider session={session}>
 					<TRPCReactProvider>
 						<ThemeProvider

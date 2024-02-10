@@ -8,3 +8,21 @@ export const NAV_ITEM: NavItem[] = [
 		href: "/computer-engineering",
 	},
 ];
+
+export const DASHBOARD_NAV_ITEM: NavItem[] = [
+	{
+		title: "Panel",
+		href: "/dashboard",
+		icon: "post",
+	},
+	{
+		title: "Billing",
+		href: "/dashboard/billing",
+		icon: "billing",
+	},
+	{
+		title: "Settings",
+		href: "/dashboard/settings",
+		icon: "settings",
+	},
+];
