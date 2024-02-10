@@ -1,6 +1,7 @@
 "use client";
 
 import useMounted from "@/components/hooks/use-mounted";
+import AuthModal from "./layouts/auth-modal";
 
 const ModalProvider = () => {
 	const mounted = useMounted();
@@ -9,7 +10,7 @@ const ModalProvider = () => {
 		return null;
 	}
 
-	return null;
+	return <AuthModal />;
 };
 
 export default ModalProvider;
