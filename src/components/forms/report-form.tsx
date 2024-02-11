@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { api } from "@/trpc/react";
+import { catchError } from "@/lib/catch-error";
 
 export const ReportFormSchema = z.object({
 	title: z.string().min(1, {
@@ -40,9 +42,21 @@ const ReportForm = () => {
 		},
 	});
 
-	const onSubmit = (_values: ReportFormValues) => {
+	const { mutateAsync } = api.issue.create.useMutation();
+
+	const onSubmit = (values: ReportFormValues) => {
 		startTransition(() => {
-			toast.success("Idea Form Submitted");
+			toast.promise(
+				mutateAsync({
+					title: values.title,
+					description: values.description,
+				}),
+				{
+					loading: "Creating Issue...",
+					success: "Issue Created",
+					error: catchError,
+				}
+			);
 		});
 	};
 
@@ -86,7 +100,7 @@ const ReportForm = () => {
 					/>
 				</div>
 				<Button disabled={isPending} type="submit">
-					Save
+					Create Issue
 				</Button>
 			</form>
 		</Form>

@@ -10,6 +10,7 @@ import {
 	primaryKey,
 	text,
 	timestamp,
+	unique,
 	varchar,
 } from "drizzle-orm/pg-core";
 
@@ -57,14 +58,24 @@ export const issues = createTable("issue", {
 		.default(sql`gen_random_uuid()`),
 	title: varchar("title", { length: 255 }),
 	description: text("description"),
-	chapterId: varchar("chapter_id", { length: 255 })
-		.references(() => chapters.id)
-		.notNull(),
+	chapterId: varchar("chapter_id", { length: 255 }).references(
+		() => chapters.id
+	),
 	questionId: varchar("question_id", { length: 255 }).references(
 		() => questions.id
 	),
 	status: issueStatusEnum("status").default("PENDING").notNull(),
 	remarks: text("remarks"),
+	createdAt: timestamp("created_at", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp("updated_at", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
 });
 
 export const issuesRelations = relations(issues, ({ one }) => ({
@@ -92,11 +103,15 @@ export const questions = createTable("question", {
 	remarks: text("remarks"),
 	solution: text("solution"),
 	createdAt: timestamp("created_at", {
-		mode: "date",
-	}),
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
 	updatedAt: timestamp("updated_at", {
-		mode: "date",
-	}),
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
 });
 
 export const questionsRelations = relations(questions, ({ one, many }) => ({
@@ -123,6 +138,7 @@ export const options = createTable(
 			.notNull(),
 	},
 	(option) => ({
+		unq: unique().on(option.isAnswer, option.questionId),
 		questionIdIdx: index("questionId_idx").on(option.questionId),
 	})
 );

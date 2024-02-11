@@ -6,17 +6,17 @@ export const TABS: { label: string; value: Tab; icon: IconType }[] = [
 	{
 		label: "Report a Problem",
 		value: "report",
-		icon: "report" as IconType,
+		icon: "report",
 	},
 	{
 		label: "Add/Edit Notes",
 		value: "notes",
-		icon: "edit" as IconType,
+		icon: "edit",
 	},
 	{
 		label: "Add MCQ Question",
 		value: "mcq",
-		icon: "listcheck" as IconType,
+		icon: "listcheck",
 	},
 ];
 

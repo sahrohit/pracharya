@@ -16,6 +16,8 @@ import {
 import { TABS, type Tab } from "@/config/contribute";
 import { Icons } from "@/components/icons";
 import ReportForm from "@/components/forms/report-form";
+import NoteForm from "@/components/forms/note-form";
+import QuestionForm from "@/components/forms/question-form";
 
 const ContributePage = () => {
 	const router = useRouter();
@@ -57,14 +59,14 @@ const ContributePage = () => {
 	}, [selectedTab]);
 
 	return (
-		<section className="container flex max-w-[68rem] flex-col items-center justify-start gap-4 text-center md:pl-0">
+		<section className="container flex max-w-[72rem] flex-col items-center justify-start gap-4 text-center md:pl-0">
 			<DashboardHeader
 				heading="Contribute"
 				text="Filling out this small prefilled form, is all you need to contribute."
 			/>
 			<Tabs
 				defaultValue="account"
-				className="w-full"
+				className="my-2 w-full max-w-2xl"
 				value={selectedTab}
 				onValueChange={(value) => setSelectedTab(value as Tab)}
 			>
@@ -115,10 +117,20 @@ const ContributePage = () => {
 					</div>
 				</TabsContent>
 				<TabsContent value="notes">
-					<p>Notes</p>
+					<div className="mx-auto my-4 flex-1 text-left lg:max-w-2xl">
+						<NoteForm
+							initialValues={{
+								chapter: searchParams?.get("path")?.split("/")?.[3],
+								course: searchParams?.get("path")?.split("/")?.[2],
+								title: `Issue on ${searchParams?.get("path")?.split("/")?.[4]?.replace("-", " ").replace(".mdx", "")}`,
+							}}
+						/>
+					</div>
 				</TabsContent>
 				<TabsContent value="mcq">
-					<p>MCQ</p>
+					<div className="mx-auto my-4 flex-1 text-left lg:max-w-2xl">
+						<QuestionForm />
+					</div>
 				</TabsContent>
 			</Tabs>
 		</section>
