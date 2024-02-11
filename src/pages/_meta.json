@@ -10,5 +10,10 @@
 		"title": "Computer",
 		"type": "page",
 		"href": "/computer-engineering"
+	},
+	"mechanical-engineering": {
+		"title": "Mechanical",
+		"type": "page",
+		"href": "/mechanical-engineering"
 	}
 }
