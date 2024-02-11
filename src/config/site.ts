@@ -1,3 +1,4 @@
+import config from "seo.config";
 import { env } from "@/env.js";
 
 export type SiteConfig = {
@@ -14,17 +15,16 @@ export type SiteConfig = {
 };
 
 const siteConfig: SiteConfig = {
-	name: "Pracharya",
-	description:
-		"Embark on your digital transformation journey with WebTechSubs, where web development meets excellence! 🚀 Discover tailored websites that resonate with your brand and captivate your audience. Our affordable monthly plans, curated for small businesses, offer a spectrum of features to unleash your online potential.",
+	name: config.applicationName!,
+	description: config.description!,
 	url: env.NEXT_PUBLIC_APP_URL,
 	ogImage: `${env.NEXT_PUBLIC_APP_URL}/og.webp`,
 	links: {
 		github: "https://github.com/sahrohit/pracharya",
-		email: "mailto:webtechsubs@gmail",
+		email: "mailto:sahrohit9586@gmail.com",
 		support: `${env.NEXT_PUBLIC_APP_URL}/contribute`,
 	},
-	mailSupport: "webtechsubs@gmail.com",
+	mailSupport: "sahrohit9586@gmail.com",
 };
 
 export default siteConfig;

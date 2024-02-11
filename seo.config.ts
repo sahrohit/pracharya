@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
+import { env } from "@/env.js";
 
 const config: Metadata = {
-	title: "Al Hamma Street Food & Coffee",
-	description: "Al Hamma Street Food & Coffee",
-	applicationName: "Al Hamma",
+	title: "Pracharya: Community of Nepali Aspirants",
+	description: "Pracharya: Community of Nepali Aspirants",
+	applicationName: "Pracharya",
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
-	metadataBase: new URL("https://alhamma.pt"),
+	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
 	openGraph: {
 		type: "website",
 		locale: "en_IE",
-		url: "https://alhamma.pt",
-		siteName: "Al Hamma",
+		url: env.NEXT_PUBLIC_APP_URL,
+		siteName: "Pracharya",
 	},
 };
 

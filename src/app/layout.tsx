@@ -17,7 +17,7 @@ export const metadata = {
 		template: `%s | ${siteConfig.name}`,
 	},
 	description: siteConfig.description,
-	keywords: ["Start your business", "Own your website"],
+	keywords: ["Notes", "Engineering License", "License Syllabus", "Mock Test"],
 	authors: [
 		{
 			name: "sahrohit",
