@@ -1,8 +1,8 @@
-import { type Icon } from "@/components/icons";
+import { type IconType } from "@/components/icons";
 
 export type NavItem = {
 	title: string;
 	href: string;
 	disabled?: boolean;
-	icon?: Icon;
+	icon?: IconType;
 };

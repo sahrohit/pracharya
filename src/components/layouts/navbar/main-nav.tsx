@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { LuCommand, LuX } from "react-icons/lu";
 
 import { type NavItem } from "@/types/index";
@@ -19,7 +19,7 @@ interface MainNavProps {
 }
 
 const MainNav = ({ items, children }: MainNavProps) => {
-	const segment = useSelectedLayoutSegment();
+	const pathname = usePathname();
 	const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
 	const toggleMobileMenu = () => {
@@ -56,7 +56,7 @@ const MainNav = ({ items, children }: MainNavProps) => {
 							href={item.disabled ? "#" : item.href}
 							className={cn(
 								"flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-								item.href.startsWith(`/${segment}`)
+								pathname && item.href.startsWith(pathname)
 									? "text-foreground"
 									: "text-foreground/60",
 								item.disabled && "cursor-not-allowed opacity-80"

@@ -6,6 +6,12 @@
 			"layout": "raw"
 		}
 	},
+	"contribute": {
+		"title": "Contribute",
+		"display": "",
+		"type": "page",
+		"href": "/contribute"
+	},
 	"computer-engineering": {
 		"title": "Computer",
 		"type": "page",
