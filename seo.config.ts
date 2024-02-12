@@ -12,7 +12,7 @@ const config: Metadata = {
 		locale: "en_IE",
 		url: env.NEXT_PUBLIC_APP_URL,
 		siteName: "Pracharya",
-		images: ["/opengraph-image.webp"],
+		images: ["/opengraph-image.jpg"],
 	},
 };
 

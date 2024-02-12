@@ -18,7 +18,7 @@ const siteConfig: SiteConfig = {
 	name: config.applicationName!,
 	description: config.description!,
 	url: env.NEXT_PUBLIC_APP_URL,
-	ogImage: `${env.NEXT_PUBLIC_APP_URL}/opengraph-image.webp`,
+	ogImage: `${env.NEXT_PUBLIC_APP_URL}/opengraph-image.jpg`,
 	links: {
 		github: "https://github.com/sahrohit/pracharya",
 		email: "mailto:sahrohit9586@gmail.com",
