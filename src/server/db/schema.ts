@@ -43,6 +43,24 @@ export const chaptersRelations = relations(chapters, ({ many }) => ({
 	issues: many(issues),
 }));
 
+// Sub Chapters Table
+
+export const subChapters = createTable("sub_chapter", {
+	id: varchar("id", { length: 255 }).notNull().primaryKey(),
+	name: varchar("name", { length: 255 }),
+	content: text("content"),
+	chapterId: varchar("chapter_id", { length: 255 }).references(
+		() => chapters.id
+	),
+});
+
+export const subChaptersRelations = relations(subChapters, ({ one }) => ({
+	chapter: one(chapters, {
+		fields: [subChapters.chapterId],
+		references: [chapters.id],
+	}),
+}));
+
 // Issues Table
 
 export const issueStatusEnum = pgEnum("issue_status", [
