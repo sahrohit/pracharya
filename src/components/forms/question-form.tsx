@@ -46,16 +46,19 @@ export const QuestionFormSchema = z.object({
 	chapter: z.string().min(1, {
 		message: "Chapter is required",
 	}),
+	subChapter: z.string().min(1, {
+		message: "Sub Chapter is required",
+	}),
 	name: z.string().min(1, {
 		message: "Name is required",
 	}),
 	options: z.array(
 		z.object({
-			name: z.string().describe("Variant Name"),
-			isAnswer: z.coerce.boolean().describe("Variant Symbol"),
+			name: z.string(),
+			isAnswer: z.coerce.boolean(),
 		})
 	),
-	answer: z.string().describe("Answer"),
+	answer: z.string(),
 });
 
 type QuestionFormValues = z.infer<typeof QuestionFormSchema>;
@@ -72,13 +75,9 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 		defaultValues: initialValues ?? {
 			course: "",
 			chapter: "",
+			subChapter: "",
 			name: "",
-			options: [
-				{ name: "", isAnswer: false },
-				{ name: "", isAnswer: false },
-				{ name: "", isAnswer: false },
-				{ name: "", isAnswer: false },
-			],
+			options: [{ name: "" }, { name: "" }, { name: "" }, { name: "" }],
 		},
 	});
 
@@ -87,9 +86,16 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 		name: "options",
 	});
 
-	const onSubmit = (_values: QuestionFormValues) => {
+	const onSubmit = (values: QuestionFormValues) => {
 		startTransition(() => {
-			toast.info("Working on it");
+			toast.info(
+				JSON.stringify(
+					values.options.map((option) => ({
+						name: option.name,
+						isAnswer: option.name === values.answer,
+					}))
+				)
+			);
 		});
 	};
 
@@ -231,6 +237,71 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 
 					<FormField
 						control={form.control}
+						name="subChapter"
+						render={({ field }) => {
+							const { data, isLoading } = api.chapter.get.useQuery({});
+
+							return (
+								<FormItem className="flex w-full flex-col">
+									<FormLabel>Chapter</FormLabel>
+									<Popover>
+										<PopoverTrigger asChild>
+											<FormControl>
+												<Button
+													variant="outline"
+													role="combobox"
+													className={cn(
+														"justify-between",
+														!field.value && "text-muted-foreground"
+													)}
+												>
+													{isLoading
+														? "Loading..."
+														: field.value && data
+															? data.find(
+																	(chapter) => chapter.id === field.value
+																)?.name
+															: "Select Chapter"}
+													<LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+												</Button>
+											</FormControl>
+										</PopoverTrigger>
+										<PopoverContent className="p-0">
+											<Command>
+												<CommandInput placeholder="Search chapters..." />
+												<CommandEmpty>No chapters found.</CommandEmpty>
+												<CommandGroup>
+													{data?.map((chapter) => (
+														<CommandItem
+															value={chapter.id}
+															key={chapter.id}
+															onSelect={() => {
+																form.setValue("chapter", chapter.id);
+															}}
+														>
+															<LuCheck
+																className={cn(
+																	"mr-2 h-4 w-4",
+																	chapter.id === field.value
+																		? "opacity-100"
+																		: "opacity-0"
+																)}
+															/>
+															{chapter.name}
+														</CommandItem>
+													))}
+												</CommandGroup>
+											</Command>
+										</PopoverContent>
+									</Popover>
+									<FormMessage />
+								</FormItem>
+							);
+						}}
+					/>
+
+					<FormField
+						control={form.control}
 						name="name"
 						render={({ field }) => (
 							<FormItem>
@@ -274,7 +345,7 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder="Select a verified email to display" />
+										<SelectValue placeholder="Select correct answer among your options" />
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
@@ -282,7 +353,6 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 										if (!option.name) {
 											return null;
 										}
-
 										return (
 											<SelectItem value={option.name}>{option.name}</SelectItem>
 										);
