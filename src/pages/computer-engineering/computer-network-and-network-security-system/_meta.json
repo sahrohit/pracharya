@@ -1,4 +1,9 @@
 {
-	"index": "Basic Concept",
-	"network-theorems": "Network Theorems"
+	"index": "Syllabus",
+	"introduction-to-computer-networks-and-physical-layer": "Introduction to computer networks and physical layer",
+	"data-link-layer": "Data link layer",
+	"network-layer": "Network layer",
+	"transport-layer": "Transport layer",
+	"application-layer": "Application layer",
+	"network-security": "Network security"
 }

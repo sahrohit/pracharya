@@ -1,4 +1,9 @@
 {
 	"index": "Basic Concept",
-	"network-theorems": "Network Theorems"
+	"software-process-and-requirements": "Software process and requirements",
+	"software-design": "Software design",
+	"software-testing-cost-estimation-quality-management-and-configuration-management": "Software testing, cost estimation, quality management, and configuration management",
+	"objectoriented-fundamentals-and-analysis": "Object-oriented fundamentals and analysis",
+	"objectoriented-design": "Object-oriented design",
+	"objectoriented-design-implementation": "Object-oriented design implementation"
 }

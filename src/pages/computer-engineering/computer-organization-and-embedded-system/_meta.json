@@ -1,4 +1,10 @@
 {
-	"index": "Basic Concept",
-	"network-theorems": "Network Theorems"
+	"index": "Syllabus",
+	"control-and-central-processing-units": "Control and central processing units",
+	"computer-arithmetic-and-memory-system": "Computer arithmetic and memory system",
+	"inputoutput-organization-and-multiprocessor": "Input-Output organization and multiprocessor",
+	"hardware-software-design-issues-on-embedded-system": "Hardware-Software design issues on embedded system",
+	"realtime-operating-and-control-system": "Real-Time operating and control system",
+	"hardware-descripts-language-and-ic-technology": "Hardware descripts language and IC technology",
+	"introduction-to-computer-networks-and-physical-layer": "Introduction to computer networks and physical layer"
 }

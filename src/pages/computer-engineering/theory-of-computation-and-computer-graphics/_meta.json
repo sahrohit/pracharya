@@ -1,4 +1,9 @@
 {
 	"index": "Basic Concept",
-	"network-theorems": "Network Theorems"
+	"introduction-to-finite-automata": "Introduction to finite automata",
+	"introduction-to-context-free-language": "Introduction to context free language",
+	"turing-machine": "Turing machine",
+	"introduction-of-computer-graphics": "Introduction of computer graphics",
+	"twodimensional-transformation": "Two-dimensional transformation",
+	"threedimensional-transformation": "Three-dimensional transformation"
 }

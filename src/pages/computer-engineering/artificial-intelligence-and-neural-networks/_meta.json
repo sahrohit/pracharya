@@ -1,4 +1,8 @@
 {
 	"index": "Syllabus",
-	"network-theorems": "Network Theorems"
+	"introduction-to-ai-and-intelligent-agent": "Introduction to AI and intelligent agent",
+	"problem-solving-and-searching-techniques": "Problem solving and searching techniques",
+	"knowledge-representation": "Knowledge representation",
+	"expert-system-and-natural-language-processing": "Expert system and natural language processing",
+	"machine-learning": "Machine learning"
 }

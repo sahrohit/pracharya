@@ -1,4 +1,9 @@
 {
 	"index": "Basic Concept",
-	"network-theorems": "Network Theorems"
+	"introduction-to-data-structure-list-linked-lists-and-trees": "Introduction to data structure, list, linked lists and trees",
+	"sorting-searching-and-graphs": "Sorting, searching, and graphs",
+	"introduction-to-data-models-normalization-and-sql": "Introduction to data models, normalization, and SQL",
+	"transaction-processing-concurrency-control-and-crash-recovery": "Transaction processing, concurrency control and crash recovery",
+	"introduction-to-operating-system-and-process-management": "Introduction to Operating System and process management",
+	"memory-management-file-systems-and-system-administration": "Memory management, file systems and system administration"
 }
