@@ -41,6 +41,9 @@ export const NoteFormSchema = z.object({
 	chapter: z.string().min(1, {
 		message: "Title is required",
 	}),
+	subChapter: z.string().min(1, {
+		message: "Title is required",
+	}),
 	title: z.string().min(1, {
 		message: "Title is required",
 	}),
@@ -69,7 +72,7 @@ const NoteForm = ({ initialValues }: NoteFormProps) => {
 		startTransition(() => {
 			toast.promise(
 				mutateAsync({
-					chapterId: values.chapter,
+					subChapterId: values.subChapter,
 					title: values.title,
 					description: values.description,
 				}),
@@ -217,6 +220,86 @@ const NoteForm = ({ initialValues }: NoteFormProps) => {
 							}}
 						/>
 					</div>
+
+					<FormField
+						control={form.control}
+						name="subChapter"
+						render={({ field }) => {
+							const { data, isLoading } = api.subChapter.get.useQuery({});
+
+							return (
+								<FormItem className="flex w-full flex-col">
+									<FormLabel>Chapter</FormLabel>
+									<Popover>
+										<PopoverTrigger asChild>
+											<FormControl>
+												<Button
+													variant="outline"
+													role="combobox"
+													className={cn(
+														"justify-between",
+														!field.value && "text-muted-foreground"
+													)}
+												>
+													{isLoading
+														? "Loading..."
+														: field.value && data
+															? data.find(
+																	(subChapter) => subChapter.id === field.value
+																)?.name
+															: "Select Sub Chapter"}
+													<LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+												</Button>
+											</FormControl>
+										</PopoverTrigger>
+										<PopoverContent className="p-0">
+											<Command>
+												<CommandInput placeholder="Search chapters..." />
+												<CommandEmpty>No sub chapters found.</CommandEmpty>
+												<CommandGroup>
+													{data?.map((subChapter) => {
+														if (
+															form.watch("chapter") &&
+															form.watch("chapter") !== subChapter.chapterId
+														) {
+															return null;
+														}
+
+														return (
+															<CommandItem
+																value={subChapter.id}
+																key={subChapter.id}
+																onSelect={() => {
+																	form.setValue("subChapter", subChapter.id);
+																	if (subChapter.chapterId) {
+																		form.setValue(
+																			"chapter",
+																			subChapter.chapterId
+																		);
+																	}
+																}}
+															>
+																<LuCheck
+																	className={cn(
+																		"mr-2 h-4 w-4",
+																		subChapter.id === field.value
+																			? "opacity-100"
+																			: "opacity-0"
+																	)}
+																/>
+																{subChapter.name}
+															</CommandItem>
+														);
+													})}
+												</CommandGroup>
+											</Command>
+										</PopoverContent>
+									</Popover>
+									<FormMessage />
+								</FormItem>
+							);
+						}}
+					/>
 
 					<FormField
 						control={form.control}

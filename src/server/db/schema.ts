@@ -49,9 +49,9 @@ export const subChapters = createTable("sub_chapter", {
 	id: varchar("id", { length: 255 }).notNull().primaryKey(),
 	name: varchar("name", { length: 255 }),
 	content: text("content"),
-	chapterId: varchar("chapter_id", { length: 255 }).references(
-		() => chapters.id
-	),
+	chapterId: varchar("chapter_id", { length: 255 })
+		.references(() => chapters.id)
+		.notNull(),
 });
 
 export const subChaptersRelations = relations(subChapters, ({ one }) => ({
@@ -65,7 +65,7 @@ export const subChaptersRelations = relations(subChapters, ({ one }) => ({
 
 export const issueStatusEnum = pgEnum("issue_status", [
 	"PENDING",
-	"COMPETED",
+	"COMPLETED",
 	"REJECTED",
 ]);
 
@@ -76,9 +76,9 @@ export const issues = createTable("issue", {
 		.default(sql`gen_random_uuid()`),
 	title: varchar("title", { length: 255 }),
 	description: text("description"),
-	chapterId: varchar("chapter_id", { length: 255 }).references(
-		() => chapters.id
-	),
+	subChapterId: varchar("sub_chapter_id", { length: 255 })
+		.references(() => subChapters.id)
+		.notNull(),
 	questionId: varchar("question_id", { length: 255 }).references(
 		() => questions.id
 	),
@@ -97,9 +97,9 @@ export const issues = createTable("issue", {
 });
 
 export const issuesRelations = relations(issues, ({ one }) => ({
-	chapter: one(chapters, {
-		fields: [issues.chapterId],
-		references: [chapters.id],
+	subChapter: one(subChapters, {
+		fields: [issues.subChapterId],
+		references: [subChapters.id],
 	}),
 }));
 
@@ -114,7 +114,7 @@ export const questions = createTable("question", {
 		.default(sql`gen_random_uuid()`),
 	name: text("name"),
 	weight: questionWeightEnum("weight").default("1").notNull(),
-	chapterId: varchar("chapter_id", { length: 255 })
+	subChapterId: varchar("sub_chapter_id", { length: 255 })
 		.references(() => chapters.id)
 		.notNull(),
 	status: publishStatusEnum("status").default("DRAFT").notNull(),
@@ -134,9 +134,9 @@ export const questions = createTable("question", {
 
 export const questionsRelations = relations(questions, ({ one, many }) => ({
 	options: many(options),
-	chapter: one(chapters, {
-		fields: [questions.chapterId],
-		references: [chapters.id],
+	subChapter: one(subChapters, {
+		fields: [questions.subChapterId],
+		references: [subChapters.id],
 	}),
 }));
 

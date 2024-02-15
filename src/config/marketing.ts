@@ -13,7 +13,7 @@ export const NAV_ITEM: NavItem[] = [
 
 export const DASHBOARD_NAV_ITEM: NavItem[] = [
 	{
-		title: "Panel",
+		title: "Requests",
 		href: "/dashboard",
 		icon: "post",
 	},

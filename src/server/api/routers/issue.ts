@@ -88,6 +88,13 @@ const issueRouter = createTRPCRouter({
 
 				const { data, count } = await ctx.db.transaction(async (tx) => {
 					const data = await tx.query.issues.findMany({
+						with: {
+							subChapter: {
+								with: {
+									chapter: true,
+								},
+							},
+						},
 						where: query,
 						limit,
 						offset,
@@ -128,7 +135,7 @@ const issueRouter = createTRPCRouter({
 			z.object({
 				title: z.string().describe("Title of the Issue"),
 				description: z.string().describe("Description of the Issue"),
-				chapterId: z.string().optional().describe("Chapter Id"),
+				subChapterId: z.string().describe("Sub ChapterId Id"),
 			})
 		)
 		.mutation(async ({ ctx, input }) => ctx.db.insert(issues).values(input)),
@@ -139,7 +146,7 @@ const issueRouter = createTRPCRouter({
 			z.object({
 				title: z.string().describe("Title of the Issue"),
 				description: z.string().describe("Description of the Issue"),
-				chapterId: z.string().describe("Chapter Id"),
+				subChapterId: z.string().describe("Sub Chapter Id"),
 				question: z.string().describe("MCQ Question"),
 				questionWeight: z
 					.enum(questionWeightEnum.enumValues)
@@ -159,7 +166,7 @@ const issueRouter = createTRPCRouter({
 				const questionRes = await tx
 					.insert(questions)
 					.values({
-						chapterId: input.chapterId,
+						subChapterId: input.subChapterId,
 						name: input.question,
 						weight: input.questionWeight,
 						status: "DRAFT",
@@ -185,7 +192,7 @@ const issueRouter = createTRPCRouter({
 				return tx.insert(issues).values({
 					title: input.title,
 					description: input.description,
-					chapterId: input.chapterId,
+					subChapterId: input.subChapterId,
 					questionId: questionRes[0].id,
 					status: "PENDING",
 				});

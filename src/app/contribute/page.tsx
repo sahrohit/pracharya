@@ -122,7 +122,12 @@ const ContributePage = () => {
 							initialValues={{
 								chapter: searchParams?.get("path")?.split("/")?.[4],
 								course: searchParams?.get("path")?.split("/")?.[3],
-								title: `Issue on ${searchParams?.get("path")?.split("/")?.[5]?.replace("-", " ").replace(".mdx", "")}`,
+								subChapter: searchParams
+									?.get("path")
+									?.split("/")?.[5]
+									?.replace("-", " ")
+									.replace(".mdx", "")
+									.replace("index", ""),
 							}}
 						/>
 					</div>

@@ -1,37 +1,35 @@
-import { redirect } from "next/navigation";
-
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import DashboardHeader from "@/components/layouts/dashboard/header";
 import DashboardShell from "@/components/layouts/dashboard/shell";
-import EmptyPlaceholder from "@/components/shared/empty-placeholder";
-import { auth } from "@/server/auth";
+import DataTableSkeleton from "@/components/tables/skeleton";
+import IssuesTableShell from "@/components/tables/log-tables/shell";
+import { type SearchParams } from "@/types/table";
+import getIssues from "@/components/tables/log-tables/fetcher";
 
 export const metadata = {
 	title: "Dashboard",
 };
 
-const DashboardPage = async () => {
-	const session = await auth();
+export interface IssuesTablePageProps {
+	searchParams: SearchParams;
+}
 
-	if (!session?.user) {
-		redirect("auth/login");
-	}
+const DashboardPage = async ({ searchParams }: IssuesTablePageProps) => {
+	const issuesPromise = getIssues(searchParams);
 
 	return (
 		<DashboardShell>
-			<DashboardHeader heading="Panel" text="Create and manage content.">
-				<Button>Fake button</Button>
+			<DashboardHeader heading="Requests" text="Manage Requests here">
+				<Button>New Request</Button>
 			</DashboardHeader>
-			<div>
-				<EmptyPlaceholder>
-					<EmptyPlaceholder.Icon name="post" />
-					<EmptyPlaceholder.Title>No content created</EmptyPlaceholder.Title>
-					<EmptyPlaceholder.Description>
-						You don&apos;t have any content yet. Start creating content.
-					</EmptyPlaceholder.Description>
-					<Button variant="outline">Fake button</Button>
-				</EmptyPlaceholder>
-			</div>
+			<Suspense
+				fallback={
+					<DataTableSkeleton columnCount={4} filterableColumnCount={1} />
+				}
+			>
+				<IssuesTableShell issuesPromise={issuesPromise} />
+			</Suspense>
 		</DashboardShell>
 	);
 };
