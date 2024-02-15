@@ -3,6 +3,7 @@ import helloRouter from "@/server/api/routers/hello";
 import issueRouter from "@/server/api/routers/issue";
 import chapterRouter from "@/server/api/routers/chapter";
 import courseRouter from "@/server/api/routers/course";
+import subChapterRouter from "@/server/api/routers/sub-chapter";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
 	issue: issueRouter,
 	chapter: chapterRouter,
 	course: courseRouter,
+	subChapter: subChapterRouter,
 });
 
 // export type definition of API

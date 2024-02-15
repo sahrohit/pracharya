@@ -253,8 +253,8 @@ const NoteForm = ({ initialValues }: NoteFormProps) => {
 						)}
 					/>
 				</div>
-				<Button disabled={isPending} type="submit">
-					Create Issue
+				<Button className="w-full" disabled={isPending} type="submit">
+					Request Update
 				</Button>
 			</form>
 		</Form>

@@ -99,8 +99,8 @@ const ReportForm = () => {
 						)}
 					/>
 				</div>
-				<Button disabled={isPending} type="submit">
-					Create Issue
+				<Button className="w-full" disabled={isPending} type="submit">
+					Report Issue
 				</Button>
 			</form>
 		</Form>

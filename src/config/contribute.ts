@@ -4,6 +4,11 @@ export const TABSVALUES = ["idea", "report", "notes", "mcq"] as const;
 
 export const TABS: { label: string; value: Tab; icon: IconType }[] = [
 	{
+		label: "Add MCQ Question",
+		value: "mcq",
+		icon: "listcheck",
+	},
+	{
 		label: "Report a Problem",
 		value: "report",
 		icon: "report",
@@ -12,11 +17,6 @@ export const TABS: { label: string; value: Tab; icon: IconType }[] = [
 		label: "Add/Edit Notes",
 		value: "notes",
 		icon: "edit",
-	},
-	{
-		label: "Add MCQ Question",
-		value: "mcq",
-		icon: "listcheck",
 	},
 ];
 

@@ -239,7 +239,7 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 						control={form.control}
 						name="subChapter"
 						render={({ field }) => {
-							const { data, isLoading } = api.chapter.get.useQuery({});
+							const { data, isLoading } = api.subChapter.get.useQuery({});
 
 							return (
 								<FormItem className="flex w-full flex-col">
@@ -259,9 +259,9 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 														? "Loading..."
 														: field.value && data
 															? data.find(
-																	(chapter) => chapter.id === field.value
+																	(subChapter) => subChapter.id === field.value
 																)?.name
-															: "Select Chapter"}
+															: "Select Sub Chapter"}
 													<LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 												</Button>
 											</FormControl>
@@ -269,27 +269,42 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 										<PopoverContent className="p-0">
 											<Command>
 												<CommandInput placeholder="Search chapters..." />
-												<CommandEmpty>No chapters found.</CommandEmpty>
+												<CommandEmpty>No sub chapters found.</CommandEmpty>
 												<CommandGroup>
-													{data?.map((chapter) => (
-														<CommandItem
-															value={chapter.id}
-															key={chapter.id}
-															onSelect={() => {
-																form.setValue("chapter", chapter.id);
-															}}
-														>
-															<LuCheck
-																className={cn(
-																	"mr-2 h-4 w-4",
-																	chapter.id === field.value
-																		? "opacity-100"
-																		: "opacity-0"
-																)}
-															/>
-															{chapter.name}
-														</CommandItem>
-													))}
+													{data?.map((subChapter) => {
+														if (
+															form.watch("chapter") &&
+															form.watch("chapter") !== subChapter.chapterId
+														) {
+															return null;
+														}
+
+														return (
+															<CommandItem
+																value={subChapter.id}
+																key={subChapter.id}
+																onSelect={() => {
+																	form.setValue("subChapter", subChapter.id);
+																	if (subChapter.chapterId) {
+																		form.setValue(
+																			"chapter",
+																			subChapter.chapterId
+																		);
+																	}
+																}}
+															>
+																<LuCheck
+																	className={cn(
+																		"mr-2 h-4 w-4",
+																		subChapter.id === field.value
+																			? "opacity-100"
+																			: "opacity-0"
+																	)}
+																/>
+																{subChapter.name}
+															</CommandItem>
+														);
+													})}
 												</CommandGroup>
 											</Command>
 										</PopoverContent>
@@ -342,10 +357,27 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Answer</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
+							<Select
+								disabled={
+									isPending ||
+									form
+										.watch("options")
+										.every((option) => option.name.length === 0)
+								}
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+							>
 								<FormControl>
 									<SelectTrigger>
-										<SelectValue placeholder="Select correct answer among your options" />
+										<SelectValue
+											placeholder={
+												form
+													.watch("options")
+													.every((option) => option.name.length === 0)
+													? "Fill Options Value First"
+													: "Select correct answer among your options"
+											}
+										/>
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
@@ -364,8 +396,8 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 					)}
 				/>
 
-				<Button disabled={isPending} type="submit">
-					Create Issue
+				<Button className="w-full" disabled={isPending} type="submit">
+					Create Question
 				</Button>
 			</form>
 		</Form>

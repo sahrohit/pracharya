@@ -25,7 +25,7 @@ const ContributePage = () => {
 	const searchParams = useSearchParams();
 
 	const [selectedTab, setSelectedTab] = useState<Tab>(
-		(searchParams?.get("tab") as Tab) ?? "report"
+		(searchParams?.get("tab") as Tab) ?? "mcq"
 	);
 
 	// Create query string
@@ -66,7 +66,7 @@ const ContributePage = () => {
 			/>
 			<Tabs
 				defaultValue="account"
-				className="my-2 w-full max-w-2xl"
+				className="my-2 w-full max-w-3xl"
 				value={selectedTab}
 				onValueChange={(value) => setSelectedTab(value as Tab)}
 			>
@@ -112,12 +112,12 @@ const ContributePage = () => {
 					</SelectContent>
 				</Select>
 				<TabsContent value="report">
-					<div className="mx-auto my-4 flex-1 text-left lg:max-w-2xl">
+					<div className="mx-auto my-4 flex-1 text-left lg:max-w-3xl">
 						<ReportForm />
 					</div>
 				</TabsContent>
 				<TabsContent value="notes">
-					<div className="mx-auto my-4 flex-1 text-left lg:max-w-2xl">
+					<div className="mx-auto my-4 flex-1 text-left lg:max-w-3xl">
 						<NoteForm
 							initialValues={{
 								chapter: searchParams?.get("path")?.split("/")?.[3],
@@ -128,7 +128,7 @@ const ContributePage = () => {
 					</div>
 				</TabsContent>
 				<TabsContent value="mcq">
-					<div className="mx-auto my-4 flex-1 text-left lg:max-w-2xl">
+					<div className="mx-auto my-4 flex-1 text-left lg:max-w-3xl">
 						<QuestionForm />
 					</div>
 				</TabsContent>
