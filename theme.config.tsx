@@ -1,5 +1,4 @@
 import Logo from "@/components/logo";
-import { env } from "@/env";
 
 const config = {
 	logo: (
@@ -14,7 +13,7 @@ const config = {
 	project: {
 		link: "https://github.com/sahrohit/pracharya",
 	},
-	docsRepositoryBase: `${env.NEXT_PUBLIC_APP_URL}/contribute?tab=notes&path=`,
+	docsRepositoryBase: `https://pracharya.vercel.app/contribute?tab=notes&path=`,
 	sidebar: {
 		defaultMenuCollapseLevel: 2,
 		toggleButton: true,
