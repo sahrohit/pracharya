@@ -110,14 +110,18 @@ export function fetchTasksTableColumnDefs(): ColumnDef<
 			header: ({ column }) => <ColumnHeader column={column} title="Options" />,
 			cell: ({ row }) => (
 				<div className="flex flex-row flex-wrap gap-1">
-					{row.original.question.options.map((option) => (
-						<Badge
-							key={option.id}
-							variant={option.isAnswer ? "default" : "outline"}
-						>
-							{option.name}
-						</Badge>
-					))}
+					{row.original?.question ? (
+						row.original.question.options.map((option) => (
+							<Badge
+								key={option.id}
+								variant={option.isAnswer ? "default" : "outline"}
+							>
+								{option.name}
+							</Badge>
+						))
+					) : (
+						<p className="line-clamp-1">{row.original.description}</p>
+					)}
 				</div>
 			),
 			enableSorting: false,

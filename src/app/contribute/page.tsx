@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { TABS, type Tab } from "@/config/contribute";
 import { Icons } from "@/components/icons";
-import ReportForm from "@/components/forms/report-form";
 import NoteForm from "@/components/forms/note-form";
 import QuestionForm from "@/components/forms/question-form";
 
@@ -70,7 +69,7 @@ const ContributePage = () => {
 				value={selectedTab}
 				onValueChange={(value) => setSelectedTab(value as Tab)}
 			>
-				<TabsList className="hidden w-full grid-cols-3 md:grid">
+				<TabsList className="hidden w-full grid-cols-2 md:grid">
 					{TABS.map((tab) => {
 						const Icon = Icons[tab.icon ?? "arrowRight"];
 						return (
@@ -111,11 +110,6 @@ const ContributePage = () => {
 						})}
 					</SelectContent>
 				</Select>
-				<TabsContent value="report">
-					<div className="mx-auto my-4 flex-1 text-left lg:max-w-3xl">
-						<ReportForm />
-					</div>
-				</TabsContent>
 				<TabsContent value="notes">
 					<div className="mx-auto my-4 flex-1 text-left lg:max-w-3xl">
 						<NoteForm
