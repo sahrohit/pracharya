@@ -15,9 +15,11 @@ export type SelectChapter = typeof chapters.$inferSelect;
 export type SelectSubChapter = typeof subChapters.$inferSelect;
 
 export type SelectIssueWithQuestion = SelectIssue & {
-	question: SelectQuestion & {
-		options: SelectOption[];
-	};
+	question:
+		| (SelectQuestion & {
+				options: SelectOption[];
+		  })
+		| null;
 	subChapter: SelectSubChapter & {
 		chapter: SelectChapter;
 	};
