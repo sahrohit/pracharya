@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import DashboardHeader from "@/components/layouts/dashboard/header";
 import DashboardShell from "@/components/layouts/dashboard/shell";
 import DataTableSkeleton from "@/components/tables/skeleton";
-import IssuesTableShell from "@/components/tables/log-tables/shell";
+import IssuesTableShell from "@/components/tables/issue-tables/shell";
 import { type SearchParams } from "@/types/table";
-import getIssues from "@/components/tables/log-tables/fetcher";
+import getIssues from "@/components/tables/issue-tables/fetcher";
 
 export const metadata = {
 	title: "Dashboard",

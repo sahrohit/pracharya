@@ -101,6 +101,10 @@ export const issuesRelations = relations(issues, ({ one }) => ({
 		fields: [issues.subChapterId],
 		references: [subChapters.id],
 	}),
+	question: one(questions, {
+		fields: [issues.questionId],
+		references: [questions.id],
+	}),
 }));
 
 // Questions Table
@@ -115,7 +119,7 @@ export const questions = createTable("question", {
 	name: text("name"),
 	weight: questionWeightEnum("weight").default("1").notNull(),
 	subChapterId: varchar("sub_chapter_id", { length: 255 })
-		.references(() => chapters.id)
+		.references(() => subChapters.id)
 		.notNull(),
 	status: publishStatusEnum("status").default("DRAFT").notNull(),
 	remarks: text("remarks"),

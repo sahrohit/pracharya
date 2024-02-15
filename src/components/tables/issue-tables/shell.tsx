@@ -12,7 +12,7 @@ import {
 	searchableColumns,
 } from "./column-def";
 import { type IssuesPromise } from "./fetcher";
-import { type SelectIssueWithChapterSubChapter } from "@/server/db/types";
+import { type SelectIssueWithQuestion } from "@/server/db/types";
 
 interface IssuesTableShellProps {
 	issuesPromise: IssuesPromise;
@@ -25,9 +25,10 @@ const IssuesTableShell = ({ issuesPromise }: IssuesTableShellProps) => {
 	const [isPending] = React.useTransition();
 
 	// Memoize the columns so they don't re-render on every render
-	const columns = React.useMemo<
-		ColumnDef<SelectIssueWithChapterSubChapter, unknown>[]
-	>(() => fetchTasksTableColumnDefs(), [isPending]);
+	const columns = React.useMemo<ColumnDef<SelectIssueWithQuestion, unknown>[]>(
+		() => fetchTasksTableColumnDefs(),
+		[isPending]
+	);
 
 	const { dataTable } = useTable({
 		data,

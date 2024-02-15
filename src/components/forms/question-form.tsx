@@ -38,6 +38,7 @@ import {
 	SelectContent,
 	SelectItem,
 } from "@/components/ui/select";
+import { catchError } from "@/lib/catch-error";
 
 export const QuestionFormSchema = z.object({
 	course: z.string().min(1, {
@@ -70,6 +71,8 @@ interface QuestionFormProps {
 const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 	const [isPending, startTransition] = useTransition();
 
+	const { mutateAsync } = api.issue.createQuestion.useMutation();
+
 	const form = useForm<QuestionFormValues>({
 		resolver: zodResolver(QuestionFormSchema),
 		defaultValues: initialValues ?? {
@@ -88,13 +91,20 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 
 	const onSubmit = (values: QuestionFormValues) => {
 		startTransition(() => {
-			toast.info(
-				JSON.stringify(
-					values.options.map((option) => ({
+			toast.promise(
+				mutateAsync({
+					question: values.name,
+					options: values.options.map((option) => ({
 						name: option.name,
 						isAnswer: option.name === values.answer,
-					}))
-				)
+					})),
+					subChapterId: values.subChapter,
+				}),
+				{
+					loading: "Creating Issue...",
+					success: "Issue Created",
+					error: catchError,
+				}
 			);
 		});
 	};

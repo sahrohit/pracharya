@@ -89,6 +89,11 @@ const issueRouter = createTRPCRouter({
 				const { data, count } = await ctx.db.transaction(async (tx) => {
 					const data = await tx.query.issues.findMany({
 						with: {
+							question: {
+								with: {
+									options: true,
+								},
+							},
 							subChapter: {
 								with: {
 									chapter: true,
@@ -144,12 +149,11 @@ const issueRouter = createTRPCRouter({
 		.meta({ description: "Create an Issue" })
 		.input(
 			z.object({
-				title: z.string().describe("Title of the Issue"),
-				description: z.string().describe("Description of the Issue"),
 				subChapterId: z.string().describe("Sub Chapter Id"),
 				question: z.string().describe("MCQ Question"),
 				questionWeight: z
 					.enum(questionWeightEnum.enumValues)
+					.default("1")
 					.describe("Question Weight"),
 				options: z
 					.array(
@@ -183,15 +187,17 @@ const issueRouter = createTRPCRouter({
 				await tx.insert(options).values(
 					input.options.map((option) => ({
 						name: option.name,
-						isAnswer: option.isAnswer ?? undefined,
+						isAnswer: option.isAnswer === true ? true : undefined,
 						// TODO: why the fuck do i need an assertion here ?
 						questionId: questionRes[0]?.id ?? "",
 					}))
 				);
 
 				return tx.insert(issues).values({
-					title: input.title,
-					description: input.description,
+					title: "MCQ Question",
+					description: `MCQ | ${input.question} | ${input.questionWeight} | ${input.options
+						.map((option) => option.name)
+						.join(",")}`,
 					subChapterId: input.subChapterId,
 					questionId: questionRes[0].id,
 					status: "PENDING",

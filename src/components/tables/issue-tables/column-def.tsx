@@ -14,18 +14,19 @@ import { issues } from "@/server/db/schema";
 import ColumnHeader from "@/components/tables/column-header";
 
 import CellAction from "./cell-action";
-import { type SelectIssueWithChapterSubChapter } from "@/server/db/types";
+import { type SelectIssueWithQuestion } from "@/server/db/types";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 dayjs.extend(relativeTime);
 
 export function fetchTasksTableColumnDefs(): ColumnDef<
-	SelectIssueWithChapterSubChapter,
+	SelectIssueWithQuestion,
 	unknown
 >[] {
 	return [
@@ -91,13 +92,32 @@ export function fetchTasksTableColumnDefs(): ColumnDef<
 				value instanceof Array && value.includes(row.getValue(id)),
 		},
 		{
-			accessorKey: "detail",
-			header: ({ column }) => <ColumnHeader column={column} title="Detail" />,
+			accessorKey: "title",
+			header: ({ column }) => <ColumnHeader column={column} title="Title" />,
 			cell: ({ row }) => (
 				<div className="flex space-x-2">
 					<span className="max-w-[500px] truncate font-medium">
-						{row.getValue("detail")}
+						{row.original.questionId
+							? row.original.question.name
+							: row.getValue("title")}
 					</span>
+				</div>
+			),
+			enableSorting: false,
+		},
+		{
+			accessorKey: "questionId",
+			header: ({ column }) => <ColumnHeader column={column} title="Options" />,
+			cell: ({ row }) => (
+				<div className="flex flex-row flex-wrap gap-1">
+					{row.original.question.options.map((option) => (
+						<Badge
+							key={option.id}
+							variant={option.isAnswer ? "default" : "outline"}
+						>
+							{option.name}
+						</Badge>
+					))}
 				</div>
 			),
 			enableSorting: false,
@@ -109,7 +129,7 @@ export function fetchTasksTableColumnDefs(): ColumnDef<
 	];
 }
 
-export const filterableColumns: DataTableFilterableColumn<SelectIssueWithChapterSubChapter>[] =
+export const filterableColumns: DataTableFilterableColumn<SelectIssueWithQuestion>[] =
 	[
 		{
 			id: "status",
@@ -121,7 +141,7 @@ export const filterableColumns: DataTableFilterableColumn<SelectIssueWithChapter
 		},
 	];
 
-export const searchableColumns: DataTableSearchableColumn<SelectIssueWithChapterSubChapter>[] =
+export const searchableColumns: DataTableSearchableColumn<SelectIssueWithQuestion>[] =
 	[
 		{
 			id: "id",

@@ -13,10 +13,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { extractFirstCharacter } from "@/components/helpers";
-import { type SelectIssueWithChapterSubChapter } from "@/server/db/types";
+import { type SelectIssueWithQuestion } from "@/server/db/types";
 
 interface CellActionProps {
-	data: SelectIssueWithChapterSubChapter;
+	data: SelectIssueWithQuestion;
 }
 
 const CellAction = ({ data }: CellActionProps) => {

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { migrate } from "drizzle-orm/neon-http/migrator";
+import { migrate } from "drizzle-orm/neon-serverless/migrator";
 import { db } from ".";
 
 const runMigrate = async () => {
