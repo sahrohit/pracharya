@@ -1,11 +1,12 @@
 import Logo from "@/components/logo";
+import { env } from "@/env";
 
 const config = {
 	logo: (
 		<>
 			<Logo className="nx-h-8 nx-w-8" />
 			<span style={{ marginLeft: ".4em", fontWeight: 500, fontSize: "1.25em" }}>
-				Pracharya
+				Pracharya Study
 			</span>
 		</>
 	),
@@ -13,7 +14,7 @@ const config = {
 	project: {
 		link: "https://github.com/sahrohit/pracharya",
 	},
-	docsRepositoryBase: "https://github.com/sahrohit/pracharya/tree/main",
+	docsRepositoryBase: `${env.NEXT_PUBLIC_APP_URL}/contribute?tab=notes&path=`,
 	sidebar: {
 		defaultMenuCollapseLevel: 2,
 		toggleButton: true,

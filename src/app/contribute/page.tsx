@@ -120,9 +120,9 @@ const ContributePage = () => {
 					<div className="mx-auto my-4 flex-1 text-left lg:max-w-3xl">
 						<NoteForm
 							initialValues={{
-								chapter: searchParams?.get("path")?.split("/")?.[3],
-								course: searchParams?.get("path")?.split("/")?.[2],
-								title: `Issue on ${searchParams?.get("path")?.split("/")?.[4]?.replace("-", " ").replace(".mdx", "")}`,
+								chapter: searchParams?.get("path")?.split("/")?.[4],
+								course: searchParams?.get("path")?.split("/")?.[3],
+								title: `Issue on ${searchParams?.get("path")?.split("/")?.[5]?.replace("-", " ").replace(".mdx", "")}`,
 							}}
 						/>
 					</div>
