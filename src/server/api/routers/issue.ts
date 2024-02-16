@@ -89,6 +89,7 @@ const issueRouter = createTRPCRouter({
 				const { data, count } = await ctx.db.transaction(async (tx) => {
 					const data = await tx.query.issues.findMany({
 						with: {
+							creator: true,
 							question: {
 								with: {
 									options: true,
@@ -122,7 +123,13 @@ const issueRouter = createTRPCRouter({
 						.then((res) => res[0]?.count ?? 0);
 
 					return {
-						data,
+						data: data.map((issue) => ({
+							...issue,
+							creator: {
+								...issue.creator,
+								password: undefined,
+							},
+						})),
 						count,
 					};
 				});
@@ -143,7 +150,9 @@ const issueRouter = createTRPCRouter({
 				subChapterId: z.string().describe("Sub ChapterId Id"),
 			})
 		)
-		.mutation(async ({ ctx, input }) => ctx.db.insert(issues).values(input)),
+		.mutation(async ({ ctx, input }) =>
+			ctx.db.insert(issues).values({ ...input, createdBy: ctx.session.user.id })
+		),
 
 	createQuestion: protectedProcedure
 		.meta({ description: "Create an Issue" })
@@ -201,6 +210,7 @@ const issueRouter = createTRPCRouter({
 					subChapterId: input.subChapterId,
 					questionId: questionRes[0].id,
 					status: "PENDING",
+					createdBy: ctx.session.user.id,
 				});
 			})
 		),

@@ -84,6 +84,9 @@ export const issues = createTable("issue", {
 	),
 	status: issueStatusEnum("status").default("PENDING").notNull(),
 	remarks: text("remarks"),
+	createdBy: varchar("created_by", { length: 255 })
+		.references(() => users.id)
+		.notNull(),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 	})
@@ -104,6 +107,10 @@ export const issuesRelations = relations(issues, ({ one }) => ({
 	question: one(questions, {
 		fields: [issues.questionId],
 		references: [questions.id],
+	}),
+	creator: one(users, {
+		fields: [issues.createdBy],
+		references: [users.id],
 	}),
 }));
 
@@ -153,7 +160,7 @@ export const options = createTable(
 			.notNull()
 			.primaryKey()
 			.default(sql`gen_random_uuid()`),
-		name: text("name"),
+		name: text("name").notNull(),
 		isAnswer: boolean("is_answer"),
 		questionId: varchar("question_id", { length: 255 })
 			.references(() => questions.id)
@@ -200,6 +207,7 @@ export const users = createTable("user", {
 
 export const usersRelations = relations(users, ({ many }) => ({
 	accounts: many(accounts),
+	issues: many(issues),
 }));
 
 export const passwordResetTokens = createTable("password_reset_token", {

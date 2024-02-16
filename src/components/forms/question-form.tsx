@@ -65,7 +65,9 @@ export const QuestionFormSchema = z.object({
 type QuestionFormValues = z.infer<typeof QuestionFormSchema>;
 
 interface QuestionFormProps {
-	initialValues?: Partial<QuestionFormValues>;
+	initialValues?: Partial<QuestionFormValues> & {
+		id: string;
+	};
 }
 
 const QuestionForm = ({ initialValues }: QuestionFormProps) => {
@@ -91,21 +93,25 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 
 	const onSubmit = (values: QuestionFormValues) => {
 		startTransition(() => {
-			toast.promise(
-				mutateAsync({
-					question: values.name,
-					options: values.options.map((option) => ({
-						name: option.name,
-						isAnswer: option.name === values.answer,
-					})),
-					subChapterId: values.subChapter,
-				}),
-				{
-					loading: "Creating Issue...",
-					success: "Issue Created",
-					error: catchError,
-				}
-			);
+			if (initialValues?.id) {
+				toast.info("Feature not available yet");
+			} else {
+				toast.promise(
+					mutateAsync({
+						question: values.name,
+						options: values.options.map((option) => ({
+							name: option.name,
+							isAnswer: option.name === values.answer,
+						})),
+						subChapterId: values.subChapter,
+					}),
+					{
+						loading: "Creating Issue...",
+						success: "Issue Created",
+						error: catchError,
+					}
+				);
+			}
 		});
 	};
 
