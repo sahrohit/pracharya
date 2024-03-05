@@ -1,19 +1,143 @@
+import { Callout } from "nextra/components";
+
 # Network theorems
 
-## Concept of superposition theorem
+## Concept of Superposition Theorem
 
-## Thevenin`s theorem
+The superposition theorem states that the voltage across an element in a linear circuit is the algebraic sum of the voltages across the element due to each independent source acting alone.
 
-## Norton`s theorem
+During calculations, the voltage source is replaced with a short circuit (i.e. value is set to 0) and the current source is replaced with an open circuit (i.e. value is set to infinite).
+
+<Callout>
+	Superposition theorem is mostly used to solve the network where two or more
+	power sources are used.
+</Callout>
+
+### Limitations
+
+1. The theorem doesn’t apply for non-linear circuits.
+2. The requisite of linearity indicates that it can only be used to calculate voltage and current.
+3. The application of superposition theorem requires two or more power sources.
+
+## Thevenin’s Theorem
+
+Thevenin’s Theorem states that it is possible to simplify any linear circuit irrespective of their complexity, to an equivalent circuit with a single voltage source $V_{Th}$ and a series resistance $R_{Th}$.
+
+It works in both AC & DC circuits but should be a linear circuit.
+
+### Procedures (More Explanation Required)
+
+1. Remove the load resistor and replace it with an open circuit.
+2. Calculate the Thevenin’s voltage—the voltage across the open circuit.
+3. Replace power source with short circuits.
+4. Calculate the Thevenin’s resistance—the total resistance between the open circuit connection points after all sources have been removed.
+5. Draw the Thevenin equivalent circuit, with the Thevenin voltage source in series with the Thevenin resistance. The load resistor re-attaches between the two open points of the equivalent circuit.
+
+### Limitations
+
+1. It can only be used in linear circuits.
+2. Power Dissipation of the Thevenin’s equivalent is not identical to the power dissipations of the real system.
+
+## Norton’s Theorem
+
+Norton’s Theorem states that any two-terminal linear and bilateral network or circuit having multiple independent and dependent sources can be represented in a simplified equivalent circuit consisting of a current source $I_N$ in parallel with a resistor $R_N$.
+
+### Procedure
+
+1. Find and determine terminal a-b where a parameter is observed.
+2. Remove the component on the terminal, make it short circuit to the terminal a-b, and calculate the current at that point a-b ($I_{ab} = I_{sc} = I_N$), where $I_N$ is Norton Equivalent current.
+3. If all the sources are independent sources, then find the equivalent resistance when all the sources are turned off and replaced by their inner resistance ($R_{ab}= R_N = R_{Th}$):
+   1. Independent voltage source is replaced by a short circuit.
+   2. Independent current source is replaced by a open circuit.
+4. If there is a dependent source, we can find Norton’s Equivalent resistance by $R_N=\frac{V_{OC}}{I_N}$
+5. In order to find the $V_{OC}$ at terminal a-b, make that terminal open circuit and find the voltage across the terminal. ($V_{OC} = V_{ab}$)
+6. Redraw the Norton equivalent circuit consisting of the Norton equivalent current source,
+   equivalent resistance, and the component we remove in Step (2).
 
 ## Maximum power transfer theorem
 
-## R-L circuits
+Maximum Power Theorem states that to maximum external power is transferred from the source to the load when the given load resistance is equal to the resistance of the available source.
 
-## R-C circuits
+The formula can be expressed as: $ZL=ZS$, where $ZL$ is the load impedance and $ZS$ is the source impedance.
 
-## R-L-C circuits
+<Callout>
+	In case of AC voltage sources, maximum power is produced only if the load
+	impedance’s value is equivalent to the complex conjugate of the source
+	impedance.
+</Callout>
 
-## Resonance in AC series and parallel circuit
+## R-L, R-C, R-L-C circuits
 
-## Active and Reactive power.
+| Element | Impedance (Z)            | Phase Angle (Φ)                                    |
+| ------- | ------------------------ | -------------------------------------------------- |
+| RC      | $\sqrt{R^2+X_C^2}$       | Negative between 0deg & -90deg                     |
+| RL      | $\sqrt{R^2+X_L^2}$       | Positive between 0deg & +90deg                     |
+| RLC     | $\sqrt{R^2+(X_L-X_C)^2}$ | Positive if $ X_L > X_C$, Negative if $ X_C > X_L$ |
+
+### RC Circuit (Resistor-Capacitor Circuit)
+
+These circuits will consists of a capacitor and a resistance either in series or in parallel to the voltage or current source.
+
+These types of circuit are also called RC Filters as they are mostly used to make crude filters like low-pass filters, high-pass filters and band-pass filters.
+
+### RL Circuit (Resistor-Inductor Circuit)
+
+These circuits will consists of a inductor and a resistance either in series or in parallel to the voltage or current source.
+
+A series RL Circuit is driven by voltage source and a parallel RL Circuit is driven by the current source. It is mostly used as passive filters.
+
+### RLC Circuit (Resistor-Inductor-Capacitor Circuit)
+
+These circuit will consist of a inductor, capacitor and a resistance either in series or in parallel.
+
+These circuits are mostly used in Radio receivers and televisions. This circuit is also known as Oscillating Circuit, Tuned Circuit or a Series Resonance Circuit.
+
+### Applications
+
+- Communication Systems
+- Voltage/Current Magnifications
+- RF Amplifiers
+- Variable Tunes Circuits
+- Filtering Circuits
+
+- Signal Processing
+- Radio Wave Transmitters
+- Resonant LC Circuit
+- Oscillator Circuit
+
+<Callout>
+ First order of each of these circuits will only consist of a single item. For example, a first order RC Circuit will only consist of a single resistance and a single capacitor.
+
+</Callout>
+
+## Resonance AC Series-Parallel circuit
+
+In series-parallel circuit, resonance occurs when the impedance of the circuit is at a minimum, resulting in maximum current flow.
+
+### Resonant Frequency
+
+Resonant frequency in a series-parallel circuit is achieved when the reactance of the inductors (XL) and the reactance of the capacitors (XC) are equal and opposite, resulting in net zero reactance. At this frequency, the total impedance in only resistive, leading to maximum power transfer to the load.
+
+The resonant frequency in series-parallel circuit can be calculated by:
+
+$$
+f_{res}=\frac{1}{2\pi\sqrt{LC}}
+$$
+
+## Active and Reactive Power
+
+### Active Power
+
+The power which is actually consumed or utilized in an AC Circuit is called True Power, Active Power or Real Power. It is measured Watt. It is the actual outcome of the electrical system which runs the electric circuits or load.
+
+### Active Component of the Current
+
+The current component, which is in phase with the circuit voltage and contributes to the active or true power of the circuit is called an active component or watt-full component or in-phase component of the circuit.
+
+### Reactive Power
+
+The power which flows back and forth between the load and the source is known as reactive power. Its measured in VAR (volt-ampere reactive).
+
+### Reactive Component of the Current
+
+The current component, which is in quadrate or 90deg out of phase to the circuit voltage and contributes to the reactive power of the circuit, is called reactive power.
