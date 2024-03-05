@@ -1,21 +1,219 @@
-# Basic concept
+import { Callout } from 'nextra/components'
+
+# Basic Concept
 
 ## Ohm´s law
 
-## Electric voltage current
+Ohm’s Law states that “Voltage across a conductor is directly proportional to the current flowing through it.”, provided all other physical conditions remains constant. This dictates the relationship between current and voltage.
 
-## Power and Energy
+Mathematically, the voltage-current relationship is written as,
 
-## Conducting and Insulating materials
+$$
+V = IR
+$$
+
+where R is the resistance and remains constant in a system. It has unit of ohms (**Ω**).
+
+## Electric voltage current, power and energy, conducting and insulating materials.
+
+### Electric Voltage (V)
+
+Electric Voltage is the measure of difference in electric potential between two points, which drives the flow of  electric current in a conductor.
+
+### Electric Current (A)
+
+Flow of electric charge in a circuit. It is measured in amperes (A).
+
+### Electric Power (P)
+
+The rate at which energy is transferred in a electrical circuit, measured in watts.
+
+$$
+P = VI
+$$
+
+### Electric Energy (J)
+
+The amount of energy transferred in an electric circuit over certain period of time. It is measured in Joules.
+
+$$
+Similarly, Power (P) = \frac{Workdone (J)}{Time Taken (t)}
+$$
+
+$$
+Energy(J) = Power(P) * time(t)
+$$
+
+### Conducting Material
+
+Those materials that allow electric current to flow easily through them due to their low resistance. (e.g. Copper, Aluminum, etc.)
+
+### Non-conducting Material
+
+Those material that resists the flow of electric current and do not allow electric charge to move easily. (e.g. Rubber, Plastic, etc.)
 
 ## Series and parallel electric circuits
 
-## Start-Delta and Delta-Star conversion
+### Series Electric Circuit
+
+In series circuit, the components are connected one after another in a single path. The current across all the components remains same where as the voltage vary.
+
+$$
+R_T = R_1+R_2+R_3 ..... R_n
+
+$$
+
+The total resistance will the sum of all resistances.
+
+$$
+I_T = I_1=I_2=I_3 ..... I_n
+
+$$
+
+The current across all the resistances will be the same.
+
+$$
+E_T = E_1+E_2+E_3 ..... E_n
+
+$$
+
+The total voltage in the circuit will be the sum of voltages across each component.
+
+### Parallel Circuit
+
+In parallel circuit, the components are connected to the same two points in a circuit, usually the positive and negative terminals of a power supply.
+
+$$
+\frac{1}{R_T} = \frac{1}{R_1}+\frac{1}{R_2}+\frac{1}{R_3} ..... \frac{1}{R_n}
+
+$$
+
+The overall resistance is determined by the above equation.
+
+<Callout>
+The net resistance of a parallel circuit is always less than any of the individual resistance.
+</Callout>
+
+$$
+I_T = I_1+I_2+I_3 ..... I_n
+
+$$
+
+Total current flowing in the circuit, is the sum of current in the individual branch.
+
+$$
+E_T = E_1=E_2=E_3 ..... E_n
+
+$$
+
+The voltage in a parallel circuit is same across each branch.
+
+## Star-delta and Delta-star conversion
+
+![Star to Delta](/assets/notes/computer-engineering/basic-electrical-and-electronics-engineering/star-to-delta.png)
+
+### Star to Delta Conversion
+
+$$
+R_3 = \frac{R_AR_B+R_BR_C+R_CR_A}{R_A}
+$$
+
+$$
+R_1 = \frac{R_AR_B+R_BR_C+R_CR_A}{R_B}
+$$
+
+$$
+R_2 = \frac{R_AR_B+R_BR_C+R_CR_A}{R_C}
+$$
+
+### Delta to Star Conversion
+
+$$
+R_A = \frac{R_3.R_1}{R_1+R_2+R_3}
+$$
+
+$$
+R_B = \frac{R_1.R_2}{R_1+R_2+R_3}
+$$
+
+$$
+R_C = \frac{R_2.R_3}{R_1+R_2+R_3}
+$$
 
 ## Kirchhoff’s law
 
-## Linear and Non-Linear circuit
+Law that deals with the conversion of current and energy within electrical circuit. It’s mostly used to calculate the resistance or impedance of a complex network.
+
+### Kirchhoff’s First Law or Kirchhoff’s Current Law
+
+According to Kirchhoff’s Current Law, the total current entering a junction or a node is equal to the total current leaving the node as no charge is lost.
+
+![Kirchhoff’s Current Law](/assets/notes/computer-engineering/basic-electrical-and-electronics-engineering/kirchhoff-first-law.png)
+
+
+In the above circuit, the current entering the circuits are $I_1$, $I_2$ and $I_3$ are denoted with a positive sign, and the current leaving the circuit are $I_4$ and $I_5$ are denoted with the negative sign. So, it can be expressed in the equation as:
+
+$$
+I_1+I_2+I_3+(-I_4)+(-I_5)=0
+$$
+
+<Callout>
+A node refers to a junction connecting two or more current-carrying routes like cables and other components.
+</Callout>
+
+### Kirchhoff’s Second Law or Kirchhoff’s Voltage Law
+
+The algebraic sum of all the voltages in any closed loop is zero.
+
+![Kirchhoff’s Voltage Law](/assets/notes/computer-engineering/basic-electrical-and-electronics-engineering/kirchhoff-second-law.png)
+
+
+When you begin at any point of the loop and continue in the same direction, note the voltage drops in all the negative or positive direction and returns to the same point.
+
+<Callout>
+It is necessary to maintain the direction either clockwise or counter-clockwise.
+</Callout>
+
+## Linear and Non-linear circuit
+
+### Linear Circuits
+
+The parameters of the circuits are not changed with respect to the voltage and current is called linear circuit.
+
+Example: Resistance and Resistive Circuit, Inductor and Inductive Circuit etc.
+
+### Non-Linear Circuit
+
+The parameters like waveform, resistance, inductance etc. of the circuits differ with respect to the current and the voltage.
+
+Example: Diode, Transformer, Iron Core, Inductor etc.
 
 ## Bilateral and Unilateral circuits
 
-## Active and Passive circuits.
+### Unilateral Circuits
+
+The circuit in which the properties changes with the change in the direction of current flow. Diodes and transistors are the unilateral circuit elements.
+
+### Bilateral Circuit
+
+The circuit in which the properties remains same with the change in direction of current flow are called Bilateral Circuit. Transmission lines is one of the example of the Bilateral Circuit.
+
+## Active and Passive circuits
+
+Active circuit are those which contains at least one active components, and passive circuit are those which don’t have any active components.
+
+### Active Components
+
+Circuit components which can deliver power or power gain in an electric circuit for infinite duration of time are called Active Components
+
+Example: Voltage Source, Generators, Transistors, etc.
+
+### Passive Components
+
+Circuit components which only absorbs the power and convert it in heat or stores in electric field or magnetic field are called Passive Components.
+
+Example: Resistor, Inductor, Capacitor, etc.
+
+## Reference
+
+[Kirchhoff's Laws - Kirchhoff's Current Law, Kirchhoff's Voltage Law, Solved Example and FAQs (byjus.com)](https://byjus.com/physics/kirchhoffs-law/)

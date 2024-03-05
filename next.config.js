@@ -15,6 +15,8 @@ await import("./src/env.js");
 const withNextra = nextra({
 	theme: "nextra-theme-docs",
 	themeConfig: "./theme.config.tsx",
+	latex: true,
+	staticImage: true
 });
 
 /** @type {import("next").NextConfig} */
