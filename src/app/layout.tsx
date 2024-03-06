@@ -55,8 +55,8 @@ export default async function RootLayout({
 	const session = await auth();
 
 	return (
-		<html suppressHydrationWarning lang="en">
-			<body className={`font-sans ${GeistSans.variable}`}>
+		<html suppressHydrationWarning lang="en" className={GeistSans.className}>
+			<body>
 				<SessionProvider session={session}>
 					<TRPCReactProvider>
 						<ThemeProvider

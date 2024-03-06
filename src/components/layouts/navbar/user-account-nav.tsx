@@ -49,24 +49,6 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => (
 					<p className="text-sm">Dashboard</p>
 				</Link>
 			</DropdownMenuItem>
-			<DropdownMenuItem asChild>
-				<Link
-					href="/dashboard/billing"
-					className="flex items-center space-x-2.5"
-				>
-					<LuCreditCard className="size-4" />
-					<p className="text-sm">Billing</p>
-				</Link>
-			</DropdownMenuItem>
-			<DropdownMenuItem asChild>
-				<Link
-					href="/dashboard/Lusettings"
-					className="flex items-center space-x-2.5"
-				>
-					<LuSettings className="size-4" />
-					<p className="text-sm">LuSettings</p>
-				</Link>
-			</DropdownMenuItem>
 			<DropdownMenuSeparator />
 			<DropdownMenuItem
 				className="cursor-pointer"

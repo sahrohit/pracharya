@@ -1,21 +1,29 @@
+import Link from "next/link";
 import Logo from "@/components/logo";
 
 const config = {
 	logo: (
 		<>
-			<Logo className="nx-h-8 nx-w-8" />
-			<span style={{ marginLeft: ".4em", fontWeight: 500, fontSize: "1.25em" }}>
-				Pracharya Study
+			<Logo className="nx-h-5 nx-w-5" />
+			<span style={{ marginLeft: ".4em", fontWeight: 700, fontSize: "1.25em" }}>
+				Pracharya Notes
 			</span>
 		</>
 	),
-
+	banner: {
+		key: "contribute",
+		text: (
+			<Link href="/contribute" target="_blank">
+				🤝 You can contribute to these notes by clicking here. Contribute →
+			</Link>
+		),
+	},
 	project: {
 		link: "https://github.com/sahrohit/pracharya",
 	},
 	docsRepositoryBase: `https://pracharya.vercel.app/contribute?tab=notes&path=`,
 	sidebar: {
-		defaultMenuCollapseLevel: 2,
+		defaultMenuCollapseLevel: 1,
 		toggleButton: true,
 		autoCollapse: true,
 	},

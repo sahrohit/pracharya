@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { LuHelpingHand } from "react-icons/lu";
 
-import siteConfig from "@/config/site";
+import { BsGithub } from "react-icons/bs";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 import sharingNotesImage from "@/../public/assets/hero/sharing-notes.svg";
+import siteConfig from "@/config/site";
 
 const IndexPage = () => (
 	<section className="space-y-6 pb-12 pt-16 lg:py-28">
@@ -56,15 +57,11 @@ const IndexPage = () => (
 					className="flex animate-fade-up justify-center space-x-2 opacity-0 md:space-x-4"
 					style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
 				>
-					<Link
-						href="/computer-engineering"
-						className={cn(buttonVariants({ size: "lg" }))}
-					>
+					<Link href="/notes" className={cn(buttonVariants({ size: "lg" }))}>
 						Study Notes
 					</Link>
 					<Link
-						href={siteConfig.links.email}
-						target="_blank"
+						href="/contribute"
 						rel="noreferrer"
 						className={cn(
 							buttonVariants({ variant: "outline", size: "lg" }),
@@ -74,7 +71,28 @@ const IndexPage = () => (
 						<LuHelpingHand className="mr-2 size-4" />
 						<p>Contribute</p>
 					</Link>
+					<Link
+						href="https://github.com/sahrohit/pracharya"
+						target="_blank"
+						rel="noreferrer"
+						className={cn(
+							buttonVariants({ variant: "outline", size: "lg" }),
+							"px-4"
+						)}
+					>
+						<BsGithub className="mr-2 size-4" />
+						<p>Github</p>
+					</Link>
 				</div>
+				<p>
+					⚠️ This app is still in very early stage and actively being worked on.
+					Any help will be appretiated, you can either help by contributing to
+					source code on{" "}
+					<Link href={siteConfig.links.github} className="hover:underline">
+						github
+					</Link>{" "}
+					as well as contribute to docs by navigating to contribute page.
+				</p>
 			</div>
 		</div>
 	</section>

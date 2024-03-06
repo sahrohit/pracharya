@@ -1,12 +1,9 @@
 import * as React from "react";
-import Link from "next/link";
 import { LuCommand } from "react-icons/lu";
 
 import siteConfig from "@/config/site";
 import { cn } from "@/lib/utils";
 import ModeToggle from "@/components/layouts/mode-toggle";
-
-import { buttonVariants } from "../ui/button";
 
 const SiteFooter = ({
 	className,
@@ -21,17 +18,7 @@ const SiteFooter = ({
 					© {new Date().getFullYear()} {siteConfig.name} All Rights Reserved.
 				</p>
 			</div>
-			<div className="flex flex-row">
-				<Link href="/" className={cn(buttonVariants({ variant: "link" }))}>
-					Contact Us
-				</Link>
-				<Link
-					href="/#pricing"
-					className={cn(buttonVariants({ variant: "link" }))}
-				>
-					Pricing
-				</Link>
-			</div>
+			{/* <div className="flex flex-row"/div> */}
 			<ModeToggle />
 		</div>
 	</footer>

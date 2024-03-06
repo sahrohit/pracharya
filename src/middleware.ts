@@ -48,7 +48,7 @@ export default auth((req) => {
 // Optionally, don't invoke Middleware on some paths
 export const config = {
 	matcher: [
-		"/((?!.+\\.[\\w]+$|_next|favicon.ico|opengraph-image.jpg|computer\\-engineering|mechanical\\-engineering).*)",
+		"/((?!.+\\.[\\w]+$|_next|favicon.ico|opengraph-image.jpg|notes|computer\\-engineering|mechanical\\-engineering).*)",
 		"/",
 		"/(api|trpc)(.*)",
 	],

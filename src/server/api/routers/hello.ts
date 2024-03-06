@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+	adminProcedure,
 	createTRPCRouter,
 	protectedProcedure,
 	publicProcedure,
@@ -14,6 +15,10 @@ const helloRouter = createTRPCRouter({
 	secretPing: protectedProcedure
 		.meta({ description: "Returns Secrent Pong only for authenticated users" })
 		.query(() => "Secret Pong!"),
+
+	adminPing: adminProcedure
+		.meta({ description: "Returns Secrent Pong only for authenticated users" })
+		.query(() => "Admin Pong!"),
 
 	hello: publicProcedure
 		.meta({ description: "Says Hello to whatever you pass" })

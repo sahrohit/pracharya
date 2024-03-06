@@ -6,10 +6,10 @@
 			"layout": "raw"
 		}
 	},
-	"contribute": {
-		"title": "Contribute",
+	"notes": {
+		"title": "Notes",
 		"type": "page",
-		"href": "/contribute"
+		"href": "/notes"
 	},
 	"computer-engineering": {
 		"title": "Computer",
