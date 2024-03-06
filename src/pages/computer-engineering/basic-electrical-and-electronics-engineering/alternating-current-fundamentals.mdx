@@ -1,23 +1,64 @@
 # Alternating current fundamentals
 
-## Alternating Voltage
+## Generation of Alternating Voltages and Currents
 
-### Principle of generation
+The voltage which changes polarity at regular interval of time is known as alternating voltage.
 
-### Equations
+The one complete cycle of an alternating quantity consists of two half cycles, and the direction of half cycle changes after every particular interval of time.
 
-### Waveforms
+The machine which generate the alternating voltage is called Alternator. The alternating voltage is generated in two ways:
 
-### Average Value, Peak Value & RMS Value
+1. By rotating coil inside the uniform magnetic field at constant speed.
+2. By rotating the magnetic field around the stationary coil at constant speed.
 
-## Alternating Current
+### Process of Generation
 
-### Principle of generation
+1. Place a stationary coil inside of a uniform magnetic field.
+2. The load is then connected across the coil with the help of brushes and the slip rings.
+3. When the coil rotates in the anti clockwise direction at constant angular velocity (**ω),** the electro motive force induces the coil.
+4. The magnitude of the EMF produced by the coil depends on the rate of change of flux cut by the conductor. $EMF = -N\frac{d\phi}{dt}$, where $\phi$ is the magnetic flux and given by, $\phi = BA cos(\theta)$.
+   Based on this formula, the EMF will be maximum, when the conductor is placed perpendicular to the magnetic lines of force and will be 0 if placed in parallel.
+5. The direction of the induced EMF is determined by Fleming’s Right-hand rule.
 
-### Equations
+## Equations
 
-### Waveforms
+## Waveforms
 
-### Average Value, Peak Value & RMS Value
+## Average Value
 
-## Three phase system.
+The average of all the instantaneous values of an alternating current or voltage over one complete cycle is called Average value.
+
+If we consider symmetrical waves, the positive and the negative half cancels each other, hence the average value becomes 0.
+
+The work is done by both positive and negative cycle, hence the average value is determined without considering the signs. So, the only positive half cycle is considered to determine the signs.
+
+## Peak Value
+
+The maximum value attained by an alternating quantity during a single cycle is called its Peak Value or Maximum Value or Crest Values. The peak voltage is denoted by $E_m$ and peak current is denoted by $I_m$ respectively.
+
+For the sinusoidal alternating quantity, its peak value is at 90deg.
+
+$$
+I_m = \frac{i_1+i_2+i_3+......+i_n}{n} = \frac{Area\;of\;alteration}{Base}
+$$
+
+## RMS Value
+
+The square root of means of squares of instantaneous values give the RMS value.
+
+$$
+I_{eff}=\sqrt{means\;of\;squares\;of\;instantaneous\;value}
+$$
+
+# Three phase system
+
+In this system, three wires are used, each for generation, transmission and distribution. The sum of line currents in a 3-phase system is equals to zero, and their phases differentiated at an angle of 120deg.
+
+| Star (Y) Connected System                                                                        | Delta Connected System                                                                           |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| There is a common point known as neutral `n` or star point. It can be earthed.                   | No Neutral Point.                                                                                |
+| Possibility of 3 phase, 3 wire and 3 phase 4 wire.                                               | Only 3 phase, 3 wire is possible.                                                                |
+| $Line\;Voltage\;(V_L)= \sqrt{3} * Phase\;Voltage\;(V_{Ph})$ ; $V_{ph} = \frac{1}{\sqrt{3}}* V_L$ | $Line\;Voltage=Phase\;Voltage$ ; $V_L = V_{ph}$                                                  |
+| $Line\;Current=Phase\;Current$ ; $I_L = I_{ph}$                                                  | $Line\;Current\;(I_L)= \sqrt{3} * Phase\;Current\;(I_{Ph})$ ; $I_{ph} = \frac{1}{\sqrt{3}}* I_L$ |
+
+Three Phase system requires fewer conductors as compared to single phase system, and has higher efficiency and minimum loss. The cross section area of the neutral conductor is half of the live wire.
