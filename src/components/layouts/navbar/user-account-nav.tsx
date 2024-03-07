@@ -3,12 +3,7 @@
 import Link from "next/link";
 import type { User } from "next-auth";
 import { signOut } from "next-auth/react";
-import {
-	LuCreditCard,
-	LuLayoutDashboard,
-	LuLogOut,
-	LuSettings,
-} from "react-icons/lu";
+import { LuLayoutDashboard, LuLogOut, LuUser2 } from "react-icons/lu";
 
 import {
 	DropdownMenu,
@@ -47,6 +42,12 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => (
 				<Link href="/dashboard" className="flex items-center space-x-2.5">
 					<LuLayoutDashboard className="size-4" />
 					<p className="text-sm">Dashboard</p>
+				</Link>
+			</DropdownMenuItem>
+			<DropdownMenuItem asChild>
+				<Link href="/admin" className="flex items-center space-x-2.5">
+					<LuUser2 className="size-4" />
+					<p className="text-sm">Admin</p>
 				</Link>
 			</DropdownMenuItem>
 			<DropdownMenuSeparator />

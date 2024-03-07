@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SettingsFormSchema } from "@/components/schema/settings";
+import { userRoleEnum } from "@/server/db/schema";
 
 type SettingFormValues = z.infer<typeof SettingsFormSchema>;
 
@@ -73,64 +74,19 @@ const SettingsForm = () => {
 							</FormItem>
 						)}
 					/>
-					{session.data?.user?.isOAuth === false && (
-						<>
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Email</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												placeholder="john.doe@example.com"
-												type="email"
-												disabled={isPending}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="password"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Password</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												placeholder="******"
-												type="password"
-												disabled={isPending}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="newPassword"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>New Password</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												placeholder="******"
-												type="password"
-												disabled={isPending}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</>
-					)}
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+								<FormControl>
+									<Input disabled {...field} placeholder="John Doe" />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 					<FormField
 						control={form.control}
 						name="role"
@@ -138,7 +94,7 @@ const SettingsForm = () => {
 							<FormItem>
 								<FormLabel>Role</FormLabel>
 								<Select
-									disabled={isPending}
+									disabled={isPending || session.data?.user.role === "USER"}
 									onValueChange={field.onChange}
 									defaultValue={field.value}
 								>
@@ -148,8 +104,9 @@ const SettingsForm = () => {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										<SelectItem value="ADMIN">Admin</SelectItem>
-										<SelectItem value="USER">User</SelectItem>
+										{userRoleEnum.enumValues.map((role) => (
+											<SelectItem value={role}>{role}</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 								<FormMessage />
