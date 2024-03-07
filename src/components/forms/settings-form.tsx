@@ -16,7 +16,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import settings from "@/server/actions/settings";
 import {
 	Form,
 	FormField,
@@ -47,16 +46,9 @@ const SettingsForm = () => {
 		},
 	});
 
-	const onSubmit = (values: SettingFormValues) => {
+	const onSubmit = (_values: SettingFormValues) => {
 		startTransition(() => {
-			toast.promise(settings(values), {
-				loading: "Updating settings...",
-				success: async () => {
-					await session.update();
-					return "Settings updated!";
-				},
-				error: "Something went wrong!",
-			});
+			toast.info("Feature not implemented yet");
 		});
 	};
 

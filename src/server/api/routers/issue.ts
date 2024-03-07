@@ -1,10 +1,14 @@
 /* eslint-disable consistent-return */
 
-import { and, asc, desc, inArray, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { unstable_noStore as noStore } from "next/cache";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+	adminProcedure,
+	createTRPCRouter,
+	protectedProcedure,
+} from "@/server/api/trpc";
 import {
 	issues,
 	options,
@@ -28,6 +32,117 @@ const issueRouter = createTRPCRouter({
 		),
 
 	list: protectedProcedure
+		.meta({ description: "Lists all issues" })
+		.input(
+			z.object({
+				page: z.string().default("1").describe("Page number."),
+				perPage: z.string().default("10").describe("Number of items per page."),
+				sort: z
+					.string()
+					.optional()
+					.describe(
+						"Column to sort by with order. If multipe seperated by '.'. (eg. title.desc)"
+					),
+				id: z.string().optional().describe("Search query for Id column."),
+				status: z
+					.string()
+					.optional()
+					.describe(
+						"Status of the Issue. If multipe seperated by '.'. (eg. PENDING.PLACED)"
+					),
+				operator: z
+					.enum(["and", "or"])
+					.optional()
+					.describe("Operator of the query."),
+			})
+		)
+		.query(async ({ ctx, input }) => {
+			noStore();
+			try {
+				const { page, perPage, sort, id, status, operator } = input;
+
+				const pageAsNumber = Number(page);
+				const fallbackPage =
+					Number.isNaN(pageAsNumber) || pageAsNumber < 1 ? 1 : pageAsNumber;
+
+				const perPageAsNumber = Number(perPage);
+				const limit = Number.isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
+
+				const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0;
+
+				const [column, order] = (sort?.split(".") as [
+					keyof SelectIssue | undefined,
+					"asc" | "desc" | undefined,
+				]) ?? ["createdAt", "desc"];
+
+				const statuses = (status?.split(".") as SelectIssue["status"][]) ?? [];
+
+				const filters = [
+					id
+						? filterColumn({
+								column: issues.id,
+								value: id,
+							})
+						: undefined,
+					statuses.length > 0 ? inArray(issues.status, statuses) : undefined,
+					eq(issues.createdBy, ctx.session.user.id),
+				];
+
+				const query =
+					!operator || operator === "and" ? and(...filters) : or(...filters);
+
+				const { data, count } = await ctx.db.transaction(async (tx) => {
+					const data = await tx.query.issues.findMany({
+						with: {
+							creator: true,
+							question: {
+								with: {
+									options: true,
+								},
+							},
+							subChapter: {
+								with: {
+									chapter: true,
+								},
+							},
+						},
+						where: query,
+						limit,
+						offset,
+						orderBy: [
+							column && column in issues
+								? order === "asc"
+									? asc(issues[column])
+									: desc(issues[column])
+								: desc(issues.id),
+						],
+					});
+
+					const count = await tx
+						.select({
+							count: sql<number>`count(${issues.id})`.mapWith(Number),
+						})
+						.from(issues)
+						.where(query)
+						.execute()
+						.then((res) => res[0]?.count ?? 0);
+
+					return {
+						data: data.map((issue) => ({
+							...issue,
+						})),
+						count,
+					};
+				});
+
+				const pageCount = Math.ceil(count / limit);
+				return { data, pageCount };
+			} catch (err) {
+				return { data: [], pageCount: 0 };
+			}
+		}),
+
+	adminList: adminProcedure
 		.meta({ description: "Lists all issues" })
 		.input(
 			z.object({
@@ -125,10 +240,6 @@ const issueRouter = createTRPCRouter({
 					return {
 						data: data.map((issue) => ({
 							...issue,
-							creator: {
-								...issue.creator,
-								password: undefined,
-							},
 						})),
 						count,
 					};

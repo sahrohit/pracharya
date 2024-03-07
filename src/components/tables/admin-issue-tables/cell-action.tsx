@@ -9,6 +9,7 @@ import {
 	DialogTitle,
 	DialogDescription,
 	DialogHeader,
+	DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { type SelectIssueWithQuestion } from "@/server/db/types";
@@ -76,6 +77,14 @@ const CellAction = ({ data }: CellActionProps) => {
 							</div>
 						</DialogDescription>
 					</DialogHeader>
+					<DialogFooter>
+						<Button variant="destructive" size="sm" type="submit">
+							Deny Changes
+						</Button>
+						<Button size="sm" type="submit">
+							Accept Changes
+						</Button>
+					</DialogFooter>
 				</DialogContent>
 			</Dialog>
 			<Button
