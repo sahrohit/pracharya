@@ -4,6 +4,7 @@ import {
 	LuFileEdit,
 	LuFileText,
 	LuListChecks,
+	LuPalette,
 	LuSettings,
 } from "react-icons/lu";
 import { HiOutlineLightBulb } from "react-icons/hi";
@@ -18,6 +19,7 @@ export const Icons = {
 	report: MdReport,
 	edit: LuFileEdit,
 	listcheck: LuListChecks,
+	patterns: LuPalette,
 } as const;
 
 export type IconType = keyof typeof Icons;

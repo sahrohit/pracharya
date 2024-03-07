@@ -24,6 +24,8 @@ export const publishStatusEnum = pgEnum("publish_status", [
 	"ARCHIVED",
 ]);
 
+export const questionWeightEnum = pgEnum("question_weight", ["1", "2"]);
+
 // Courses Table
 
 export const courses = createTable("course", {
@@ -40,8 +42,27 @@ export const chapters = createTable("chapter", {
 });
 
 export const chaptersRelations = relations(chapters, ({ many }) => ({
-	issues: many(issues),
+	subChapters: many(subChapters),
 }));
+
+// Courses to Chapter Table
+
+export const coursesToChapters = createTable(
+	"course_to_chapter",
+	{
+		courseId: varchar("course_id", { length: 255 })
+			.references(() => courses.id)
+			.notNull(),
+		chapterId: varchar("chapter_id", { length: 255 })
+			.references(() => chapters.id)
+			.notNull(),
+	},
+	(coursesToChapters) => ({
+		pk: primaryKey({
+			columns: [coursesToChapters.courseId, coursesToChapters.chapterId],
+		}),
+	})
+);
 
 // Sub Chapters Table
 
@@ -54,10 +75,69 @@ export const subChapters = createTable("sub_chapter", {
 		.notNull(),
 });
 
-export const subChaptersRelations = relations(subChapters, ({ one }) => ({
+export const subChaptersRelations = relations(subChapters, ({ one, many }) => ({
 	chapter: one(chapters, {
 		fields: [subChapters.chapterId],
 		references: [chapters.id],
+	}),
+	questions: many(questions),
+	patterns: many(patterns),
+}));
+
+// Exam Table
+
+export const exams = createTable("exam", {
+	id: varchar("id", { length: 255 }).notNull().primaryKey(),
+	name: varchar("name", { length: 255 }),
+	status: publishStatusEnum("status").default("DRAFT").notNull(),
+	createdAt: timestamp("created_at", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp("updated_at", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
+});
+
+export const examRelations = relations(exams, ({ many }) => ({
+	patterns: many(patterns),
+}));
+
+// Pattern Table
+
+export const patterns = createTable(
+	"pattern",
+	{
+		questionNumber: integer("question_number").notNull(),
+		examId: varchar("exam_id", { length: 255 })
+			.references(() => exams.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		subChapterId: varchar("sub_chapter_id", { length: 255 }).references(
+			() => subChapters.id,
+			{ onDelete: "cascade" }
+		),
+		weight: questionWeightEnum("weight").default("1").notNull(),
+	},
+	(pattern) => ({
+		pk: primaryKey({
+			columns: [pattern.examId, pattern.questionNumber],
+		}),
+	})
+);
+
+export const patternRelations = relations(patterns, ({ one }) => ({
+	subChapter: one(subChapters, {
+		fields: [patterns.subChapterId],
+		references: [subChapters.id],
+	}),
+	exam: one(exams, {
+		fields: [patterns.examId],
+		references: [exams.id],
 	}),
 }));
 
@@ -115,8 +195,6 @@ export const issuesRelations = relations(issues, ({ one }) => ({
 }));
 
 // Questions Table
-
-export const questionWeightEnum = pgEnum("question_weight", ["1", "2"]);
 
 export const questions = createTable("question", {
 	id: varchar("id", { length: 255 })
@@ -209,15 +287,6 @@ export const usersRelations = relations(users, ({ many }) => ({
 	issues: many(issues),
 }));
 
-export const passwordResetTokens = createTable("password_reset_token", {
-	id: varchar("id", { length: 255 }).notNull().primaryKey(),
-	email: varchar("email", { length: 255 }).notNull(),
-	token: varchar("token", { length: 255 }).notNull().unique(),
-	expires: timestamp("expires", {
-		mode: "date",
-	}),
-});
-
 export const accounts = createTable(
 	"account",
 	{
@@ -268,16 +337,3 @@ export const sessions = createTable(
 export const sessionsRelations = relations(sessions, ({ one }) => ({
 	user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
-
-export const verificationTokens = createTable(
-	"verificationToken",
-	{
-		identifier: varchar("identifier", { length: 255 }).notNull(),
-		email: varchar("email", { length: 255 }).notNull(),
-		token: varchar("token", { length: 255 }).notNull(),
-		expires: timestamp("expires", { mode: "date" }).notNull(),
-	},
-	(vt) => ({
-		compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-	})
-);

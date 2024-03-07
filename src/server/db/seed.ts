@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { db } from ".";
-import { chapters, courses, subChapters } from "./schema";
+import { chapters, courses, coursesToChapters, subChapters } from "./schema";
 
 const runSeed = async () => {
 	console.log("⏳ Seeding database...");
@@ -59,6 +59,50 @@ const runSeed = async () => {
 		{
 			id: "project-planning-design-and-implementation",
 			name: "Project Planning, Design and Implementation",
+		},
+	]);
+
+	await db.insert(coursesToChapters).values([
+		{
+			chapterId: "basic-electrical-and-electronics-engineering",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "digital-logic-and-microprocessor",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "programming-language-and-its-applications",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "computer-organization-and-embedded-system",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "computer-network-and-network-security-system",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "theory-of-computation-and-computer-graphics",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId:
+				"data-structures-and-algorithm-database-system-and-operating-system",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "software-engineering-and-object-oriented-analysis-and-design",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "artificial-intelligence-and-neural-networks",
+			courseId: "computer-engineering",
+		},
+		{
+			chapterId: "project-planning-design-and-implementation",
+			courseId: "computer-engineering",
 		},
 	]);
 
