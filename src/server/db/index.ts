@@ -1,7 +1,5 @@
-/* eslint-disable import/prefer-default-export */
-// import { neon } from "@neondatabase/serverless";
-import { Pool } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-serverless";
+import { Pool } from "pg";
+import { drizzle } from "drizzle-orm/node-postgres";
 
 import { env } from "@/env.js";
 import * as schema from "./schema";

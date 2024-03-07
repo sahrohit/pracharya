@@ -15,7 +15,7 @@ export type SelectChapter = typeof chapters.$inferSelect;
 export type SelectSubChapter = typeof subChapters.$inferSelect;
 
 export type SelectIssueWithQuestion = SelectIssue & {
-	creator: Omit<SelectUser, "password">;
+	creator: SelectUser;
 	question:
 		| (SelectQuestion & {
 				options: SelectOption[];
