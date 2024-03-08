@@ -16,6 +16,10 @@ export type SelectChapter = typeof chapters.$inferSelect;
 export type SelectSubChapter = typeof subChapters.$inferSelect;
 export type SelectExam = typeof exams.$inferSelect;
 
+export type SelectSubChapterWithChapter = SelectSubChapter & {
+	chapter: SelectChapter;
+};
+
 export type SelectIssueWithQuestion = SelectIssue & {
 	creator: SelectUser;
 	question:

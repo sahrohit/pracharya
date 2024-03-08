@@ -111,16 +111,13 @@ export const examRelations = relations(exams, ({ many }) => ({
 export const patterns = createTable(
 	"pattern",
 	{
+		id: varchar("id", { length: 255 }).notNull().unique(),
 		questionNumber: integer("question_number").notNull(),
 		examId: varchar("exam_id", { length: 255 })
 			.references(() => exams.id, {
 				onDelete: "cascade",
 			})
 			.notNull(),
-		subChapterId: varchar("sub_chapter_id", { length: 255 }).references(
-			() => subChapters.id,
-			{ onDelete: "cascade" }
-		),
 		weight: questionWeightEnum("weight").default("1").notNull(),
 	},
 	(pattern) => ({
@@ -130,16 +127,39 @@ export const patterns = createTable(
 	})
 );
 
-export const patternRelations = relations(patterns, ({ one }) => ({
-	subChapter: one(subChapters, {
-		fields: [patterns.subChapterId],
-		references: [subChapters.id],
-	}),
+export const patternRelations = relations(patterns, ({ one, many }) => ({
+	subChapters: many(patternsToSubChapters),
 	exam: one(exams, {
 		fields: [patterns.examId],
 		references: [exams.id],
 	}),
 }));
+
+// Patterns to SubChapters
+
+export const patternsToSubChapters = createTable("patterns_to_sub_chapter", {
+	patternId: varchar("pattern_id", { length: 255 })
+		.notNull()
+		.references(() => patterns.id, { onDelete: "cascade" }),
+	subChapterId: varchar("sub_chapter_id", { length: 255 }).references(
+		() => subChapters.id,
+		{ onDelete: "cascade" }
+	),
+});
+
+export const patternsToSubChaptersRelations = relations(
+	patternsToSubChapters,
+	({ one }) => ({
+		pattern: one(patterns, {
+			fields: [patternsToSubChapters.patternId],
+			references: [patterns.id],
+		}),
+		subChapter: one(subChapters, {
+			fields: [patternsToSubChapters.subChapterId],
+			references: [subChapters.id],
+		}),
+	})
+);
 
 // Issues Table
 

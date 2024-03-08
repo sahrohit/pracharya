@@ -24,7 +24,11 @@ const examRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) =>
 			ctx.db.query.exams.findFirst({
 				with: {
-					patterns: true,
+					patterns: {
+						with: {
+							subChapters: true,
+						},
+					},
 				},
 				where: (exams, { eq }) =>
 					input.id ? eq(exams.id, input.id) : undefined,
@@ -147,6 +151,7 @@ const examRouter = createTRPCRouter({
 
 				await tx.insert(patterns).values(
 					Array.from({ length: input.questions }).map((_, i) => ({
+						id: `${examId}-${i + 1}`,
 						examId,
 						questionNumber: i + 1,
 						subChapterId: null,

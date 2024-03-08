@@ -1,10 +1,9 @@
 "use client";
 
-import { z } from "zod";
+import { type z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
-import { LuCheck, LuChevronDown } from "react-icons/lu";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Table,
@@ -24,33 +23,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-} from "@/components/ui/command";
 import DashboardHeader from "@/components/layouts/dashboard/header";
+import { PatternFormSchema } from "@/components/schema/exam";
+import SubChapterSelector from "@/components/forms/common/subchapter-selector";
 
-export const PatternFormSchema = z.object({
-	patterns: z.array(
-		z.object({
-			questionNumber: z.number(),
-			subChapterId: z.string().nullable(),
-			weight: z.enum(questionWeightEnum.enumValues),
-		})
-	),
-});
-
-type PatternFormValues = z.infer<typeof PatternFormSchema>;
+export type PatternFormValues = z.infer<typeof PatternFormSchema>;
 
 const ExamPatternEdit = ({ params }: { params: { examId: string } }) => {
 	const [
@@ -71,7 +49,7 @@ const ExamPatternEdit = ({ params }: { params: { examId: string } }) => {
 		defaultValues: {
 			patterns: exam?.patterns.map((pattern) => ({
 				questionNumber: pattern.questionNumber,
-				subChapterId: pattern.subChapterId,
+				subChapterId: pattern.subChapters,
 				weight: pattern.weight,
 			})),
 		},
@@ -100,7 +78,7 @@ const ExamPatternEdit = ({ params }: { params: { examId: string } }) => {
 				"patterns",
 				exam.patterns.map((pattern) => ({
 					questionNumber: pattern.questionNumber,
-					subChapterId: pattern.subChapterId,
+					subChapters: pattern.subChapters,
 					weight: pattern.weight,
 				}))
 			);
@@ -154,9 +132,16 @@ const ExamPatternEdit = ({ params }: { params: { examId: string } }) => {
 											{field.questionNumber}
 										</TableCell>
 										<TableCell className="w-full">
-											<FormField
+											<SubChapterSelector
+												subChapters={subChapters}
+												key={`${index + 1}-sub-chapter-selector`}
 												control={form.control}
-												name={`patterns.${index}.subChapterId`}
+												nestIndex={index}
+												setValue={form.setValue}
+											/>
+											{/* <FormField
+												control={form.control}
+												name={`patterns.${index}.subChapters`}
 												render={({ field }) => (
 													<FormItem className="flex flex-col">
 														<Popover>
@@ -215,7 +200,7 @@ const ExamPatternEdit = ({ params }: { params: { examId: string } }) => {
 														</Popover>
 													</FormItem>
 												)}
-											/>
+											/> */}
 										</TableCell>
 										<TableCell className="w-full">
 											<FormField
