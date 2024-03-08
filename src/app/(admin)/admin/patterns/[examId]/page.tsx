@@ -69,6 +69,7 @@ const ExamPatternEdit = ({ params }: { params: { examId: string } }) => {
 	);
 
 	const onSubmit = (values: PatternFormValues) => {
+		// eslint-disable-next-line no-console
 		console.log("Values", values);
 	};
 

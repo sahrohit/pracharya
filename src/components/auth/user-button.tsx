@@ -3,7 +3,7 @@
 import { FaUser } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,7 +11,6 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import logout from "@/server/actions/logout";
 
 const UserButton = () => {
 	const session = useSession();
@@ -27,7 +26,7 @@ const UserButton = () => {
 				</Avatar>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-40" align="end">
-				<DropdownMenuItem onClick={() => logout()}>
+				<DropdownMenuItem onClick={() => signOut()}>
 					<RxExit className="mr-2 h-4 w-4" />
 					Logout
 				</DropdownMenuItem>
