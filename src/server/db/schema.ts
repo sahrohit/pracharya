@@ -81,7 +81,6 @@ export const subChaptersRelations = relations(subChapters, ({ one, many }) => ({
 		references: [chapters.id],
 	}),
 	questions: many(questions),
-	patterns: many(patterns),
 }));
 
 // Exam Table

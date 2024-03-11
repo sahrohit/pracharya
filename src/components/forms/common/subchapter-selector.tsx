@@ -4,7 +4,8 @@ import {
 	type UseFormSetValue,
 } from "react-hook-form";
 import { type z } from "zod";
-import { LuCheck, LuChevronDown, LuTrash } from "react-icons/lu";
+import { LuCheck, LuChevronDown } from "react-icons/lu";
+import { AiOutlineClose } from "react-icons/ai";
 import { type PatternFormSchema } from "@/components/schema/exam";
 import {
 	Popover,
@@ -71,9 +72,9 @@ const SubChapterSelector = ({
 												onClick={() => remove(index)}
 												variant="destructive"
 												size="sm"
-												className="-mr-2 h-8 w-8 p-0"
+												className="-mr-2 h-6 w-6 rounded-full p-0"
 											>
-												<LuTrash />
+												<AiOutlineClose />
 											</Button>
 										</Button>
 									</FormControl>
