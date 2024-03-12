@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-console */
 
 import { db } from ".";
@@ -6,8 +7,10 @@ import {
 	courses,
 	coursesToChapters,
 	exams,
+	options,
 	patterns,
 	patternsToSubChapters,
+	questions,
 	subChapters,
 } from "./schema";
 
@@ -16,12 +19,12 @@ const QUESTIONS: {
 	name: string;
 	question_number: number;
 	weight: "1" | "2";
-	subChapterId: string | null; // Should not be null
+	subChapterId: string;
 	options: {
 		text: string;
 		isAnswer: boolean | null;
 	}[];
-	solution?: string;
+	solution: string;
 }[] = [
 	{
 		name: "Decibel relation for power gain is:",
@@ -494,7 +497,7 @@ const QUESTIONS: {
 	{
 		name: "What is the purpose of the control unit in a CPU?",
 		question_number: 19,
-		weight: "2",
+		weight: "1",
 		subChapterId: "control-and-central-processing-units",
 		options: [
 			{
@@ -520,7 +523,7 @@ const QUESTIONS: {
 	{
 		name: "What is the purpose of the cache replacement policy?",
 		question_number: 20,
-		weight: "2",
+		weight: "1",
 		subChapterId: "computer-arithmetic-and-memory-system",
 		options: [
 			{
@@ -546,7 +549,7 @@ const QUESTIONS: {
 	{
 		name: "Which of the following is not a type of DMA transfer mode?",
 		question_number: 21,
-		weight: "2",
+		weight: "1",
 		subChapterId: "inputoutput-organization-and-multiprocessor",
 		options: [
 			{
@@ -572,7 +575,7 @@ const QUESTIONS: {
 	{
 		name: "An instruction set refers to a set of -----------",
 		question_number: 22,
-		weight: "2",
+		weight: "1",
 		subChapterId: "hardwaresoftware-design-issues-on-embedded-system",
 		options: [
 			{
@@ -598,7 +601,7 @@ const QUESTIONS: {
 	{
 		name: "What is a real-time kernel?",
 		question_number: 23,
-		weight: "2",
+		weight: "1",
 		subChapterId: "realtime-operating-and-control-system",
 		options: [
 			{
@@ -650,7 +653,7 @@ const QUESTIONS: {
 	{
 		name: "Which of the following is an example of a physical layer protocol?",
 		question_number: 25,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-computer-networks-and-physical-layer",
 		options: [
 			{
@@ -676,7 +679,7 @@ const QUESTIONS: {
 	{
 		name: "The PPP of the OSI model operates at ---------------",
 		question_number: 26,
-		weight: "2",
+		weight: "1",
 		subChapterId: "data-link-layer",
 		options: [
 			{
@@ -702,7 +705,7 @@ const QUESTIONS: {
 	{
 		name: "Which of the following is a type of routing algorithm used in the network layer?",
 		question_number: 27,
-		weight: "2",
+		weight: "1",
 		subChapterId: "network-layer",
 		options: [
 			{
@@ -728,7 +731,7 @@ const QUESTIONS: {
 	{
 		name: "Which protocol is responsible for error detection and correction at the transport layer?",
 		question_number: 28,
-		weight: "2",
+		weight: "1",
 		subChapterId: "transport-layer",
 		options: [
 			{
@@ -754,7 +757,7 @@ const QUESTIONS: {
 	{
 		name: "Which application layer protocol is used for sending and receiving emails?",
 		question_number: 29,
-		weight: "2",
+		weight: "1",
 		subChapterId: "application-layer",
 		options: [
 			{
@@ -780,7 +783,7 @@ const QUESTIONS: {
 	{
 		name: "Which of the following is not a common type of firewall?",
 		question_number: 30,
-		weight: "2",
+		weight: "1",
 		subChapterId: "network-security",
 		options: [
 			{
@@ -806,7 +809,7 @@ const QUESTIONS: {
 	{
 		name: "What are the basic limitations of finite state machine?",
 		question_number: 31,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-finite-automata",
 		options: [
 			{
@@ -832,7 +835,7 @@ const QUESTIONS: {
 	{
 		name: "Which of the following Machine is specific for Context free grammar?",
 		question_number: 32,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-context-free-language",
 		options: [
 			{
@@ -858,7 +861,7 @@ const QUESTIONS: {
 	{
 		name: "Turing machine (TM) is more powerful than FMS (Finite State Machine) because",
 		question_number: 33,
-		weight: "2",
+		weight: "1",
 		subChapterId: "turing-machine",
 		options: [
 			{
@@ -884,7 +887,7 @@ const QUESTIONS: {
 	{
 		name: "Which of these clustering technique permits a convenient graphical display?",
 		question_number: 34,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-of-computer-graphics",
 		options: [
 			{
@@ -910,7 +913,7 @@ const QUESTIONS: {
 	{
 		name: "A straight line segment is translated by applying the transformation equation",
 		question_number: 35,
-		weight: "2",
+		weight: "1",
 		subChapterId: "twodimensional-transformation",
 		options: [
 			{
@@ -936,7 +939,7 @@ const QUESTIONS: {
 	{
 		name: "What does composite transformations means?",
 		question_number: 36,
-		weight: "2",
+		weight: "1",
 		subChapterId: "threedimensional-transformation",
 		options: [
 			{
@@ -962,7 +965,7 @@ const QUESTIONS: {
 	{
 		name: "……………….. level is where the model becomes compatible and executable code",
 		question_number: 37,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-data-structure-list-linked-lists-and-trees",
 		options: [
 			{
@@ -988,7 +991,7 @@ const QUESTIONS: {
 	{
 		name: "What is the hash function used in the division method?",
 		question_number: 38,
-		weight: "2",
+		weight: "1",
 		subChapterId: "sorting-searching-and-graphs",
 		options: [
 			{
@@ -1014,7 +1017,7 @@ const QUESTIONS: {
 	{
 		name: "Redundancy is reduced in a database table by using the ------------ form.",
 		question_number: 39,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-data-models-normalization-and-sql",
 		options: [
 			{
@@ -1040,7 +1043,7 @@ const QUESTIONS: {
 	{
 		name: "It is advisable, to store the -------- before applying the actual transaction to the database.",
 		question_number: 40,
-		weight: "2",
+		weight: "1",
 		subChapterId:
 			"transaction-processing-concurrency-control-and-crash-recovery",
 		options: [
@@ -1067,7 +1070,7 @@ const QUESTIONS: {
 	{
 		name: "To enforce ………………….. two functions are provided enter-critical and exit-critical, where each function takes as an argument the name of the resource that is the subject of competition.",
 		question_number: 41,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-operating-system-and-process-management",
 		options: [
 			{
@@ -1093,7 +1096,7 @@ const QUESTIONS: {
 	{
 		name: "If you wanted to require that a user enter an Administrator password to perform administrative tasks, what type of user account should you create for the user?",
 		question_number: 42,
-		weight: "2",
+		weight: "1",
 		subChapterId: "memory-management-file-systems-and-system-administration",
 		options: [
 			{
@@ -1119,7 +1122,7 @@ const QUESTIONS: {
 	{
 		name: "The process to gather the software requirements from client, analyze and document them is known as ___________________.",
 		question_number: 43,
-		weight: "2",
+		weight: "1",
 		subChapterId: "software-process-and-requirements",
 		options: [
 			{
@@ -1145,7 +1148,7 @@ const QUESTIONS: {
 	{
 		name: "What is reference architecture?",
 		question_number: 44,
-		weight: "2",
+		weight: "1",
 		subChapterId: "software-design",
 		options: [
 			{
@@ -1171,7 +1174,7 @@ const QUESTIONS: {
 	{
 		name: "Which of the following testing is sometime called as Acceptance testing?",
 		question_number: 45,
-		weight: "2",
+		weight: "1",
 		subChapterId:
 			"software-testing-cost-estimation-quality-management-and-configuration-management",
 		options: [
@@ -1198,7 +1201,7 @@ const QUESTIONS: {
 	{
 		name: "What is the purpose of representing system behaviour in OOAD?",
 		question_number: 46,
-		weight: "2",
+		weight: "1",
 		subChapterId: "objectoriented-fundamentals-and-analysis",
 		options: [
 			{
@@ -1224,7 +1227,7 @@ const QUESTIONS: {
 	{
 		name: "In object-oriented design, what does visibility refer to?",
 		question_number: 47,
-		weight: "2",
+		weight: "1",
 		subChapterId: "objectoriented-design",
 		options: [
 			{
@@ -1250,7 +1253,7 @@ const QUESTIONS: {
 	{
 		name: "How are relationships between classes represented when mapping design to code?",
 		question_number: 48,
-		weight: "2",
+		weight: "1",
 		subChapterId: "objectoriented-design-implementation",
 		options: [
 			{
@@ -1276,7 +1279,7 @@ const QUESTIONS: {
 	{
 		name: "In which type of environment, the next state of the environment is completely determined by the current state and the action taken by the agent?",
 		question_number: 49,
-		weight: "2",
+		weight: "1",
 		subChapterId: "introduction-to-ai-and-intelligent-agent",
 		options: [
 			{
@@ -1302,7 +1305,7 @@ const QUESTIONS: {
 	{
 		name: "Which searching technique is guaranteed to find the optimal solution in a state space search problem, assuming no path costs?",
 		question_number: 50,
-		weight: "2",
+		weight: "1",
 		subChapterId: "problem-solving-and-searching-techniques",
 		options: [
 			{
@@ -1328,7 +1331,7 @@ const QUESTIONS: {
 	{
 		name: "What is the main goal of the resolution algorithm in inference?",
 		question_number: 51,
-		weight: "2",
+		weight: "1",
 		subChapterId: "knowledge-representation",
 		options: [
 			{
@@ -1341,18 +1344,20 @@ const QUESTIONS: {
 			},
 			{
 				text: "To prove the satisfiability or un-satisfiability of a given set of logical statements",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "To find contradictions in the knowledge base",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The resolution algorithm is a core technique in automated theorem proving. It systematically derives new logical expressions from a set of clauses (logical statements) and checks if these new expressions lead to a contradiction (empty clause), indicating unsatisfiability, or if no contradiction is found, suggesting satisfiability.",
 	},
 	{
 		name: "What is the main goal of natural language understanding (NLU)?",
 		question_number: 52,
-		weight: "2",
+		weight: "1",
 		subChapterId: "expert-system-and-natural-language-processing",
 		options: [
 			{
@@ -1365,23 +1370,25 @@ const QUESTIONS: {
 			},
 			{
 				text: "Analyzing and interpreting the meaning of natural language text",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Extracting entities and their relationships from a text",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Natural language understanding (NLU) aims to bridge the gap between human language and machine comprehension. NLU systems analyze the structure and semantics of text to extract meaning, intent, and entities from user queries or textual data.",
 	},
 	{
 		name: "What is fuzzy learning in machine learning?",
 		question_number: 53,
-		weight: "2",
+		weight: "1",
 		subChapterId: "machine-learning",
 		options: [
 			{
 				text: "A type of learning algorithm that uses fuzzy logic to handle uncertain or imprecise data",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "A learning technique that focuses on training neural networks with fuzzy inputs",
@@ -1396,11 +1403,13 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Fuzzy learning leverages fuzzy logic, which can represent partial truths and degrees of membership, to train machine learning models. This is particularly useful for handling data with inherent vagueness or subjectivity.",
 	},
 	{
 		name: "Which neural network architecture is commonly used for processing sequential data, such as time series or natural language?Page 8",
 		question_number: 54,
-		weight: "2",
+		weight: "1",
 		subChapterId: "neural-networks",
 		options: [
 			{
@@ -1417,14 +1426,16 @@ const QUESTIONS: {
 			},
 			{
 				text: "Recurrent neural network (RNN)",
-				isAnswer: null,
+				isAnswer: true,
 			},
 		],
+		solution:
+			"Recurrent neural networks (RNNs) are specifically designed to handle sequential data. They incorporate loops within their architecture, allowing them to retain information from previous steps and use it to process subsequent elements in the sequence.",
 	},
 	{
 		name: "Standard dimensions (mm x mm) of A3 drawing sheet is",
 		question_number: 55,
-		weight: "2",
+		weight: "1",
 		subChapterId: "engineering-drawings-and-its-concepts",
 		options: [
 			{
@@ -1437,18 +1448,20 @@ const QUESTIONS: {
 			},
 			{
 				text: "297 × 420",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "420 × 280",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The standard dimensions for an A3 drawing sheet are 297 millimeters (mm) wide and 420 millimeters (mm) tall.",
 	},
 	{
 		name: "Which of the following methods of charging depreciation of an asset has increased amount of depreciation as the age of asset increases",
 		question_number: 56,
-		weight: "2",
+		weight: "1",
 		subChapterId: "engineering-economics",
 		options: [
 			{
@@ -1461,23 +1474,25 @@ const QUESTIONS: {
 			},
 			{
 				text: "diminishing balance",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "straight line",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The diminishing balance method of depreciation assigns a higher depreciation expense in the early years of an asset's life and a lower expense in later years. This reflects the decreasing value of the asset as it ages.",
 	},
 	{
 		name: "The process of optimizing the project’s limited resources without extending the project duration is known as",
 		question_number: 57,
-		weight: "2",
+		weight: "1",
 		subChapterId: "project-planning-and-scheduling",
 		options: [
 			{
 				text: "project crashing",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "resource levelling",
@@ -1492,16 +1507,18 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Project crashing involves actively reducing the project schedule by using techniques like adding more resources or employing faster methods, often at an increased cost.",
 	},
 	{
 		name: "The process of composing/raising the required fund from different sources such as equity, preferred stock, bond and debenture is known as",
 		question_number: 58,
-		weight: "2",
+		weight: "1",
 		subChapterId: "project-management",
 		options: [
 			{
 				text: "capital structure planning",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "project financing",
@@ -1516,11 +1533,13 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Capital structure planning determines the optimal mix of debt and equity financing to fund a company's operations and investments.",
 	},
 	{
 		name: "In which of the following society, people used to seek their existence on growing plants for their cattle and domestic animals",
 		question_number: 59,
-		weight: "2",
+		weight: "1",
 		subChapterId: "engineering-professional-practice",
 		options: [
 			{
@@ -1533,18 +1552,20 @@ const QUESTIONS: {
 			},
 			{
 				text: "horticultural society",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "agricultural society",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Horticultural societies primarily rely on cultivating plants for food, not directly for human consumption but for feeding livestock.",
 	},
 	{
 		name: "According to Nepal Engineering Council Act, 2055 (Revised, 2079), all engineering academic institutions shall be …………………….. in the Council.",
 		question_number: 60,
-		weight: "2",
+		weight: "1",
 		subChapterId: "engineering-regulatory-body",
 		options: [
 			{
@@ -1557,19 +1578,21 @@ const QUESTIONS: {
 			},
 			{
 				text: "recognized",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "associated",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The Nepal Engineering Council Act mandates that all engineering academic institutions must be recognized by the Council to operate and award degrees.",
 	},
 	{
 		name: "A 10 μH inductor, 40π2 pF capacitor and a 628 Ω resistor are connected to form a series RLC circuit. Calculate Q-factor of this circuit at resonant frequency.",
 		question_number: 61,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "network-theorems",
 		options: [
 			{
 				text: "1.0142x10-6",
@@ -1577,7 +1600,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "2.50",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "1.0142x10-9",
@@ -1588,12 +1611,13 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution: "Yet to be calculated or fixed.",
 	},
 	{
 		name: "A 400 mH coil of negligible resistance is connected to an AC circuit in which an effective current of 6 mA is flowing. Find out the voltage across the coil if the frequency is 1000 Hz.",
 		question_number: 62,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "alternating-current-fundamentals",
 		options: [
 			{
 				text: "15.07V",
@@ -1612,12 +1636,13 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution: "Yet to be calculated or fixed.",
 	},
 	{
 		name: "Convert (312)8 into decimal:",
 		question_number: 63,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "digital-logic",
 		options: [
 			{
 				text: "(200)10",
@@ -1625,7 +1650,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "(202)10",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "(204)10",
@@ -1636,16 +1661,18 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"To convert the octal number (312)₈ into decimal, we'll use the positional notation system where each digit's place represents a power of 8. \n (312)₈ = (3 * 8²) + (1 * 8¹) + (2 * 8⁰) \n = (3 * 64) + (1 * 8) + (2 * 1) \n = 192 + 8 + 2 \n = 202 \n So, (312)₈ = 202 in decimal.",
 	},
 	{
 		name: "A microcontroller is running a program with a clock frequency of 8 MHz. The microcontroller receives an interrupt request from an external device that requires 20 cycles to service. What is the time required to service the interrupt?",
 		question_number: 64,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "interrupt-operations",
 		options: [
 			{
 				text: "2.5 µs",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "20 ns",
@@ -1660,16 +1687,18 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"To find the time required to service the interrupt, we need to calculate the duration in seconds for 20 clock cycles at a clock frequency of 8 MHz. \n First, let's determine the duration of one clock cycle: \n [ \text{Clock Cycle Time} = \frac{1}{\text{Clock Frequency}} ] \n Given that the clock frequency is 8 MHz (8 million cycles per second), the clock cycle time is: \n [ \text{Clock Cycle Time} = \frac{1}{8 \times 10^6} ] \n [ \text{Clock Cycle Time} = 125 \text{ nanoseconds} ] \n Now, to find the time required to service the interrupt, we multiply the number of cycles by the duration of one cycle: \n [ \text{Interrupt Service Time} = \text{Number of Cycles} \times \text{Clock Cycle Time} ] \n Given that the interrupt requires 20 cycles to service, the interrupt service time is: \n 	[ \text{Interrupt Service Time} = 20 \times 125 \text{ nanoseconds} ] \n 	[ \text{Interrupt Service Time} = 2500 \text{ nanoseconds} ] \n So, the time required to service the interrupt is 2500 nanoseconds, or 2.5 microseconds.",
 	},
 	{
 		name: "Output of the program below will be ------------- \\n  #include <iostream>\\n  class Encapsulation {\\n private: int data;\\n public: Encapsulation() : data(0) {}\\n  void setData(int value) {\\n  data = value;\\n  }\\n  int getData() {\\n  return data;\\n  }\\n };\\n Page 10\\n int main() {\\n  Encapsulation obj;\\n  std::cout << obj.getData() << std::endl;\\n  return 0;\\n }",
 		question_number: 65,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "cpp-language-constructs-with-objects-and-classes",
 		options: [
 			{
 				text: "0",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Garbage value",
@@ -1684,12 +1713,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The program defines a class Encapsulation with a private data member data and public member functions setData() and getData(). \n In the main() function, an object obj of class Encapsulation is created. \n When obj.getData() is called, it returns the value of data, which is initialized to 0 in the constructor Encapsulation() : data(0) {}. \n Therefore, obj.getData() returns 0. \n This value is then printed using std::cout, resulting in the output 0 followed by a newline (\n).",
 	},
 	{
 		name: "What is the output of the following C code? \\n int x = 10, y = 20;\\n int *p = &x, *q = &y;\\n *p = *q;\\n *q = 30;",
 		question_number: 66,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "pointers-structure-and-data-files-in-c-programming",
 		options: [
 			{
 				text: "x = 10, y = 20",
@@ -1697,7 +1728,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "x = 20, y = 30",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "x = 30, y = 20",
@@ -1708,16 +1739,18 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"After executing the code, the values of x and y will be modified according to the operations performed: \n *p = *q; assigns the value of y (which is 20) to x. \n *q = 30; assigns the value 30 to y. \n Therefore, after executing the code: \n The value of x will be 20. \n The value of y will be 30. \n So, the output of this code is not explicitly printed. However, if you print the values of x and y after these operations, you'll get x = 20 and y = 30.",
 	},
 	{
 		name: "What is the result of the (0x5A3D - 0x28F1) + 0xABCD in hexadecimal notation?",
 		question_number: 67,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "computer-arithmetic-and-memory-system",
 		options: [
 			{
 				text: "0x8D7F",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "0x8E7E",
@@ -1732,12 +1765,13 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution: "Yet to be calculated or fixed.",
 	},
 	{
 		name: "What is the output of the y <= (a and b) xor (not b and c); VHDL code?",
 		question_number: 68,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "hardware-descripts-language-and-ic-technology",
 		options: [
 			{
 				text: "AND gate",
@@ -1749,19 +1783,21 @@ const QUESTIONS: {
 			},
 			{
 				text: "XOR gate",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "NAND gate",
 				isAnswer: null,
 			},
 		],
+		solution:
+			" The expression evaluates to: \n [ y = (a , \text{AND} , b) , \text{XOR} , (\text{NOT} , b , \text{AND} , c) ]",
 	},
 	{
 		name: "What is the data rate required to transmit signal with max frequency component of 10KHz for 8 bit per symbol?",
 		question_number: 69,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "introduction-to-computer-networks-and-physical-layer",
 		options: [
 			{
 				text: "80 KBPs",
@@ -1769,7 +1805,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "160 KBPs",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "< 160 KBPs",
@@ -1780,12 +1816,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"To calculate the data rate required to transmit a signal with a maximum frequency component of 10 kHz for 8 bits per symbol, we can use the Nyquist theorem. \n The Nyquist theorem states that the minimum sampling rate must be at least twice the maximum frequency component of the signal to accurately reconstruct the signal. \n Given that the maximum frequency component of the signal is 10 kHz, the Nyquist theorem suggests that we need a sampling rate of at least (2 \times 10 , \text{kHz} = 20 , \text{kHz}). \n Now, to find the data rate, we multiply the sampling rate by the number of bits per symbol. \n [ \text{Data rate} = \text{Sampling rate} \times \text{Bits per symbol} ] \n [ \text{Data rate} = 20 , \text{kHz} \times 8 , \text{bits per symbol} ] \n [ \text{Data rate} = 160 , \text{kbps} ] \n So, the data rate required to transmit the signal is 160 kbps.",
 	},
 	{
 		name: "A data packet of size 1500 bytes is to be transmitted over a network crossing 2 routers in between. Each network layer adds a header of 20 bytes. The packet is then encapsulated by a data link layer that adds a header of 30 bytes and a trailer of 10 bytes. What is the total size of the packet, including all headers and the data payload?",
 		question_number: 70,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "network-layer",
 		options: [
 			{
 				text: "1550 bytes",
@@ -1797,19 +1835,44 @@ const QUESTIONS: {
 			},
 			{
 				text: "1620 bytes",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "1680 bytes",
 				isAnswer: null,
 			},
 		],
+		solution: `To find the total size of the packet, including all headers and the data payload, we need to calculate the sizes of all the headers and the data payload, and then sum them up.
+
+		Given:
+		- Data packet size: 1500 bytes
+		- Each network layer adds a header of 20 bytes
+		- Encapsulation by a data link layer adds a header of 30 bytes and a trailer of 10 bytes
+
+		First, let's calculate the sizes of the headers and the data payload:
+
+		1. Data payload size = 1500 bytes
+		2. Network layer headers size = 2 routers * 2 layers * 20 bytes = 80 bytes
+		3. Data link layer headers size = 30 bytes
+		4. Data link layer trailer size = 10 bytes
+
+		Now, let's sum up all the sizes:
+
+		Total size = Data payload size + Network layer headers size + Data link layer headers size + Data link layer trailer size
+
+		\[ \text{Total size} = 1500 \, \text{bytes} + 80 \\, \text{bytes} + 30 \, \text{bytes} + 10 \, \text{bytes} \]
+
+		\[ \text{Total size} = 1500 \, \text{bytes} + 80 \, \text{bytes} + 30 \, \text{bytes} + 10 \, \text{bytes} \]
+
+		\[ \text{Total size} = 1620 \, \text{bytes} \]
+
+		So, the total size of the packet, including all headers and the data payload, is 1620 bytes.`,
 	},
 	{
 		name: "Consider CFG with {S,A,B} as the non-terminal alphabet, {a,b} as the terminal alphabet, S as the start symbol and the following set of production rules S->aB S->bA B->aB->bS A->aS B->aBB A-> bAA which of the following strings is generated by grammar ?",
 		question_number: 71,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "introduction-to-context-free-language",
 		options: [
 			{
 				text: "aaaabb",
@@ -1821,19 +1884,20 @@ const QUESTIONS: {
 			},
 			{
 				text: "aabbab",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "abbbba",
 				isAnswer: null,
 			},
 		],
+		solution: "",
 	},
 	{
 		name: "An efficient transformation method which produces a parallel mirror image of an object is also referred as,",
 		question_number: 72,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "twodimensional-transformation",
 		options: [
 			{
 				text: "Rotation",
@@ -1841,7 +1905,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "Reflection",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Shear",
@@ -1852,12 +1916,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"An efficient transformation method that produces a parallel mirror image of an object is commonly referred to as reflection or mirror reflection. This transformation flips the object across a specified axis, resulting in a mirrored version of the original object.",
 	},
 	{
 		name: 'What does the following function do for a given Linked List with first node as head? \\n  void fun1(struct node* head) \\n { \\n if (head == NULL) \\n return; \\n fun1(head->next); \\n printf("%d ", head->data); \\n }',
 		question_number: 73,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "introduction-to-data-structure-list-linked-lists-and-trees",
 		options: [
 			{
 				text: "Prints all nodes of linked lists",
@@ -1865,7 +1931,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "Prints all nodes of linked list in reverse order",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Prints alternate nodes of Linked List",
@@ -1876,12 +1942,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The given function fun1 recursively prints the elements of a linked list in reverse order. Here's how it works: \n It checks if the current node head is NULL. If it is, it returns immediately because there's nothing to print.\n If the current node is not NULL, it recursively calls the function fun1 with the next node (head->next).\n After the recursive call returns (when the end of the list is reached), it prints the data of the current node (head->data).\n So, when you call this function with the head of a linked list, it will print the elements of the linked list in reverse order.",
 	},
 	{
 		name: "Consider the following three processes in the FCFS. \\n Process ID. Brust-time Arrival-time \\n P1 3 3 \\n P2 6 6 \\n P3 9 9 \\n What is the average waiting time?",
 		question_number: 74,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "introduction-to-operating-system-and-process-management",
 		options: [
 			{
 				text: "2",
@@ -1889,7 +1957,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "3",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "4",
@@ -1900,12 +1968,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution: "Yet to be calculated or fixed.",
 	},
 	{
 		name: "Which of the following statements best describes the role of a configuration management tool in software engineering?",
 		question_number: 75,
 		weight: "2",
-		subChapterId: null,
+		subChapterId:
+			"software-testing-cost-estimation-quality-management-and-configuration-management",
 		options: [
 			{
 				text: "It helps a graphical user interface for designing software architectures.",
@@ -1917,23 +1987,25 @@ const QUESTIONS: {
 			},
 			{
 				text: "It helps track, control, and manage changes to software artifacts throughout the development lifecycle.",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "It helps the testing and debugging software applications to ensure their correctness.",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Configuration management tools are primarily used to manage changes to software artifacts such as source code, documentation, requirements, and other project-related files.",
 	},
 	{
 		name: "What is the correct order of phases in the Object-Oriented Development Cycle?",
 		question_number: 76,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "objectoriented-fundamentals-and-analysis",
 		options: [
 			{
 				text: "Analysis, Design, Implementation, Testing, Maintenance",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Design, Analysis, Implementation, Maintenance, Testing",
@@ -1948,12 +2020,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The correct order of phases in the Object-Oriented Development Cycle typically includes the following phases: 1 Requirements Gathering and Analysis, System Design, Implementation, Testing, Deployment, Maintenance",
 	},
 	{
 		name: "Greedy Best-First Search is an informed search algorithm that:",
 		question_number: 77,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "problem-solving-and-searching-techniques",
 		options: [
 			{
 				text: "Expands nodes based on their depth in the search tree",
@@ -1961,7 +2035,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "Expands nodes based on their evaluation function value",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Expands nodes randomly without any heuristic guidance",
@@ -1972,16 +2046,18 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"In Greedy Best-First Search, nodes are expanded based on their evaluation function value, which represents how promising the nodes are in terms of reaching the goal state. The evaluation function typically estimates the cost or distance from the current node to the goal node. The algorithm selects the node with the lowest evaluation function value (i.e., the most promising node) and expands it first. \n This approach makes Greedy Best-First Search a greedy algorithm because it makes locally optimal choices at each step, aiming to reach the goal state as quickly as possible based on the current information. However, it does not necessarily guarantee finding the globally optimal solution since it does not consider the full path to the goal. Instead, it focuses on immediate gains based on the evaluation function value.",
 	},
 	{
 		name: "Which of the following activation functions is commonly used for the output layer of a binary classification neural network?",
 		question_number: 78,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "neural-networks",
 		options: [
 			{
 				text: "Sigmoid activation function",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "Tanh activation function",
@@ -1996,12 +2072,14 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution:
+			"The Sigmoid activation function is commonly used for the output layer of a binary classification neural network because it squashes the output values between 0 and 1, allowing them to be interpreted as probabilities. This is ideal for binary classification tasks, where the goal is to classify inputs into one of two categories.",
 	},
 	{
 		name: "Effective monthly interest rate will be …………., if nominal interest rate of 10% accounted for continuous compounding",
 		question_number: 79,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "engineering-economics",
 		options: [
 			{
 				text: "1%",
@@ -2009,7 +2087,7 @@ const QUESTIONS: {
 			},
 			{
 				text: "0.84%",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "1.2%",
@@ -2020,12 +2098,13 @@ const QUESTIONS: {
 				isAnswer: null,
 			},
 		],
+		solution: "The effective monthly interest rate will be 0.84%.",
 	},
 	{
 		name: "By considering following activities of a project, the project duration will be \\n Activity A B C D E \\n Immediate predecessors - - - C A, B, D \\n Duration (days) 4 5 3 7 5",
 		question_number: 80,
 		weight: "2",
-		subChapterId: null,
+		subChapterId: "project-planning-and-scheduling",
 		options: [
 			{
 				text: "9 days",
@@ -2037,13 +2116,15 @@ const QUESTIONS: {
 			},
 			{
 				text: "15 days",
-				isAnswer: null,
+				isAnswer: true,
 			},
 			{
 				text: "24 days",
 				isAnswer: null,
 			},
 		],
+		solution:
+			"Therefore, the project duration is the sum of the durations of activities on the critical path: Project duration = 4 days (A) + 7 days (D) + 5 days (E) = 16 days.",
 	},
 ];
 
@@ -2578,6 +2659,38 @@ const runSeed = async () => {
 	]);
 
 	await db.insert(subChapters).values(SUB_CHAPTERS);
+
+	const res = await db
+		.insert(questions)
+		.values(
+			QUESTIONS.map((q) => ({
+				...q,
+				status: "PUBLISHED" as const,
+			}))
+		)
+		.returning({
+			id: questions.id,
+		});
+
+	const OPTION_ARRAY: {
+		name: string;
+		questionId: string;
+		isAnswer: boolean | null;
+	}[] = [];
+
+	res.forEach(({ id }, index) => {
+		const options = QUESTIONS[index]?.options;
+
+		options?.forEach((option) => {
+			OPTION_ARRAY.push({
+				name: option.text,
+				questionId: id,
+				isAnswer: option.isAnswer,
+			});
+		});
+	});
+
+	await db.insert(options).values(OPTION_ARRAY);
 
 	await db.insert(exams).values([
 		{
