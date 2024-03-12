@@ -6,6 +6,7 @@ import courseRouter from "@/server/api/routers/course";
 import subChapterRouter from "@/server/api/routers/sub-chapter";
 import examRouter from "./routers/exam";
 import patternRouter from "./routers/pattern";
+import testRouter from "./routers/test";
 
 /**
  * This is the primary router for your server.
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
 	subChapter: subChapterRouter,
 	exam: examRouter,
 	pattern: patternRouter,
+	test: testRouter,
 });
 
 // export type definition of API

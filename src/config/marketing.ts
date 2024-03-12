@@ -18,6 +18,11 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
 		icon: "post",
 	},
 	{
+		title: "Tests",
+		href: "/tests",
+		icon: "post",
+	},
+	{
 		title: "Settings",
 		href: "/dashboard/settings",
 		icon: "settings",

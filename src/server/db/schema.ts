@@ -24,6 +24,13 @@ export const publishStatusEnum = pgEnum("publish_status", [
 	"ARCHIVED",
 ]);
 
+export const testStatusEnum = pgEnum("test_status", [
+	"STARTED",
+	"SUBMITTED",
+	"ABANDONED",
+	"COMPLETED",
+]);
+
 export const questionWeightEnum = pgEnum("question_weight", ["1", "2"]);
 
 // Courses Table
@@ -89,6 +96,9 @@ export const exams = createTable("exam", {
 	id: varchar("id", { length: 255 }).notNull().primaryKey(),
 	name: varchar("name", { length: 255 }),
 	status: publishStatusEnum("status").default("DRAFT").notNull(),
+	duration: integer("duration")
+		.default(2 * 60 * 60) // 2 hours
+		.notNull(),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 	})
@@ -103,6 +113,7 @@ export const exams = createTable("exam", {
 
 export const examRelations = relations(exams, ({ many }) => ({
 	patterns: many(patterns),
+	tests: many(tests),
 }));
 
 // Pattern Table
@@ -159,6 +170,79 @@ export const patternsToSubChaptersRelations = relations(
 		}),
 	})
 );
+
+// Test Table
+
+export const tests = createTable("test", {
+	id: varchar("id", { length: 255 })
+		.notNull()
+		.primaryKey()
+		.default(sql`gen_random_uuid()`),
+	examId: varchar("exam_id", { length: 255 })
+		.notNull()
+		.references(() => exams.id, { onDelete: "cascade" }),
+	status: testStatusEnum("status").default("STARTED").notNull(),
+	examinee: varchar("examinee", { length: 255 })
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	startTime: timestamp("start_time", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
+	endTime: timestamp("end_time", {
+		withTimezone: true,
+	}),
+	createdAt: timestamp("created_at", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp("updated_at", {
+		withTimezone: true,
+	})
+		.defaultNow()
+		.notNull(),
+});
+
+export const testRelations = relations(tests, ({ one, many }) => ({
+	exam: one(exams, {
+		fields: [tests.examId],
+		references: [exams.id],
+	}),
+	questions: many(testQuestions),
+}));
+
+// Test Question Table
+
+export const testQuestions = createTable(
+	"test_question",
+	{
+		questionNumber: integer("question_number").notNull(),
+		testId: varchar("test_id", { length: 255 })
+			.notNull()
+			.references(() => tests.id, { onDelete: "cascade" }),
+		questionId: varchar("question_id", { length: 255 })
+			.references(() => questions.id)
+			.notNull(),
+	},
+	(testQuestion) => ({
+		pk: primaryKey({
+			columns: [testQuestion.testId, testQuestion.questionId],
+		}),
+	})
+);
+
+export const testQuestionsRelations = relations(testQuestions, ({ one }) => ({
+	test: one(tests, {
+		fields: [testQuestions.testId],
+		references: [tests.id],
+	}),
+	question: one(questions, {
+		fields: [testQuestions.questionId],
+		references: [questions.id],
+	}),
+}));
 
 // Issues Table
 
