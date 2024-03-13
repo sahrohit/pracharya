@@ -8,7 +8,6 @@ import {
 	adminProcedure,
 	createTRPCRouter,
 	protectedProcedure,
-	publicProcedure,
 } from "@/server/api/trpc";
 import { tests, testQuestions } from "@/server/db/schema";
 import { type SelectTest } from "@/server/db/types";
