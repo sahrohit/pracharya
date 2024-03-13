@@ -19,7 +19,7 @@ export const DASHBOARD_NAV_ITEM: NavItem[] = [
 	},
 	{
 		title: "Tests",
-		href: "/tests",
+		href: "/dashboard/tests",
 		icon: "post",
 	},
 	{

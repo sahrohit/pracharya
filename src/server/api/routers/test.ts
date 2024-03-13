@@ -1,4 +1,4 @@
-import { and, asc, desc, inArray, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -52,7 +52,7 @@ const testRouter = createTRPCRouter({
 			})
 		),
 
-	list: publicProcedure
+	list: protectedProcedure
 		.meta({ description: "Lists all tests" })
 		.input(
 			z.object({
@@ -106,6 +106,7 @@ const testRouter = createTRPCRouter({
 							})
 						: undefined,
 					statuses.length > 0 ? inArray(tests.status, statuses) : undefined,
+					eq(tests.examinee, ctx.session.user.id),
 				];
 
 				const query =
@@ -149,6 +150,13 @@ const testRouter = createTRPCRouter({
 			}
 		}),
 
+	// ! This performs independet 80-100 * 2 queries based on the pattern
+	// ! Couldn't find a way to optimize this, and sticking with it for now
+	// ! Hours wasted: 3hrs + 5hrs + 1hr
+
+	// ! Putting all of them in a transaction
+	// ! That also fails after 46th question (out of 100) insertions with a connection error from pg client
+
 	create: protectedProcedure
 		.meta({ description: "Create an Test" })
 		.input(
@@ -157,29 +165,47 @@ const testRouter = createTRPCRouter({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			// Getting the Exam and Pattern from the Exam Id
-			const exam = await ctx.db.query.exams.findFirst({
-				with: {
-					patterns: {
-						with: {
-							subChapters: true,
+			const { exam, test } = await ctx.db.transaction(async (tx) => {
+				// Getting the Exam and Pattern from the Exam Id
+				const exam = await tx.query.exams.findFirst({
+					with: {
+						patterns: {
+							with: {
+								subChapters: true,
+							},
 						},
 					},
-				},
-				where: (exams, { eq }) => eq(exams.id, input.examId),
-			});
+					where: (exams, { eq }) => eq(exams.id, input.examId),
+				});
 
-			// Throw error if exam not found
-			if (!exam) {
-				throw new TRPCError({ code: "NOT_FOUND" });
-			}
+				// Throw error if exam not found
+				if (!exam) {
+					tx.rollback();
+					throw new TRPCError({ code: "NOT_FOUND" });
+				}
+
+				const test = await tx
+					.insert(tests)
+					.values({
+						examId: input.examId,
+						examinee: ctx.session.user.id,
+						status: "STARTED",
+						startTime: new Date(),
+						endTime: dayjs().add(exam.duration, "seconds").toDate(),
+					})
+					.returning({
+						id: tests.id,
+					});
+
+				return { exam, test };
+			});
 
 			// Collection of Questions
 			const QUESTIONS: { id: string; questionNumber: number }[] = [];
 
 			// eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-misused-promises
-			exam.patterns.forEach(async (pattern) => {
-				// console.log("Questions", QUESTIONS, "index", index);
+			exam.patterns.reduce(async (previousPromise, pattern) => {
+				await previousPromise;
 				const possibleSubChapters = pattern.subChapters
 					.map((subChapter) => subChapter.subChapterId)
 					.flatMap((f) => (f ? [f] : []));
@@ -212,36 +238,13 @@ const testRouter = createTRPCRouter({
 					id: question.id,
 					questionNumber: pattern.questionNumber,
 				});
-			});
 
-			// console.log("After Loop", QUESTIONS);
-
-			const test = await ctx.db
-				.insert(tests)
-				.values({
-					examId: input.examId,
-					examinee: ctx.session.user.id,
-					status: "STARTED",
-					startTime: new Date(),
-					endTime: dayjs().add(exam.duration, "seconds").toDate(),
-				})
-				.returning({
-					id: tests.id,
-				});
-
-			if (!test?.[0]?.id) {
-				throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-			}
-
-			// console.log("QUESTIONS", QUESTIONS);
-
-			await ctx.db.insert(testQuestions).values(
-				QUESTIONS.map(({ id, questionNumber }) => ({
-					questionId: id,
+				await ctx.db.insert(testQuestions).values({
+					questionId: question.id,
 					testId: test[0]?.id ?? "",
-					questionNumber,
-				}))
-			);
+					questionNumber: pattern.questionNumber,
+				});
+			}, Promise.resolve());
 		}),
 
 	updateStatus: adminProcedure
