@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Test from "@/components/forms/test";
 import { api } from "@/trpc/server";
 
@@ -7,6 +7,10 @@ const Exam = async ({ params }: { params: { slug: string } }) => {
 
 	if (!test) {
 		notFound();
+	}
+
+	if (test.status !== "STARTED") {
+		redirect(`/report/${params.slug}`);
 	}
 
 	return <Test test={test} />;

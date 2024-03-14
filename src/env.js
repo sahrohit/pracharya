@@ -35,6 +35,7 @@ export const env = createEnv({
 		GOOGLE_CLIENT_SECRET: z.string(),
 
 		RESEND_API_KEY: z.string(),
+		QSTASH_TOKEN: z.string(),
 	},
 
 	/**
@@ -58,6 +59,7 @@ export const env = createEnv({
 	 * middlewares) or client-side so we need to destruct manually.
 	 */
 	runtimeEnv: {
+		QSTASH_TOKEN: process.env.QSTASH_TOKEN,
 		DATABASE_URL: process.env.DATABASE_URL,
 		NODE_ENV: process.env.NODE_ENV,
 		AUTH_SECRET: process.env.AUTH_SECRET,

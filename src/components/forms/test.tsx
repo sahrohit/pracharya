@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 "use client";
 
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
@@ -10,6 +11,8 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
 	Form,
@@ -21,7 +24,19 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { type SelectTestWithQuestions } from "@/server/db/types";
-import { questionWeightEnum } from "@/server/db/schema";
+import { api } from "@/trpc/react";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { catchError } from "@/lib/catch-error";
 
 const Timer = dynamic(() => import("@/components/shared/timer"), {
 	ssr: false,
@@ -29,46 +44,13 @@ const Timer = dynamic(() => import("@/components/shared/timer"), {
 
 dayjs.extend(relativeTime);
 
-export function getDirtyValues<
-	DirtyFields extends Record<string, unknown>,
-	Values extends Record<keyof DirtyFields, unknown>,
->(dirtyFields: DirtyFields, values: Values): Partial<typeof values> {
-	const dirtyValues = Object.keys(dirtyFields).reduce((prev, key) => {
-		// Unsure when RFH sets this to `false`, but omit the field if so.
-		if (!dirtyFields[key]) return prev;
-
-		return {
-			...prev,
-			[key]:
-				typeof dirtyFields[key] === "object"
-					? getDirtyValues(
-							dirtyFields[key] as DirtyFields,
-							values[key] as Values
-						)
-					: values[key],
-		};
-	}, {});
-
-	return dirtyValues;
-}
-
 export const TestSchema = z.object({
 	questions: z.array(
 		z.object({
 			markedForReview: z.boolean(),
 			answer: z.string().optional(),
-			weight: z.enum(questionWeightEnum.enumValues),
 			testId: z.string(),
-			questionNumber: z.coerce.number(),
 			questionId: z.string(),
-			question: z.string(),
-			options: z.array(
-				z.object({
-					id: z.string(),
-					name: z.string(),
-					questionId: z.string(),
-				})
-			),
 		})
 	),
 });
@@ -82,108 +64,118 @@ const Test = ({
 	onSuccess?: () => void;
 	test: SelectTestWithQuestions;
 }) => {
+	const { mutateAsync: updateTestQuestion } =
+		api.test.updateTestQuestion.useMutation();
+
+	const { mutateAsync: submitTest } = api.test.submitTest.useMutation();
+
 	const form = useForm<TestValues>({
 		resolver: zodResolver(TestSchema),
 		defaultValues: {
 			questions: test.questions
+				.sort((a, b) => a.questionNumber - b.questionNumber)
 				.map((question) => ({
-					markedForReview: false,
-					answer: "",
+					markedForReview: !!question.markedForReview,
+					answer: question.selectedAnswer ?? undefined,
 					testId: test.id,
-					questionNumber: question.questionNumber,
 					questionId: question.questionId,
-					question: question.question.name ?? "",
-					weight: question.question.weight,
-					options: question.question.options.map((option) => ({
-						id: option.id,
-						name: option.name,
-						questionId: option.questionId,
-					})),
-				}))
-				.sort((a, b) => a.questionNumber - b.questionNumber),
+				})),
 		},
 	});
 
-	const { fields } = useFieldArray({
-		control: form.control,
-		name: "questions",
-	});
+	const onSubmit = (values: TestValues) => {
+		form.formState.dirtyFields.questions
+			?.map((question, index) => question.answer && index)
+			.filter((val) => val !== null && val !== false)
+			.forEach(async (val) => {
+				await updateTestQuestion({
+					markedForReview: !!values.questions[val as number]?.markedForReview,
+					answer: values.questions[val as number]?.answer,
+					testId: test.id,
+					questionId: test.questions[val as number]?.questionId ?? "",
+				});
+			});
 
-	const onSubmit = (_values: TestValues) => {
+		form.reset({}, { keepValues: true });
 		onSuccess?.();
 	};
 
-	console.log(getDirtyValues(form.formState.dirtyFields, form.getValues()));
+	useEffect(() => {
+		const subscription = form.watch(() => form.handleSubmit(onSubmit)());
+		return () => subscription.unsubscribe();
+	}, [form.handleSubmit, form.watch]);
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="container flex flex-col gap-12 md:flex-row">
 					<div className="my-16 flex max-w-4xl flex-col gap-6">
-						{fields.map((mfield, index) => (
-							<FormField
-								key={mfield.questionId}
-								control={form.control}
-								name={`questions.${index}.answer`}
-								render={({ field }) => (
-									<FormItem
-										id={`question-number-${mfield.questionNumber}`}
-										className="space-y-3"
-									>
-										<FormLabel className="flex select-none flex-row justify-between gap-4">
-											<p className="whitespace-pre-line">
-												{mfield.questionNumber}. {mfield.question}
-											</p>
-											<p className="whitespace-nowrap">
-												[{mfield.weight} Marks]
-											</p>
-										</FormLabel>
-										<FormControl>
-											<RadioGroup
-												onValueChange={(val) => {
-													field.onChange(val);
-													form.setValue(
-														`questions.${index}.markedForReview`,
-														false
-													);
-												}}
-												defaultValue={field.value}
-												className="flex flex-col space-y-1"
-											>
-												{mfield.options.map((option) => (
-													<FormItem
-														key={option.id}
-														className="flex items-center space-x-3 space-y-0"
-													>
-														<FormControl>
-															<RadioGroupItem value={option.id} />
-														</FormControl>
-														<FormLabel className="select-none font-normal">
-															{option.name}
-														</FormLabel>
-													</FormItem>
-												))}
-											</RadioGroup>
-										</FormControl>
-										<FormMessage />
-										<div className="flex flex-row gap-4">
-											<Button
-												size="sm"
-												variant="link"
-												onClick={() =>
-													form.setValue(
-														`questions.${index}.markedForReview`,
-														true
-													)
-												}
-											>
-												Mark for Review
-											</Button>
-										</div>
-									</FormItem>
-								)}
-							/>
-						))}
+						{test.questions
+							.sort((a, b) => a.questionNumber - b.questionNumber)
+							.map((question, index) => (
+								<FormField
+									key={question.questionId}
+									control={form.control}
+									name={`questions.${index}.answer`}
+									render={({ field }) => (
+										<FormItem
+											id={`question-number-${question.questionNumber}`}
+											className="space-y-3"
+										>
+											<FormLabel className="flex select-none flex-row justify-between gap-4">
+												<p className="whitespace-pre-line">
+													{question.questionNumber}. {question.question.name}
+												</p>
+												<p className="whitespace-nowrap">
+													[{question.question.weight} Marks]
+												</p>
+											</FormLabel>
+											<FormControl>
+												<RadioGroup
+													onValueChange={(val) => {
+														field.onChange(val);
+														form.setValue(
+															`questions.${index}.markedForReview`,
+															false
+														);
+													}}
+													defaultValue={field.value}
+													className="flex flex-col space-y-1"
+												>
+													{question.question.options.map((option) => (
+														<FormItem
+															key={option.id}
+															className="flex items-center space-x-3 space-y-0"
+														>
+															<FormControl>
+																<RadioGroupItem value={option.id} />
+															</FormControl>
+															<FormLabel className="select-none font-normal">
+																{option.name}
+															</FormLabel>
+														</FormItem>
+													))}
+												</RadioGroup>
+											</FormControl>
+											<FormMessage />
+											<div className="flex flex-row gap-4">
+												<Button
+													size="sm"
+													variant="link"
+													onClick={() =>
+														form.setValue(
+															`questions.${index}.markedForReview`,
+															true
+														)
+													}
+												>
+													Mark for Review
+												</Button>
+											</div>
+										</FormItem>
+									)}
+								/>
+							))}
 					</div>
 
 					<div className="relative">
@@ -213,9 +205,9 @@ const Test = ({
 								</div>
 							</div>
 							<div className="grid max-w-sm grid-cols-8 gap-1">
-								{form.watch("questions").map((question) => (
+								{form.watch("questions").map((question, index) => (
 									<Link
-										key={`quick-preview-question-${question.questionNumber}`}
+										key={`quick-preview-question-${index + 1}`}
 										className={buttonVariants({
 											variant: question.answer
 												? "secondary"
@@ -224,16 +216,50 @@ const Test = ({
 													: "default",
 											size: "sm",
 										})}
-										href={`#question-number-${question.questionNumber}`}
+										href={`#question-number-${index + 1}`}
 									>
-										{question.questionNumber}
+										{index + 1}
 									</Link>
 								))}
 							</div>
 							<div className="flex flex-col gap-2">
-								<Button type="submit" className="w-full">
-									Submit
-								</Button>
+								<AlertDialog>
+									<AlertDialogTrigger asChild>
+										<Button type="button" className="w-full">
+											Submit
+										</Button>
+									</AlertDialogTrigger>
+									<AlertDialogContent>
+										<AlertDialogHeader>
+											<AlertDialogTitle>
+												Are you absolutely sure you want to submit this test?
+											</AlertDialogTitle>
+											<AlertDialogDescription>
+												Once submitted, you will not be able to change your
+												answers.
+											</AlertDialogDescription>
+										</AlertDialogHeader>
+										<AlertDialogFooter>
+											<AlertDialogCancel>Cancel</AlertDialogCancel>
+											<AlertDialogAction
+												onClick={() =>
+													toast.promise(
+														submitTest({
+															testId: test.id,
+														}),
+														{
+															loading: "Submitting Test...",
+															success: "Test Submitted",
+															error: catchError,
+														}
+													)
+												}
+											>
+												Continue
+											</AlertDialogAction>
+										</AlertDialogFooter>
+									</AlertDialogContent>
+								</AlertDialog>
 								<Button type="button" variant="destructive" className="w-full">
 									Quit
 								</Button>

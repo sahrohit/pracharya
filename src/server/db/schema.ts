@@ -225,6 +225,10 @@ export const testQuestions = createTable(
 		questionId: varchar("question_id", { length: 255 })
 			.references(() => questions.id)
 			.notNull(),
+		selectedAnswer: varchar("selected_answer", { length: 255 }).references(
+			() => options.id
+		),
+		markedForReview: boolean("marked_for_review").default(false).notNull(),
 	},
 	(testQuestion) => ({
 		pk: primaryKey({

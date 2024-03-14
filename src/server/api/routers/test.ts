@@ -12,6 +12,8 @@ import {
 import { tests, testQuestions } from "@/server/db/schema";
 import { type SelectTest } from "@/server/db/types";
 import filterColumn from "@/lib/filter-column";
+import qstash from "@/lib/qstash";
+import { env } from "@/env";
 
 const testRouter = createTRPCRouter({
 	get: protectedProcedure
@@ -242,9 +244,67 @@ const testRouter = createTRPCRouter({
 					questionId: question.id,
 					testId: test[0]?.id ?? "",
 					questionNumber: pattern.questionNumber,
+					markedForReview: false,
 				});
 			}, Promise.resolve());
+
+			return qstash.publishJSON({
+				url: `${env.NEXT_PUBLIC_APP_URL}/api/close-test`,
+				body: { testId: test[0]?.id },
+				delay: exam.duration,
+			});
 		}),
+
+	submitTest: protectedProcedure
+		.meta({
+			description: "Submit Test",
+		})
+		.input(
+			z.object({
+				testId: z.string().describe("Test Id"),
+			})
+		)
+		.mutation(async ({ ctx, input }) =>
+			ctx.db
+				.update(tests)
+				.set({
+					status: "SUBMITTED",
+				})
+				.where(
+					and(
+						eq(tests.id, input.testId),
+						eq(tests.examinee, ctx.session.user.id)
+					)
+				)
+		),
+
+	updateTestQuestion: protectedProcedure
+		.meta({
+			description:
+				"Updated Test Question details, such as answers, marked for review etc",
+		})
+		.input(
+			z.object({
+				markedForReview: z.boolean().describe("Marked for review"),
+				answer: z.string().optional().describe("Selected Option Id"),
+				testId: z.string().describe("Test Id"),
+				questionId: z.string().describe("Question Id"),
+			})
+		)
+		.mutation(async ({ ctx, input }) =>
+			ctx.db
+				.update(testQuestions)
+				.set({
+					selectedAnswer: input.answer,
+					markedForReview: input.markedForReview,
+				})
+				.where(
+					and(
+						eq(testQuestions.testId, input.testId),
+						eq(testQuestions.questionId, input.questionId)
+					)
+				)
+		),
 
 	updateStatus: adminProcedure
 		.meta({ description: "Update Exam Status" })
