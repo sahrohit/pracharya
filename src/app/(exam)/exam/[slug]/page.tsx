@@ -9,12 +9,7 @@ const Exam = async ({ params }: { params: { slug: string } }) => {
 		notFound();
 	}
 
-	return (
-		<div>
-			<p>Params: {params.slug}</p>
-			<Test test={test} />
-		</div>
-	);
+	return <Test test={test} />;
 };
 
 export default Exam;
