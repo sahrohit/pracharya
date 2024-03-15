@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, lt, lte, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -248,11 +248,16 @@ const testRouter = createTRPCRouter({
 				});
 			}, Promise.resolve());
 
-			return qstash.publishJSON({
-				url: `${env.NEXT_PUBLIC_APP_URL}/api/close-test`,
-				body: { testId: test[0]?.id },
-				delay: exam.duration,
-			});
+			// Publish test to Qstash
+			if (env.NODE_ENV === "production") {
+				await qstash.publishJSON({
+					url: `${env.NEXT_PUBLIC_APP_URL}/api/close-test`,
+					body: { testId: test[0]?.id },
+					delay: exam.duration,
+				});
+			}
+
+			return { testId: test[0]?.id };
 		}),
 
 	submitTest: protectedProcedure
@@ -291,8 +296,19 @@ const testRouter = createTRPCRouter({
 				questionId: z.string().describe("Question Id"),
 			})
 		)
-		.mutation(async ({ ctx, input }) =>
-			ctx.db
+		.mutation(async ({ ctx, input }) => {
+			const test = await ctx.db.query.tests.findFirst({
+				where: (tests, { eq }) => eq(tests.id, input.testId),
+			});
+
+			if (
+				test?.status !== "STARTED" ||
+				new Date().getTime() > test.endTime?.getTime()
+			) {
+				throw new TRPCError({ code: "CLIENT_CLOSED_REQUEST" });
+			}
+
+			return ctx.db
 				.update(testQuestions)
 				.set({
 					selectedAnswer: input.answer,
@@ -303,8 +319,8 @@ const testRouter = createTRPCRouter({
 						eq(testQuestions.testId, input.testId),
 						eq(testQuestions.questionId, input.questionId)
 					)
-				)
-		),
+				);
+		}),
 
 	updateStatus: adminProcedure
 		.meta({ description: "Update Exam Status" })

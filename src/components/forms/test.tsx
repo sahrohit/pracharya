@@ -13,6 +13,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
 	Form,
@@ -64,6 +65,7 @@ const Test = ({
 	onSuccess?: () => void;
 	test: SelectTestWithQuestions;
 }) => {
+	const router = useRouter();
 	const { mutateAsync: updateTestQuestion } =
 		api.test.updateTestQuestion.useMutation();
 
@@ -249,7 +251,10 @@ const Test = ({
 														}),
 														{
 															loading: "Submitting Test...",
-															success: "Test Submitted",
+															success: () => {
+																router.push(`/report/${test.id}`);
+																return "Test Submitted";
+															},
 															error: catchError,
 														}
 													)

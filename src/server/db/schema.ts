@@ -192,7 +192,7 @@ export const tests = createTable("test", {
 		.notNull(),
 	endTime: timestamp("end_time", {
 		withTimezone: true,
-	}),
+	}).notNull(),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 	})

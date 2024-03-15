@@ -7,6 +7,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -39,6 +40,7 @@ export const TestFormSchema = z.object({
 type TestFormValues = z.infer<typeof TestFormSchema>;
 
 const TestForm = ({ onSuccess }: { onSuccess?: () => void }) => {
+	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
 
 	const form = useForm<TestFormValues>({
@@ -54,7 +56,8 @@ const TestForm = ({ onSuccess }: { onSuccess?: () => void }) => {
 		startTransition(() => {
 			toast.promise(mutateAsync(values), {
 				loading: "Creating Exam...",
-				success: () => {
+				success: (res) => {
+					router.push(`/exam/${res.testId}`);
 					onSuccess?.();
 					return "Exam Created";
 				},
