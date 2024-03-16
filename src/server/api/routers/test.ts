@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, inArray, lt, lte, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -14,6 +14,7 @@ import { type SelectTest } from "@/server/db/types";
 import filterColumn from "@/lib/filter-column";
 import qstash from "@/lib/qstash";
 import { env } from "@/env";
+import getTestQuestions from "@/server/api/common/generate-question";
 
 const testRouter = createTRPCRouter({
 	get: protectedProcedure
@@ -202,51 +203,33 @@ const testRouter = createTRPCRouter({
 			});
 
 			// Collection of Questions
-			const QUESTIONS: { id: string; questionNumber: number }[] = [];
+			const PATTERNS: {
+				questionId: string | null;
+				id: string;
+				weight: "1" | "2";
+				questionNumber: number;
+				examId: string;
+				subChapters: {
+					subChapterId: string | null;
+					patternId: string;
+				}[];
+			}[] = exam.patterns.map((pattern) => ({
+				...pattern,
+				questionId: null,
+			}));
 
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-misused-promises
-			exam.patterns.reduce(async (previousPromise, pattern) => {
-				await previousPromise;
-				const possibleSubChapters = pattern.subChapters
-					.map((subChapter) => subChapter.subChapterId)
-					.flatMap((f) => (f ? [f] : []));
+			const questions = (await getTestQuestions(ctx, PATTERNS, [])).filter(
+				(question) => !!question.questionId
+			);
 
-				const question = await ctx.db.query.questions.findFirst({
-					columns: {
-						id: true,
-					},
-					where: (questions, { inArray, and, eq, notInArray }) =>
-						and(
-							possibleSubChapters.length > 0
-								? inArray(questions.subChapterId, possibleSubChapters)
-								: undefined,
-							eq(questions.weight, pattern.weight),
-							QUESTIONS.length > 0
-								? notInArray(
-										questions.id,
-										QUESTIONS.map((q) => q.id)
-									)
-								: undefined
-						),
-					orderBy: sql`RANDOM()`,
-				});
-
-				if (!question?.id) {
-					throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-				}
-
-				QUESTIONS.push({
-					id: question.id,
-					questionNumber: pattern.questionNumber,
-				});
-
-				await ctx.db.insert(testQuestions).values({
-					questionId: question.id,
+			await ctx.db.insert(testQuestions).values(
+				questions.map((question) => ({
+					questionId: question.questionId ?? "",
 					testId: test[0]?.id ?? "",
-					questionNumber: pattern.questionNumber,
+					questionNumber: question.questionNumber,
 					markedForReview: false,
-				});
-			}, Promise.resolve());
+				}))
+			);
 
 			// Publish test to Qstash
 			if (env.NODE_ENV === "production") {
