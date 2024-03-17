@@ -6,6 +6,13 @@
 			"layout": "raw"
 		}
 	},
+	"blog": {
+		"title": "Blog",
+		"type": "page",
+		"theme": {
+			"typesetting": "article"
+		}
+	},
 	"notes": {
 		"title": "Notes",
 		"type": "page",

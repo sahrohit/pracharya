@@ -44,13 +44,7 @@ export const env = createEnv({
 	 * `NEXT_PUBLIC_`.
 	 */
 	client: {
-		NEXT_PUBLIC_APP_URL: z.preprocess(
-			(str) =>
-				process.env.NEXT_PUBLIC_VERCEL_URL
-					? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-					: str,
-			process.env.VERCEL ? z.string() : z.string().url()
-		),
+		NEXT_PUBLIC_APP_URL: z.string(),
 		NEXT_PUBLIC_MEASUREMENT_ID: z.string(),
 	},
 
