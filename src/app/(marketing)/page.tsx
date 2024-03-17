@@ -84,6 +84,17 @@ const IndexPage = () => (
 						<p>Github</p>
 					</Link>
 				</div>
+				<Link
+					href="/dashboard/tests"
+					className={cn(
+						buttonVariants({
+							variant: "outline",
+						}),
+						"w-full"
+					)}
+				>
+					Take a Mock Test
+				</Link>
 				<p>
 					⚠️ This app is still in very early stage and actively being worked on.
 					Any help will be appretiated, you can either help by contributing to
