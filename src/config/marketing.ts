@@ -2,8 +2,12 @@ import { type NavItem } from "@/types";
 
 export const NAV_ITEM: NavItem[] = [
 	{
-		title: "Study",
+		title: "Notes",
 		href: "/notes",
+	},
+	{
+		title: "Blogs",
+		href: "/blog",
 	},
 	{
 		title: "Contribute",

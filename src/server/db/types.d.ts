@@ -36,7 +36,7 @@ export type SelectIssueWithQuestion = SelectIssue & {
 	};
 };
 
-export type SelectTestWithQuestions = SelectTest & {
+export type SelectTestWithQuestionsForTest = SelectTest & {
 	questions: (SelectTestQuestion & {
 		question: SelectQuestion & {
 			options: {
@@ -44,6 +44,15 @@ export type SelectTestWithQuestions = SelectTest & {
 				name: string;
 				questionId: string;
 			}[];
+		};
+	})[];
+};
+
+export type SelectTestWithQuestionsForReport = SelectTest & {
+	questions: (SelectTestQuestion & {
+		question: SelectQuestion & {
+			subChapter: SelectSubChapter;
+			options: SelectOption[];
 		};
 	})[];
 };

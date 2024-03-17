@@ -24,7 +24,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { type SelectTestWithQuestions } from "@/server/db/types";
+import { type SelectTestWithQuestionsForTest } from "@/server/db/types";
 import { api } from "@/trpc/react";
 import {
 	AlertDialog,
@@ -63,7 +63,7 @@ const Test = ({
 	test,
 }: {
 	onSuccess?: () => void;
-	test: SelectTestWithQuestions;
+	test: SelectTestWithQuestionsForTest;
 }) => {
 	const router = useRouter();
 	const { mutateAsync: updateTestQuestion } =

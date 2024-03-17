@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import authConfig from "@/config/auth";
 import {
 	DEFAULT_LOGIN_REDIRECT,
+	adminProtectedRoutes,
 	authRoutes,
 	protectedRoutes,
 } from "@/config/routes";
@@ -12,8 +13,10 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
 	const { nextUrl } = req;
 	const isLoggedIn = !!req.auth;
+	const isAdmin = req.auth?.user.role !== "USER";
 
 	const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname);
+	const isAdminProtectedRoute = adminProtectedRoutes.includes(nextUrl.pathname);
 	const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
 	if (isAuthRoute) {
@@ -34,6 +37,10 @@ export default auth((req) => {
 		return Response.redirect(
 			new URL(`/auth?callbackUrl=${encodedCallbackUrl}`, nextUrl)
 		);
+	}
+
+	if (!isAdmin && isAdminProtectedRoute) {
+		return Response.redirect(new URL(`/dashboard`));
 	}
 
 	return null;

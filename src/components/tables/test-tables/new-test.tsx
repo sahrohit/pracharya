@@ -11,7 +11,7 @@ const NewTestModal = () => {
 
 	return (
 		<>
-			<Button onClick={() => setOpen(true)}>New Test</Button>
+			<Button onClick={() => setOpen(true)}>Take a Mock Test</Button>
 			<Modal showModal={open} setShowModal={() => setOpen(false)}>
 				<h3 className="font-urban text-2xl font-bold">Start New Test</h3>
 				<p className="text-sm">

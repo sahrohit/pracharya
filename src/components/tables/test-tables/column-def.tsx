@@ -29,7 +29,7 @@ export function fetchTasksTableColumnDefs(): ColumnDef<SelectTest, unknown>[] {
 		{
 			accessorKey: "createdAt",
 			header: ({ column }) => (
-				<ColumnHeader column={column} title="Test Time" />
+				<ColumnHeader column={column} title="Created At" />
 			),
 			cell: ({ row }) => (
 				<div className="w-[80px]">
@@ -88,8 +88,8 @@ export function fetchTasksTableColumnDefs(): ColumnDef<SelectTest, unknown>[] {
 				value instanceof Array && value.includes(row.getValue(id)),
 		},
 		{
-			accessorKey: "examId",
-			header: ({ column }) => <ColumnHeader column={column} title="Title" />,
+			accessorKey: "id",
+			header: ({ column }) => <ColumnHeader column={column} title="Test Id" />,
 			cell: ({ row }) => (
 				<div className="flex space-x-2">
 					<span className="max-w-[500px] truncate font-medium">
@@ -98,6 +98,25 @@ export function fetchTasksTableColumnDefs(): ColumnDef<SelectTest, unknown>[] {
 				</div>
 			),
 			enableSorting: false,
+		},
+		{
+			accessorKey: "endTime",
+			header: ({ column }) => <ColumnHeader column={column} title="End Time" />,
+			cell: ({ row }) => (
+				<div className="w-[80px]">
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger>
+								{dayjs(row.getValue("endTime")).format("DD/MM/YYYY HH:mm:ss")}
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>{dayjs(row.getValue("endTime")).fromNow()}</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</div>
+			),
+			enableHiding: false,
 		},
 		{
 			id: "actions",
