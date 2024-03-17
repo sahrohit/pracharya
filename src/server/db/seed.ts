@@ -2707,7 +2707,7 @@ const runSeed = async () => {
 			id: `computer-license-exam-${i + 1}`,
 			questionNumber: i + 1,
 			examId: "computer-license-exam",
-			weight: i > 60 ? ("2" as const) : ("1" as const),
+			weight: i + 1 > 60 ? ("2" as const) : ("1" as const),
 		})),
 	]);
 
