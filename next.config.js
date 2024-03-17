@@ -16,7 +16,7 @@ const withNextra = nextra({
 	theme: "nextra-theme-docs",
 	themeConfig: "./theme.config.tsx",
 	latex: true,
-	staticImage: true
+	staticImage: true,
 });
 
 /** @type {import("next").NextConfig} */
@@ -41,6 +41,15 @@ const config = {
 				pathname: "**",
 			},
 		],
+	},
+	async redirects() {
+		return [
+			{
+				source: "/discord",
+				destination: "https://discord.gg/Ytp8SSrYm7",
+				permanent: true,
+			},
+		];
 	},
 };
 

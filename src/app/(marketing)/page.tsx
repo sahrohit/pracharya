@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LuHelpingHand } from "react-icons/lu";
 
 import { BsGithub } from "react-icons/bs";
+import { FaDiscord } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -24,14 +25,15 @@ const IndexPage = () => (
 			/>
 			<div className="container flex max-w-[68rem] flex-col items-center gap-5 text-center">
 				<Link
-					href="/#pricing"
+					target="_blank"
+					href="/discord"
 					className={cn(
 						buttonVariants({ variant: "outline", size: "sm" }),
 						"flex animate-fade-up flex-col text-balance opacity-0 md:flex-row"
 					)}
 					style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}
 				>
-					Free Notes, Mock Exams, and a Community for Exams in Nepal
+					<FaDiscord className="mr-2" /> Join our Discord Server
 				</Link>
 
 				<h1
