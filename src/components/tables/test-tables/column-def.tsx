@@ -129,7 +129,7 @@ export const filterableColumns: DataTableFilterableColumn<SelectTest>[] = [
 	{
 		id: "status",
 		title: "Status",
-		options: issues.status.enumValues.map((status) => ({
+		options: tests.status.enumValues.map((status) => ({
 			label: (status[0]?.toUpperCase() ?? "") + status.slice(1),
 			value: status,
 		})),

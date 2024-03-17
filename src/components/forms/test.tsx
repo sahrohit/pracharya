@@ -110,7 +110,7 @@ const Test = ({
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
-				<div className="container flex flex-col gap-12 md:flex-row">
+				<div className="container flex flex-col-reverse gap-12 md:flex-row">
 					<div className="my-16 flex max-w-4xl flex-col gap-6">
 						{test.questions
 							.sort((a, b) => a.questionNumber - b.questionNumber)
@@ -125,9 +125,9 @@ const Test = ({
 											className="space-y-3"
 										>
 											<FormLabel className="flex select-none flex-row justify-between gap-4">
-												<p className="whitespace-pre-line">
+												<pre className="whitespace-pre-wrap">
 													{question.questionNumber}. {question.question.name}
-												</p>
+												</pre>
 												<p className="whitespace-nowrap">
 													[{question.question.weight} Marks]
 												</p>
@@ -180,24 +180,16 @@ const Test = ({
 							))}
 					</div>
 
-					<div className="relative">
-						<div className="sticky top-0 flex h-screen flex-col justify-between gap-1 py-8">
-							<div>
+					<div className="md:relative">
+						<div className="flex flex-col justify-between gap-1 py-8 md:sticky md:top-0 md:h-screen">
+							<div className="w-full bg-background">
 								<h2 className="text-lg uppercase ">
-									TOTAL: {test.questions.length} questions <br />
-									ATTEMPTED:{" "}
-									{
-										form
-											.watch("questions")
-											.filter((question) => !!question.answer).length
-									}{" "}
-									questions <br />
 									REMAINING:{" "}
 									{test.questions.length -
 										form
 											.watch("questions")
 											.filter((question) => !!question.answer).length}{" "}
-									questions
+									/{test.questions.length} questions
 								</h2>
 
 								<div className="flex flex-col gap-2 p-4 text-center">
@@ -211,11 +203,11 @@ const Test = ({
 									<Link
 										key={`quick-preview-question-${index + 1}`}
 										className={buttonVariants({
-											variant: question.answer
-												? "secondary"
-												: question.markedForReview
-													? "ghost"
-													: "default",
+											variant: question.markedForReview
+												? "yellow"
+												: question.answer
+													? "green"
+													: "outline",
 											size: "sm",
 										})}
 										href={`#question-number-${index + 1}`}

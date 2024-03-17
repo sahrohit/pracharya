@@ -283,6 +283,7 @@ const issueRouter = createTRPCRouter({
 						})
 					)
 					.describe("MCQ Options"),
+				solution: z.string().optional(),
 			})
 		)
 		.mutation(async ({ ctx, input }) =>
@@ -294,6 +295,7 @@ const issueRouter = createTRPCRouter({
 						name: input.question,
 						weight: input.questionWeight,
 						status: "DRAFT",
+						solution: input.solution,
 					})
 					.returning({
 						id: questions.id,

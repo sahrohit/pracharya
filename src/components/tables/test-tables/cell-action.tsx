@@ -10,7 +10,8 @@ interface CellActionProps {
 
 const CellAction = ({ data }: CellActionProps) => (
 	<div className="flex flex-row gap-2">
-		{data.endTime.getTime() > new Date().getTime() ? (
+		{data.endTime.getTime() > new Date().getTime() &&
+		data.status === "STARTED" ? (
 			<Link
 				className={buttonVariants({ variant: "default", size: "sm" })}
 				href={`/exam/${data.id}`}

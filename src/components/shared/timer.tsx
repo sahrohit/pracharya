@@ -24,6 +24,10 @@ const Timer = ({ endTime, duration }: { endTime: Date; duration: number }) => {
 		};
 	}, [seconds]);
 
+	if (seconds === 1) {
+		window.location.reload();
+	}
+
 	return (
 		<>
 			<Progress value={(seconds * 100) / duration} />

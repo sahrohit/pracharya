@@ -57,7 +57,7 @@ const TestForm = ({ onSuccess }: { onSuccess?: () => void }) => {
 			toast.promise(mutateAsync(values), {
 				loading: "Creating Exam...",
 				success: (res) => {
-					router.push(`/exam/${res.testId}`);
+					router.replace(`/exam/${res.testId}`);
 					onSuccess?.();
 					return "Exam Created";
 				},

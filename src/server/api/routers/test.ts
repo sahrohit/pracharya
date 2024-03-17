@@ -236,7 +236,7 @@ const testRouter = createTRPCRouter({
 				await qstash.publishJSON({
 					url: `${env.NEXT_PUBLIC_APP_URL}/api/close-test`,
 					body: { testId: test[0]?.id },
-					delay: exam.duration,
+					delay: exam.duration + 5,
 				});
 			}
 

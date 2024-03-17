@@ -1,3 +1,5 @@
-const ExamLoading = () => <p>Loading...</p>;
+import { PageLoader } from "@/components/shared/loader";
+
+const ExamLoading = () => <PageLoader />;
 
 export default ExamLoading;

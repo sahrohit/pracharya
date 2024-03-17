@@ -9,7 +9,10 @@ const Exam = async ({ params }: { params: { slug: string } }) => {
 		notFound();
 	}
 
-	if (test.status !== "STARTED") {
+	if (
+		test.status !== "STARTED" ||
+		test.endTime.toString() < new Date().toString()
+	) {
 		redirect(`/report/${params.slug}`);
 	}
 

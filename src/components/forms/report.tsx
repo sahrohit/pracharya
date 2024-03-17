@@ -79,13 +79,13 @@ const Report = ({ report }: { report: SelectTestWithQuestionsForReport }) => (
 						question(s)
 						<br />
 						SCORE:{" "}
-						{
-							report.questions.filter(
+						{report.questions
+							.filter(
 								(q) =>
 									q.selectedAnswer ===
 									q.question.options.find((option) => option.isAnswer)?.id
-							).length
-						}{" "}
+							)
+							.reduce((a, b) => a + Number(b.question.weight), 0)}{" "}
 						/ {report.questions.length}
 					</h2>
 

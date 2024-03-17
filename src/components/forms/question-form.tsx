@@ -39,6 +39,7 @@ import {
 	SelectItem,
 } from "@/components/ui/select";
 import { catchError } from "@/lib/catch-error";
+import { Textarea } from "@/components/ui/textarea";
 
 export const QuestionFormSchema = z.object({
 	course: z.string().min(1, {
@@ -60,6 +61,7 @@ export const QuestionFormSchema = z.object({
 		})
 	),
 	answer: z.string(),
+	solution: z.string(),
 });
 
 type QuestionFormValues = z.infer<typeof QuestionFormSchema>;
@@ -83,6 +85,7 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 			subChapter: "",
 			name: "",
 			options: [{ name: "" }, { name: "" }, { name: "" }, { name: "" }],
+			solution: "",
 		},
 	});
 
@@ -104,6 +107,7 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 							isAnswer: option.name === values.answer,
 						})),
 						subChapterId: values.subChapter,
+						solution: values.solution,
 					}),
 					{
 						loading: "Creating Issue...",
@@ -352,6 +356,7 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 					<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
 						{fields.map((field, index) => (
 							<FormField
+								key={`contribute-option-${index + 1}`}
 								control={form.control}
 								name={`options.${index}.name`}
 								render={({ field }) => (
@@ -407,6 +412,23 @@ const QuestionForm = ({ initialValues }: QuestionFormProps) => {
 									})}
 								</SelectContent>
 							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="solution"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Solution</FormLabel>
+							<FormControl>
+								<Textarea
+									placeholder="Solution for the above question"
+									{...field}
+								/>
+							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}

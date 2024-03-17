@@ -1,14 +1,14 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/sahrohit/pracharya" style="font-size:60px;">
-      📚
+  <a href="https://github.com/sahrohit/pracharya" style="font-size:10px;">
+      <img src="https://pracharya.vercel.app/favicon.ico" />
   </a>
 
   <h3 align="center">Pracharya</h3>
 
   <p align="center">
-    Collaborative Study
+Your Community-powered Study Buddy
     <br />
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -19,7 +19,21 @@
 
 ## About The Project
 
-<a href="https://dbdocs.io/sahrohit9586/pracharya">SQL Diagram for the Database</a>
+Remember the stress of cramming for exams? Textbooks overflowing with information, expensive coaching centers, and that nagging feeling you might be missing something crucial? We've all been there. But what if there was a solution to make exam preparation simpler, smarter, and easier? Enter Pracharya – your community-powered study buddy!
+
+1. **Community-Sourced Notes:** Learn from high-quality, moderated notes contributed by your peers.
+1. **Bite-Sized Summaries:** Master complex concepts with concise summaries perfect for last-minute cramming.
+1. **Personalized Mock Exams:** Test your knowledge with personalized mock exams based on the syllabus and community questions.
+1. **Vibrant Learning Community:** Connect with fellow students, share tips, and motivate each other on the path to success.
+1. **Free and Accessible:** All resources – from notes to tests to forums – are completely free, with unobtrusive ads keeping the platform running.
+
+## Important Links
+
+[Pracharya Launch Blog](https://pracharya.vercel.app/blog/launch)
+
+[SQL Diagram for the Database](https://dbdocs.io/sahrohit9586/pracharya)
+
+[Contribute to our Knowledge base / Notes](https://pracharya.vercel.app/contribute)
 
 <!-- GETTING STARTED -->
 
@@ -59,6 +73,8 @@ To initialize the project,
 
 `pnpm build` - Generate production build for the project
 
+`pnpm db:*` - For DB Operations
+
 For other commands, check `scripts` in package.json.
 
 ## Built With
@@ -81,3 +97,7 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## License
+
+Distributed under the GNU GPL-3 License. See `LICENSE` for more information.

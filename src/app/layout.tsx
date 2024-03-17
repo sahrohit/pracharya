@@ -17,10 +17,22 @@ export const metadata = {
 		template: `%s | ${siteConfig.name}`,
 	},
 	description: siteConfig.description,
-	keywords: ["Notes", "Engineering License", "License Syllabus", "Mock Test"],
+	keywords: [
+		"Notes",
+		"Engineering License Exam",
+		"License Syllabus",
+		"Mock Test",
+		"Pracharya",
+		"Study Buddy",
+		"Peer to Peer Learning",
+		"Student Community",
+	],
 	authors: [
 		{
 			name: "sahrohit",
+		},
+		{
+			name: "avintimilsina",
 		},
 	],
 	creator: "sahrohit",
@@ -38,7 +50,7 @@ export const metadata = {
 		title: siteConfig.name,
 		description: siteConfig.description,
 		images: [siteConfig.ogImage],
-		creator: "@miickasmt",
+		creator: "@sahrohit",
 	},
 	icons: {
 		icon: "/favicon.ico",
@@ -61,7 +73,7 @@ export default async function RootLayout({
 					<TRPCReactProvider>
 						<ThemeProvider
 							attribute="class"
-							defaultTheme="system"
+							defaultTheme="light"
 							enableSystem
 							disableTransitionOnChange
 						>

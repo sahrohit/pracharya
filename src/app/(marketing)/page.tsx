@@ -54,7 +54,7 @@ const IndexPage = () => (
 				</p>
 
 				<div
-					className="flex animate-fade-up justify-center space-x-2 opacity-0 md:space-x-4"
+					className="grid animate-fade-up grid-cols-2 justify-center gap-2 opacity-0"
 					style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
 				>
 					<Link href="/notes" className={cn(buttonVariants({ size: "lg" }))}>
@@ -83,18 +83,19 @@ const IndexPage = () => (
 						<BsGithub className="mr-2 size-4" />
 						<p>Github</p>
 					</Link>
+					<Link
+						href="/dashboard/tests"
+						className={cn(
+							buttonVariants({
+								size: "lg",
+								variant: "outline",
+							}),
+							"w-full"
+						)}
+					>
+						Take a Mock Test
+					</Link>
 				</div>
-				<Link
-					href="/dashboard/tests"
-					className={cn(
-						buttonVariants({
-							variant: "outline",
-						}),
-						"w-full"
-					)}
-				>
-					Take a Mock Test
-				</Link>
 				<p>
 					⚠️ This app is still in very early stage and actively being worked on.
 					Any help will be appretiated, you can either help by contributing to
