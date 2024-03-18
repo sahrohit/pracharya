@@ -6,13 +6,13 @@ import { db } from "@/server/db";
 import { tests } from "@/server/db/schema";
 
 export async function POST(req: NextRequest) {
-	const data = (await req.json()) as { examId: string };
+	const data = (await req.json()) as { testId: string };
 
-	if (data?.examId) {
+	if (data?.testId) {
 		const updateRes = await db
 			.update(tests)
 			.set({ status: "SUBMITTED" })
-			.where(eq(tests.id, data.examId))
+			.where(eq(tests.id, data.testId))
 			.returning();
 
 		return NextResponse.json(updateRes);

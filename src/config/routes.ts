@@ -1,6 +1,15 @@
-export const protectedRoutes = ["/dashboard", "/admin"];
+export const protectedRoutes = [
+	"/contribute",
+	"/dashboard",
+	"/dashboard/tests",
+	"/dashboard/settings",
+];
 
-export const adminProtectedRoutes = ["/admin"];
+export const adminProtectedRoutes = [
+	"/admin",
+	"/admin/patterns",
+	"/admin/settings",
+];
 
 export const authRoutes = ["/auth"];
 
