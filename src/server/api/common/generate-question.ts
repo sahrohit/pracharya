@@ -38,6 +38,7 @@ const getTestQuestions: (
 									)
 								: undefined,
 							eq(questions.weight, pattern.weight),
+							eq(questions.status, "PUBLISHED"),
 							updatedQuestions.length > 0
 								? notInArray(questions.id, updatedQuestions)
 								: undefined
