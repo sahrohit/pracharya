@@ -9,7 +9,7 @@ import type {
 	DataTableFilterableColumn,
 	DataTableSearchableColumn,
 } from "@/types/table";
-import { issues, tests } from "@/server/db/schema";
+import { tests } from "@/server/db/schema";
 
 import ColumnHeader from "@/components/tables/column-header";
 
