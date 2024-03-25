@@ -1,31 +1,182 @@
-# C++ language constructs with objects and classes
+import { Callout } from "nextra/components";
+
+# C++ language constructs with Objects and Classes
 
 ## Namespace
 
-## Function Overloading
+Collection of related names or identifiers (functions, class, variables). Helps to separate identifiers from similar identifiers in other namespaces or global namespaces. It beings with keyword namespace. `std` is a namespace whose members are used in the program. Its members are `cout`, `cin`, `endl`, etc.
+
+## Overloading
+
+Creation of two or more members with the same name but different in parameters.
+
+### Function Overloading
+
+Having two function with the same name but different in parameters. Increases readability of the program because no need to use different names for the same action.
+
+```cpp
+int add(int x, int y) {
+	return x+y;
+}
+
+int add(int x, int y, int z){
+	return x+y+z;
+}
+```
+
+### Operator Overloading
+
+Operator is overloaded to provide special meaning to the user defined data type. It can be used to perform different operation on the same operand.
+
+```cpp
+return_type class_name :: operator op(argument_list) {
+//funtion body
+}
+```
+
+<Callout>
+ `scope operator(::)`, `sizeof`, `member selector(.)`, `member pointer selector(*)` and `ternary operator(?)` cannot be overloaded.
+</Callout>
 
 ## Inline functions
 
+When we make an inline function, compiler places a copy of the code of that function at each point, where the function is called at compile time.
+
+It saves memory space. If changes were made to the inline function, the entire function needs to be recompiled again.
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/02e1804e-bb75-467c-b480-71c7c6292a4f/c2abd26d-f2a2-43a5-aaaa-86210fbdff31/Untitled.png)
+
+```cpp
+inline return_type function_name(parameters) {
+	//function code
+}
+```
+
 ## Default Argument
 
-## Pass/Return by reference
+Used when we provide no argument or few argument while calling a function.
+
+```cpp
+void temp(int = 13, float = 6.9);
+
+int main() {
+	...
+	temp();
+	...
+}
+
+void temp(int i, float f) { //takes the default value declared above 13 & 6.9
+	//code
+}
+```
 
 ## Introduction to Class and object
 
+### Class
+
+It is a user defined data type that has members and functions.
+
+```cpp
+class Student {
+	public:
+		int id;
+		string name;
+		string address;
+}
+```
+
+<Callout>
+No memory is allocated when class is defined, but is allocated when the object is created.
+</Callout>
+
+### Object
+
+It is an entity that has state and behavior. State means data and behavior means functionality.
+
+```cpp
+Stduent s1; //creating an object of Student
+```
+
 ## Access Specifiers
 
-## Objects and the Member Access
+It defines the scope (who can access) of the attributes and methods of a class.
 
-## Defining Member Function
+### Private
 
-## Constructor and its type and Destructor
+members cannot be accessed outside the class.
+
+### Public
+
+member are accessible outside the class.
+
+### Protected
+
+members can be accessed outside the class however, they can only be accessed by the inherited class.
+
+<Callout>
+In `class` the default access is private but in `structure` and `union` the access is public.
+</Callout>
+
+## Member Functions
+
+It can accessed within the class definition or separately using scope resolution operator.
+
+Types:
+
+1. Simple Function
+2. Static Function
+3. Const Function
+4. Inline Function
+5. Friend Function
+
+## Constructors
+
+Constructor is a special type of function whose name should be same as the class name. It is invoked when the object is created and doesn’t have any return type.
+
+### Types
+
+1. **Default Constructor:** doesn’t take any parameters, used to initialize data members with real values.
+2. **Parameterized Constructor:** contains parameters (or arguments) in the constructor definition and declaration.
+3. **Copy Constructor:** member function that initialize an object using another object in the same class.
+
+### Constructor Overloading
+
+Constructors with the same name but different parameters (or arguments).
+
+### Destructor
+
+It destroys the class objects created by constructors preceded by the `~` symbol.
+
+```cpp
+class Customer
+	{
+	public:
+	    Customer();
+	    ~Customer();
+	};
+```
+
+<Callout>
+It is not possible to define more than one destructor and is automatically called when the object goes out of scope.
+</Callout>
 
 ## Dynamic memory allocation for objects and object array
 
-## `this` Pointer
+Memory allocation can be done in two ways: Static Allocation or Compile-time allocation and Dynamic Allocation or Run-time allocation.
 
-## Static Data Member and static Function
+Memory allocation is divided into two parts:
 
-## Constant Member Functions and Constant Objects
+1. **Stack:** All memory declared inside a function will take up memory from it.
+2. **Heap:** Used to allocate memory dynamically when program runs.
 
-## Friend Function and Friend Classes.
+# `this` Pointer
+
+# Static Data Member and static Function
+
+# Constant Member Functions and Constant Objects
+
+# Friend Function and Friend Classes
+
+## References
+
+1. [Inline Functions in C++ - GeeksforGeeks](https://www.geeksforgeeks.org/inline-functions-cpp/)

@@ -1,19 +1,187 @@
-# Pointers, structure and data files in C programming
+# Pointers, structure and data files in C Programming
 
-## Pointer Arithmetic
+## Pointers
 
-## Pointer and array
+Pointers are variable used to store the address of another variable rather than values. It can be declared using the * symbols.
 
-## passing pointer to function
+Dereferencing a pointer means, accessing the values stored at the memory location pointed to by the pointer, and can be done by using `*` symbol.
 
-## Structure vs Union
+Memory leak can occur if pointers are not properly managed and deallocated when no longer being used.
 
-## Array of structure
+```c
+int* p; //declare a pointer p of int type
 
-## Passing structure to function
+int *q1;
+int *q2;
+int *q1, q2; //declaration of pointer q1 and normal variable q2
 
-## Structure and pointer
+int* AC, C;
+C=5;
+AC = &C; //assigning address to pointers
+
+printf("%d", *AC) //get the value of the variable being pointer to
+```
+
+### Null Pointer
+
+It is created by assigning null value during pointer declaration. It is represented by the value 0 or by the macro `NULL`, which is defined in `stdio.h`.
+
+It can be used to represent situations where a pointer does not currently point to a valid object. They are also used in standard library such as `calloc` and `realloc`, to indicate that memory allocation has failed.
+
+```c
+int *p = NULL;
+```
+
+### Void Pointer (Generic Pointer)
+
+It is a very special type of pointer, that can store the address of any object, but doesn’t have a specific type associated with it. It must be cast to a specific pointer type before it can be dereferenced. It can be used to bypass type checking and can lead to hard-to-debug errors if used incorrectly.
+
+```c
+void *p = NULL; //created by using void keyword
+```
+
+### Wild Pointer (Dangling Pointer/ Uninitialized Pointer)
+
+It is a pointer which is not being initialized to anything. It can cause unpredictable behavior when dereferenced or used in pointer arithmetic’s. It points to unknown memory location, so the program can crash.
+
+```c
+int *p;
+```
+
+### Near Pointer, Huge Pointer, Far Pointer, Complex Pointer etc.
+
+Operations that can be performed on pointers in C language are:
+
+1. Increment/Decrement
+2. Addition of Integer
+3. Subtraction of Integer
+4. Subtracting two pointers
+5. Comparison of Pointers
+
+## Pointer and Array
+
+### Array of Structures
+
+Collection of multiple structure variables where each variables contains information about different entities. It is also known as collection of structures. Two ways of declaring the structure variables with and without the structure declaration.
+
+```c
+Structure student s1, s2, s3; //multiple values with a single variable
+
+struct student s[3]; //By using array of structure
+```
+
+### Union
+
+Collection of variables of different data types in same memory location. Can define many members, only one member can contain a value at a given point in time. It is used to save memory. It allows data members which are mutually exclusive to share the same memory.
+
+```c
+Union union_name {
+	data_type field_name;
+	data_type field_name;
+	...
+}
+```
+
+### Structure vs Union
+
+|Structure|Union|
+|---|---|
+|Keyword struct is used.|Keyword union is used.|
+|Each member is assigned a unique storage area of location.|Shared by individuals members.|
+|Individual members can be accessed at any time.|Only one member can be accessed at a time.|
+|Several Members can be initialized at once.|Only first member can be initialized.|
+
+### Passing Structure to a Function
+
+To pass a structure to a function, the function must be declared to take a pointer to the structure as an argument, and the address of the structure must be passed to the function.
+
+### Call by Value
+
+Values of the actual function are copied into the formal paraments. It cannot modify the value of the actual parameter by the formal parameters.
+
+**Actual Parameter:** used in the function call.
+
+**Formal Parameter:** used in the function definition.
+
+### Call by Reference (Passing Pointer to a Function)
+
+Pointers can also be passed as an argument to a function like other arguments. When we pass pointer as an argument then the address of the variable changes instead of the value, hence making the changes permanent.
+Memory allocation is similar for both formal and actual parameters.
+
+```c
+void increament (int *p) {
+ (*p)++;
+} //example of function that modifies the value of the integer
+
+return_type function_name(int*); //Declaration
+
+return_type function_name(int*, int*); //Accept an address of two integer variables
+```
+
+Two ways of accessing the member of a structure with the help of structure pointer:
+
+1. `*` asterisk or `.` dot operator.
+2. `->` arrow operator.
 
 ## Input/output operations on files
 
-## Sequential and Random Access to File.
+**File Types:** Text, Binary
+
+Files are needed to preserve the state or data even after the program terminates.
+
+```c
+FILE *fp; //using structure pointer of file to declare a file
+```
+
+`fopen()`: creates a new file or opens an existing file
+
+```c
+*fp = FILE *fopen(const char *filename, const char *mode);
+```
+
+`fclose()`: closes a file
+
+```c
+int fclose(FILE *fp);
+```
+
+`fprintf()`: writes a set of data to a file
+
+`fscanf()`: reads a set of data from a file
+
+`getc()`: reads a character from a file
+
+`getw()`: reads a integer from a file
+
+`putw()`: writes a integer to a file
+
+`rewind()`: set the position to a beginning point
+
+`ftell()`: gives current position in the file
+
+`fseek()`: set the position to desire point
+
+### Opening Modes in I/O
+
+1. `r` - Open for reading
+2. `rb` - Open for Reading in Binary Mode
+3. `w` - Open for writing
+4. `wb` - Open for writing in Binary Mode
+5. `a` - Open for append
+6. `ab` - Open for appending in Binary Mode
+7. `r+` - Open for both reading and writing.
+8. `w+` - Open for both reading and writing.
+9. `a+` - Open for both reading and appending.
+10. `ab+` - Open for reading and appending in Binary Mode
+
+## Sequential and Random Access to File
+
+### Sequential Access
+
+Reads the file in sequential order, and is very inefficient for reading records in the middle of the file.
+
+### Random Access
+
+Enables access to any records at any point in the file. Enables to modify records without rewriting the entire content of the file.
+
+Three functions that helps to random access the file: `fseek()`, `ftell()` and `rewind()`.

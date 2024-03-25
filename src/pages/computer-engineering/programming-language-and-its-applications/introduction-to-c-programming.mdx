@@ -1,25 +1,191 @@
-# Introduction to C programming
+# Introduction to C Programming
 
 ## C Tokens
 
+C  Tokens are the basic building block of a C Program. There are 6 types of tokens in C Programming
+
+### Keywords
+
+predefined words in a C Programming Language, which have special meaning in the language. Example: if, then, return, switch etc.
+
+### Identifiers
+
+name given to a variable, functions or user defined data types in a C Program. They are case sensitive and can consist of letter, underscore and dollar signs.
+
+### Constants
+
+These are the fixed values that cannot be changed during the execution of the program. C supports 4 constants: Integer, Floating point, character and String constants (sequence of characters enclosing).
+
+### Operators
+
+These are the symbols used to perform arithmetic and logical operation in a C Program. Example: AND, OR, NOT, +, =, -, etc.
+
+### Punctuation Symbol
+
+These are used to separate and group tokens in a C Program. Example: comma, semicolon, parenthesis etc.
+
 ## Operators
+
+Operators are used to perform operations on one or more operands. Operators supported by C Programming Language are
+
+### Arithmetic Operators
+
+Used to perform arithmetic operations: Addition (+), Subtraction (-), Multiplication (*), Division (/) and Modulus (%).
+
+### Relational Operators
+
+These operators returns a Boolean value, either true or false depending on whether the condition is satisfied or not. It includes less than (\<), greater than (>), less than equals to (≤), greater than equals to (≥), equals to (==) and not equals to (≠).
+
+### Logical Operators
+
+These are used to perform logical operations. It includes AND (&&), OR (||) and NOT (!).
+
+### Bit-wise Operators
+
+It is used to perform bit level operations in a C Program. It includes bit-wise AND (&), bit-wise OR (|), bit-wise XOR(^), bit-wise NOT (~), left shift (\<\<) and right shift (>>).
+
+### Conditional Operators
+
+The ternary operator is one of the conditional operators. The syntax is (condition) ? value1 : value2.
+
+### Size Operator
+
+This operator returns the size of a variable or data type in bytes.
+
+### Comma Operator
+
+The operator is used to separate multiple expression and execute them in order.
 
 ## Formatted/Unformatted Input/output
 
+| Formatted Function | Unformatted Function |
+| --- | --- |
+| Allow to supply input or display output in used desired format. | Do not allow to supply input or display output in the desired format. |
+| Store data more user friendly. | Store data more compactly. |
+| Example: printf(), scanf(), etc | Example: getch(), gets(), puts() etc. |
+
 ## Control Statements
+
+Helps to specify a program control’s flow. Specify the order of execution of the instruction that are present in the program. It is used to make decisions, perform tasks repeatedly, jump from section of one code to another.
+
+### Decision Making
+
+Also called IF-statements, and is executed when the evaluation of the condition is true. Examples: IF, IF ELSE, Nested IF etc.
+
+### Selection
+
+Also called Switch Case. It can be used when more than three alternatives or conditions exist in a program. In every block there is a use of `case` keyword whereas `break` and `default` statements are optional.
+
+### Loops
+
+It is a control flow statement that allows a program to repeat a set of statements while a certain condition is true. It includes `For`, `While` and `Do While` . It saves time, reduces error and make code more readable.
+
+### Jump Statement
+
+It allows the flow to execution to jump from one part of the program to another.
+
+1. `**break` statement:** terminates a loop or switch statement and transfer the control to the next statement outside the loop or switch.
+2. `**continue` statement:** skip the current iteration of the loop and continue at the next iterations.
+3. `**break` statement:** transfer control to another part of the program specified by a label.
 
 ## Looping
 
+### For Loop
+
+The initialization step will be executed only once, and then the condition will be checked, if the condition results in true, the loop will continue and if results in false, the loop with be terminated.
+
+```c
+for(initialization, condition, increament/decreament) {
+//code
+}
+```
+
+### While Loop
+
+Perform only if the condition is valid, and will not be executed if the condition is incorrect.
+
+```c
+while(condition) {
+//code
+}
+```
+
+### Do While Loop
+
+The condition will be evaluated at the end of each iteration. This loop will be executed at least once, even if the condition is set to false, as the condition is evaluated at the end of the execution.
+
+```c
+do {
+//code
+} while (condition);
+```
+
 ## User-defined functions
+
+Block of modular code that is written by the programmer which can be called in multiple parts of the program to make the code more modular, readable and maintainable. In simple words, its just a simple function that is created by the user.
+
+```c
+return_type function_name(paremeter_list){
+//function body
+}
+```
 
 ## Recursive functions
 
-## Array
+Recursive functions are those functions that call itself during the execution of the program. It helps reduces the code size and makes the function reusable in a lot of cases. Exit condition is necessary, as it may leads to infinite call of the function.
 
-### 1-D
+Its often used to solve problem related to trees, linked lists, graphs. Tower of Hanoi is one of the problem that can be solved simply using the recursive function.
 
-### 2-D
+```c
+int factorial(int n) {
+	if (n==0) {
+		return 1; //Exit Condition
+	} else {
+		return n*factorial(n-1); //Recursive Call
+	}
+}
+```
 
-### Multi dimensional
+## Arrays
 
-## String manipulations.
+Array is the collection of elements of same data type, stored in the contiguous memory location (lowest address corresponds to first element and the highest address to the last element). It is used to store multiple values in a single variable.
+
+Advantages of arrays includes: sorting of data, ease of traversing etc.
+
+```c
+data_type array_name[array_size];
+
+int arr[10]; //int array of size 10 with name arr
+
+int arr[5] = {1,2,3,4,5}; //array is declared with initialization
+```
+
+### 1-D Array
+
+element stored in contiguous memory location.
+
+### 2-D Array
+
+It is an array of arrays where the inner array will represent a row in a 2D array. The elements are organized in rows and columns with each row being stored in a separate block of memory and can be accessed using two indices or subscripts.
+
+```c
+int arr[5][6]; //declaration
+
+int arr[3][2] = {{1,2,3},{4,5,6}}; //initialization
+```
+
+### Multi-dimensional Array
+
+In general, array of arrays are called multi-dimensional array. You can increase the dimension based on the requirements but the complexity increases as the dimension increases.
+
+```c
+float arr[2][3][4]; //can hold 24 elements
+```
+
+## String manipulations
+
+It refers to manipulation of various operations that can be performed on strings (array of characters), such as concatenating, comparing, copying and formatting strings.
+
+All functions are included by using `string.h` header and can be used to clean, preprocess and transform text data for analysis.
+
+Mostly used string handling functions are: `strcat()`, `strlen()`, `strcpy()`, `strcmp()`,etc.
