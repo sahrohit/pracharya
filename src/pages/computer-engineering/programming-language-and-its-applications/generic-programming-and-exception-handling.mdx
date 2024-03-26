@@ -1,37 +1,144 @@
-# Generic programming and exception handling
+# Generic Programming and Exception Handling
 
-## Function Template
+## Template
+
+Defines the generic classes and generic functions and allow for generic programming.
+
+### Function Template
+
+Specifies function that can operate with generic types.
+
+```cpp
+template <class identifier> function_declaration;
+```
+
+### Class Template
+
+When a class uses the concept of generics, it is called generic class.
+
+```cpp
+template<class Ttype>
+class class_name {
+	...
+} //creating a class template
+
+class_name<Ttype> class_object; //creating a class template object
+```
+
+### Function Definition of Class Template
+
+```cpp
+Template <class T>
+class class_name {
+	...
+	return_type function_name(); //function prototype
+}
+
+Template <class T>
+	return_type class_name<T>::function_name() {
+		// function__body
+	}
+```
 
 ## Overloading Function Template
 
-## Class Template
-
-## Function Definition of Class Template
+Can be overloaded by a non-template function or by using ordinary function template. When the name of the function template are same but with different arguments are known as overloading function template.
 
 ## Standard Template Library
 
-### Containers
+It is a library of containers, classes, algorithms and iterators.
 
-### Algorithms
+1. **Algorithms**: Defines the collection of functions specially designed to be used on a range of elements.
+2. **Containers**: It stores objects and data.
+3. **Functions**
+4. **Iterators**
 
-### Iterators
+Used to step through the elements of collections of objects.
 
 ## Exception Handling Constructs
 
-### try
+Exception is a problem that arise during the execution of the program.
 
-### catch
+Consists of three keywords:
 
-### throw
+1. `try`: represents a block of code that can throw an exception.
+2. `throw`: throws an exception when a problem is detected, which lets us create a custom error.
+3. `catch`: indicates the catching of an exception.
 
-## Multiple Exception Handling
+```cpp
+try {
+	//block of code
+	throw exception;
+}
+catch() {
+	//block of code to handle errors
+}
+```
 
-## Rethrowing Exception
+### Multiple Exception Handling
 
-## Catching All Exceptions
+Multiple catch exception statements are used when a user wants to handle difference exception.
 
-## Exception with Arguments
+```cpp
+try {
+	//block of code
+}
+catch (type1 argument1) {
+	//catch1
+}
+catch (type2 argument2) {
+	//catch2
+}
+....
+catch (typeN argumentN) {
+	//catchN
+}
+```
 
-## Exceptions Specification for Function
+### Rethrowing Exception
 
-## Handling Uncaught and Unexpected Exceptions.
+Exceptions can be rethrown if the catch block cannot handle the particular exception it has caught.
+
+```cpp
+try {
+	//block of code
+	throw exception; //throws an exception
+}
+catch (exception& e) {
+	//block to do something with an error (e.g. log it)
+	throw; //rethrows an error
+}
+```
+
+### Catching All Exceptions
+
+To catch all exceptions, we specify ellipses in the catch block. Difficult to know what error occurred in the program if all the exceptions are caught using `catch(…)`.
+
+```cpp
+try {
+	//code
+}
+catch (const std::exception& ex) {
+	//...
+}
+catch (const std::string& ex) {
+	//...
+}
+catch (...) {  //catching all errors
+	//...
+}
+```
+
+## Exception Specification for Function
+
+A function is limited to throwing only a specified list of exception called as exception specification.
+
+An exception specification at the beginning of every function guarantee to the function’s caller that function will throw only these exceptions contained in the specifications.
+
+## Handling Uncaught and Unexpected Exceptions
+
+If an exception is thrown and isn’t caught by any of the exception handler, then the program calls a termination function.
+
+We can specify own termination function with `set_terminate()`.
+
+If the function throws an unspecified function, then the unexpected function is called. We can specify our own unexpected function with `set_unexpected()`.
