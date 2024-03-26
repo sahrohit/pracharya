@@ -1,23 +1,133 @@
-# Features of object-oriented programming
+# Features of Object-oriented programming
 
 ## Operator overloading
 
-### Unary
+### Overloading Unary Operator
 
-### Binary
+1. No Argument should be passed.
+2. Works only with one class objects.
 
-## data conversion
+### Overloading Binary Operator
+
+1. One argument to be passed.
+2. Overloading of an operator operating on two operands.
+
+### Overloading Binary Operator using Friend Function
+
+1. Friend Operator function takes two parameters in a binary operator.
+2. Implemented outside of the class scope.
+
+## Type Conversion
+
+### Implicit Conversion (Automatic Conversion)
+
+Conversion that is done by the compiler.
+
+### Explicit Conversion (Type casting)
+
+When user manually changes the data type from one to another.
+
+Three ways to do explicit conversions are:
+
+1. Cast Notation
+2. Function Notation
+3. Type conversion operators
 
 ## Inheritance
 
+The process in which an object acquires all the properties and behaviors of its parents object automatically is called inheritance. Derived class is the one which inherits the members of another class, and base class is the class from where the members are inherited.
+
+To inherit (or extend in java world), we can use the `::` symbol.
+
 ### Single
+
+Derived class is inherited from only one base class.
 
 ### Multiple
 
+Deriving new class that inherits the attributes from two or more classes.
+
 ### Multilevel
+
+Deriving of a new class from another derived class.
 
 ### Hybrid
 
+Combination of more than one inheritance types.
+
 ### Multipath
 
-## Constructor/Destructor in Single/Multilevel Inheritances
+Deriving more than one class from a base class.
+
+### Constructor/destructor in single/multilevel inheritances
+
+When an object of derived class is created then the constructor of derived class gets executed and then it calls the constructor of the base class.
+
+If there is no default constructor present in the parent class then not only we have to create constructor in child class but also we’ll have to call the constructor of parent class.
+
+| Order of | Calling | Execution |
+| --- | --- | --- |
+| Constructor | Child Class to Parent class | Parent Class to Child Class |
+| Destructor | Child Class to Parent Class | Child Class to Parent Class |
+
+## Encapsulation
+
+It refers to the bundling data and the methods that operates on that data within a single unit. The data or properties is kept hidden from the outside world and can only be accessed or modified by the methods provided by the class.
+
+This ensures the data is protected and can only be modified in controlled ways.
+
+```cpp copy
+#include <iostream>
+using namespace std;
+
+class Person {
+	private:
+		string name;
+		int age;
+
+	public:
+		void setName(string name) {
+			this->name = name;
+		}
+
+		void setAge(int age) {
+			this->age = age;
+		}
+
+		string getName() {
+			return name;
+		}
+
+		int getAge() {
+			return age;
+		}
+}
+
+int main() {
+	Person person;
+
+	person.setName("RAM");
+	person.setAge(15);
+
+	cout << "Name: " << person.getName() << endl;
+	cout << "Age: " << person.getAge() << endl;
+
+	return 0;
+}
+```
+
+## Polymorphism
+
+It is a key concept in object oriented-programming that refers to the ability of objects of different classes to be interchangeably.
+
+It enables different objects to be created as if they are the same type allowing flexibility and extensibility.
+
+It can be achieved through method overloading, method overriding, subtyping or interface based programming.
+
+### Compile-time Polymorphism (Static Polymorphism / Method Overloading)
+
+It is resolved by the compiler at compile-time. It allows different methods to have same name but different functionality based on the arguments passed in.
+
+### Runtime Polymorphism (Dynamic Polymorphism / Method Overriding)
+
+It is resolved at runtime. It allows objects of a class to be treated as a object of its super class and methods to be called on those objects even if they have been overridden in the sub class.
