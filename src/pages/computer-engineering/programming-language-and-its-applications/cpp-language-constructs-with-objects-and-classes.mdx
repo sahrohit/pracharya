@@ -169,13 +169,68 @@ Memory allocation is divided into two parts:
 1. **Stack:** All memory declared inside a function will take up memory from it.
 2. **Heap:** Used to allocate memory dynamically when program runs.
 
-# `this` Pointer
+### New Operator
 
-# Static Data Member and static Function
+It denotes the request for memory allocation on the free store.
 
-# Constant Member Functions and Constant Objects
+```cpp
+int *p = new int;
+```
 
-# Friend Function and Friend Classes
+### Delete Operator
+
+Releases the allocated memory.
+
+<Callout>
+C++ has `new` and `delete` for dynamically allocating memory whereas C has functions like `malloc()`, `calloc()`, `realloc`, `free`, etc.
+</Callout>
+
+### For Arrays
+
+```cpp
+char* pvalue = NULL; //request memory for the variable
+pvalue = new char[20];
+```
+
+## `this` Pointer
+
+It refers to the current instance of the class. It is used to pass current objects as parameters to another object.
+
+Applications
+
+1. Return Object
+2. Method Chaining
+3. Distinguished Data Members
+
+## Static Data Member and Static Function
+
+### Static Data Member
+
+Declared using the `static` keywords, only visible within the class. Only one copy of static data member in the class, even if there are many class objects.
+
+```cpp
+	static data_type data_member_name;
+```
+
+### Static Function
+
+Declared using the `static` keyword. Can be used to access static data members and can be called without creating an object of it.
+
+## Constant Member Functions and Constant Objects
+
+Declared using the `constant` keyword. Constant member function can only read or retrieve the data members of the calling class without modifying them.
+
+Specifies the function is a read only function and doesn’t modify the object for the given class.
+
+## Friend Function and Friend Classes
+
+### Friend Function
+
+Function declared using the `friend` keyword that can access private, protected and public members of a class.
+
+### Friend Class
+
+Declared using `friend` keyword to have access to private, protected and public members of other class. Allowing to extend storage and access its parts while maintaining encapsulation.
 
 ## References
 
