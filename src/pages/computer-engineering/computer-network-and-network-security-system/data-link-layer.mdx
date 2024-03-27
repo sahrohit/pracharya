@@ -1,29 +1,145 @@
-# Data link layer
+# Data Link Layer
+
+The second layer in the OSI Model and is responsible for reliable data transfer between devices in a computer network. It ensure that the data is transferred error free and in correct sequence.
+
+Two Sub-layers:
+
+1. Logical Link Control (LLC): provides flow control and error checking and handles addressing and framing of data packets.
+2. Media Access Control (MAC): provides access to physical layer and handles the transmission of data over the network using MAC address for each device.
 
 ## Services
 
-## Error Detection and Corrections
+### Framing
+
+divides the data received from the network layer into manageable frames and add header and trailer to each frame to identify source and destination.
+
+### Addressing
+
+uses MAC to identify each device on a network allowing devices to directly communicate with each other.
+
+### Flow Control
+
+manage flow control between devices and prevent buffer overflow and data loss.
+
+### Error Detection and Correction
+
+check each frame for error during transmission and uses correction mechanism like CRC to ensure data is transmitted error-free.
+
+### Access Control
+
+provides access control mechanism to regulate access to physical network and prevent collision and data loss.
+
+### Media Conversion
+
+provides conversion mechanism to ensure data is transmitted in the correct format over the network.
+
+## Error Detection and Correction
+
+### Parity Check
+
+adds an extra parity bit which is set to either 1 or 0 based on numbers of 1 in data byte. It is used to detect errors during transmission.
+
+### Checksum
+
+advanced error detection mechanism that calculates the checksum for each packets based on the packet content to detect errors.
+
+### Cyclic Redundancy Check (CRC)
+
+more sophisticated error detection mechanism that uses mathematics algorithm to generate a checksum value. The receiving device performs the same calculations and compares the result.
+
+### Forward Error Correction (FEC)
+
+adds redundant data to transmitted data to enable the receiving device to correct errors in the data. commonly used in satellite communication where data loss is common.
 
 ## Flow Control
 
-## Data Link Protocol
+### Stop-and-wait flow Protocol
 
-## Multiple access protocols
+the receiving device sends an acknowledgement (ACK) and the sending device waits for ACK before sending another frame. It ensures that previous frame is processed before sending the next one.
 
-## LAN addressing and ARP (Address Resolution Protocol)
+### Sliding Window Flow Control
+
+the receiving device sends back ACK that indicates the number of frames that its ready to receive. This allow the transmitting device to send multiple frames.
+
+## Data Link Protocols
+
+set of rules and procedures that the data link layer needs to ensure reliable data transfer between devices on the same network. It defines the format and structure of data frames as well as the mechanism for addressing.
+
+### Multiple access protocols
+
+protocols that allow multiple devices to share a single communication channel. responsible for preventing collision between data frames transmitted.
+
+1. **Carries Sense Multiple Access with Collision Detection (CMSA/CD)**: listens to each device for carries signals and determine if the channel is busy or available. If two devices transmit data at the same time and collision occurs, the devices stop transmitting and wait for a random time before retrying.When collision is detected, the protocols stops transmission and sends a jam signal to prevent the sender from wasting time and resource. If multiple collision occurs, the protocol waits for a random amount of time to begin transmitting again.
+    - ability to detect collision quickly on a shared channel.
+    - prevents wasted transmission by ensuring each station shares bandwidth fairly.
+    - cost effective and flexible protocol for local area networks.
+2. **Carries Sense Multiple Access with Collision Avoidance (CMSA/CA)**: device must request permission before transmitting data. The access point decides which device has access and issue transmission grant. Used in wireless networks, such as Wi-Fi.
+3. **Time Division Multiple Access (TDMA)**: communication channel is divided into time slots, and each device is assigned a specific time slot during which it can transmit data. commonly used in satellite communication.
+4. **Frequency Division Multiple Access (FDMA)**: communication channel is divided into frequency bands, and each device is assigned a specific frequency band during which it can transmit data. mostly used in cellular communications.
+5. **Code Division Multiple Access (CDMA)**: each device is assigned a unique code, and the communication channel is shared by all devices simultaneously. mostly used in cellular communications.
+
+### LAN Addressing
+
+assigning unique address to each device on a network.
+
+1. **MAC Addressing**: unique identifier assigned to each network interface card (NIC) on a device. commonly used by datalink layer to identify devices on the same network. it is a 48-bit number represented as six pair of hexadecimals digits separated by columns. E.g. 00:11:22:33:44:55.
+2. **IP Addressing**: unique identifier assigned to each device on a network. used by the network layer to identify devices on same network or different networks. It is a 32-bit number represented as four decimal number separated by dots. E.g. 192.168.0.1
+
+### ARP (Address Resolution Protocol)
+
+This protocol is used to map a network address (such as IP Address) to a physical address (such as MAC Address). used by devices to determine the MAC address of another device on the same network which is necessary for communication over the data link layer.
+
+1. **Reverse ARP (RARP)**: used to map a data link address to a network layer address. It is used by diskless workstations to obtain IP address from a RARP network.
+2. **Inverse ARP (IARP)**: used to map network layer address to a data link layer address on frame relay networks.
+3. **Proxy ARP**: used by devices (such as routers) to answer ARP requests for a device on a different network. The device with the IP Address being requested is not on the same network as the requesting device, but the requesting device sends an ARP request on the local network anyway. The device that receives the ARP request responds with its own MAC Address, allowing the requesting device to forward data to the device with the requested IP address.
 
 ## Ethernet
 
-## IEEE 802.3(Ethernet)
+Standard communication protocol used in computer networks for wired LANs. Used in data link layer of the OSI Model and provides a way for devices to communicate with each other over a shared physical medium such as coaxial cable or twisted pair cable.
 
-## 802.4(Token Bus)
+### IEEE 802.3 (Ethernet)
 
-## 802.5(Token Ring)
+Protocol used in computer networking to connect devices on a local area network.
 
-## CSMA/CD
+It specifies the format and structure of the Ethernet frames including preamble, header and trailer. It also defines the mechanism used for addressing, flow control, error detection, correction and access control.
+
+1. 10BASE-T Ethernet: uses twister pair cables and transfer rate is 10Mbps.
+2. Fast Ethernet (100BASE-T): uses twisted pair cables and transfer rate is 100Mbps.
+3. Gigabit Ethernet (1000BASE-T):  uses twister pair cables and transfer rate is 1Gbps.
+4. 10 Gigabit Ethernet (10GBASE-T): uses twisted pair cables or optical fiber and transfer rate is 10Gbps.
+5. 40 Gigabit Ethernet (40GBASE-T): uses optical fibers and transfer rate is 40Gbps.
+6. 100 Gigabit Ethernet (100GBASE-T): uses a fiber optics cable, and transfer rate is 100Gbps.
+7. Ethernet over Power (EoP): uses existing electrical wire to transmit ethernet signals, data transfer speeds up to 1 Gbps.
+8. Power over Ethernet (PoE): devices to powered through the Ethernet Cable, eliminating the need to separate power source.
+
+### IEEE 802.4 (Token Bus)
+
+Protocol for communicating in LAN, was developed as an alternative to popular Ethernet standard. It is a bus based network topology, in which all devices are connected to a shared communication medium (a coaxial cable) and data is transmitted serially. It is based on token passing mechanism, only the devices having token will be allowed to transmit data on the network which ensures the orderly and controlled manner avoiding collisions and other types of interference.
+
+### IEEE 802.5 (Token Ring)
+
+Very similar to the token bus, but devices are in ring topology instead of bus topology and also based on the token passing mechanism similar to token bus.
 
 ## Wireless LANs
 
+It allows mobile user to connect to a Local Area Network (LAN) using wireless connection. It uses IEEE 802.11 group of standards to define their technologies including the Ethernet protocol as well as CSMA/CA for path sharing. WLAN also uses WEP algorithm for encryption.
+
+It provides high speed data communication in small areas such as offices and buildings, allowing users to move around while staying connected to the network. Great and cost effective alternative for laying cables.
+
 ## PPP (Point to Point Protocol)
 
-## Wide area protocols.
+Used to establish direct connection between two network nodes. Commonly used in dial-up connection and Virtual Private Networks (VPNs) to provide secure reliable transmission of data over the internet.
+
+It is designed to work with variety of physical network media, serial cables, phone line, trunk lines, fiber optics link such as SONET. It is a data link layer protocol that identifies the source and destination, it is commonly used by Internet Service Provider (ISPs) to provide dial-up access to the internet.
+
+## Wide area protocols
+
+These are a set of protocols used in Wide Area Networks (WANs) to establish communication between geographically dispersed areas and are designed to enable devices to communicate over long distances.
+
+Commonly used Wide Area Protocols includes:
+
+1. X.25: transmit data over public switched networks
+2. Frame Relay: transmit data between devices over a high speed digital connection.
+3. ATM (Asynchronous Transfer Mode): transfer data between devices over a cell based network.
+4. MPLS (Multiprotocol Label Switching): used to direct data traffic between devices over a wide area network.
+5. TCP/IP: suite of protocols used to connect devices to the internet and to establish communication between them.

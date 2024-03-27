@@ -1,19 +1,121 @@
+import { Callout } from "nextra/components"
+
 # Introduction to computer networks and physical layer
 
-## Networking model
+## Introduction
 
-## Protocols and Standards
+### Computer Networks
 
-## OSI model and TCP/IP model
+group of interconnected computers and devices that can communicate and exchange data with each other.
+
+### Protocols
+
+Set of rules and standards that governs the communication between devices in a network. It defines format, timing, sequencing, error control of message exchanged.
+
+<Callout>
+Domain Name System (DNS) is used for translating domain names into IP Addresses.
+</Callout>
+
+## OSI Model (Open System Interconnection)
+
+Concept model that defines the communication between different devices in a network. It consists of 7 layers, each with specific function and set of protocols. This model provides framework and facilitates the interoperability of different network devices and technology.
+
+![OSI Model](https://prod-files-secure.s3.us-west-2.amazonaws.com/02e1804e-bb75-467c-b480-71c7c6292a4f/d8a3743a-c59a-4bb0-b453-4230ac77f393/Untitled.png)
+
+### Application Layer
+
+Provides network services to applications and end-users, such as file transfer and emails.
+
+### Presentation Layer
+
+Translates data into a format that the application layer can understand, provides encryption and decryption services.
+
+### Session Layer
+
+Manages and maintains connections between devices and applications and establishes, manages and terminates communication services.
+
+### Transport Layer
+
+Provides reliable data transport services between devices, and manage flow control and error detection and correction.
+
+### Network Layer
+
+Controls the operation of subnet and provides routing services to move data across multiple networks.
+
+### Data Link Layer
+
+Transmits data over the physical network and provides error detection and correction services.
+
+### Physical Layer
+
+Transmits and receives raw bit streams over the physical network.
+
+## TCP/IP Layer
+
+It is a network communication model that is widely used in the internet and other IP-based networks. It consists of 4 layers, each with specific rules and set of protocols.
+
+### Application Layer
+
+contains protocols that supports end-user applications such as email, file-transfer and web browsing. Example of protocols are HTTP, FTP and SMTP.
+
+### Transport Layer
+
+provides end-to-end communication services between applications on different devices and ensures reliable data transfer. The two main protocol in this layer are:
+
+1. TCP (Transmission Control Protocol)
+2. UDP (User Datagram Protocol)
+
+### Internet Layer
+
+provides routing services to move data between different networks and handles the fragmentation and reassembly of data packets. The Internet Protocol (IP) is the main protocol used in this layer.
+
+### Link Layer/Network Access
+
+responsible for transmitting data over the physical network, and includes protocols for accessing and controlling the network medium. Example of link layers are Ethernet, Wi-Fi, Bluetooth etc.
+
+## Difference between OSI Model & TCP/IP Model
+
+| TCP/IP Model | OSI Model |
+| --- | --- |
+| It refers to Transmission Control Protocol | It refers to Open System Interconnections. |
+| has 4 layers | has 7 layers. |
+| more reliable. | less reliable. |
+| doesn’t have strict boundaries. | have strict boundaries. |
+| follows horizontal approach. | follows vertical approach. |
+| used both session and presentation layer in the application layer itself. | different session and presentation layer. |
+| developed protocols then models | developed models then protocols. |
+| transport layer doesn’t provide assurance delivery of packets | transport layer provides assurance delivery of packets |
+| network layer only provides connection less services | connection less and connection oriented services are provided in network layer |
+| protocols cannot be easily replaced | protocols are better covered and easy to replace |
 
 ## Networking Devices
 
-### Hubs
+1. Switches: device that connects devices in a network and forwards data between them.
+2. Routers: forwards data packets between different computer networks and uses IP Address to determine the best path for data to reach destination.
+3. Hubs: device that connects devices in a network and sends incoming data packets to all connected devices.
+4. Modems: modulates digital signal into analog for transmission and demodulates back into digital signals.
+5. Network Interface Cards (NICs): hardware devices that connects a device to a network. it enables communication between devices.
+6. Repeaters: device that amplifies and regenerates signals in a network to extend over which data is transmitted.
+7. Bridges: device that connects two or more network segments and forwards traffic between them.
 
-### Bridges
+## Transmission Media
 
-### Switches
+### Guided Media
 
-### Routers
+those transmission media that provides a physical path along which the data is transmitted.
 
-## Transmission media.
+1. Twisted Pair Cables: Used for communicating devices in a LAN. consists of twisted copper wires.
+2. Coaxial Cables: used for cable TV and high speed internet connection, copper core surrounded by insulator and a metallic shield.
+3. Fiber Optics Cable: used for high speed data transfer, uses light to transmit data
+4. Leased lines: point to point connection between devices, used for high speed data transfer over long distances.
+
+### Unguided Media
+
+1. Radio Waves: wireless communication such as radio, television broadcasting, Wi-Fi, etc.
+2. Microwaves: higher frequency electromagnetic waves than radio waves, used for point to point communications.
+3. Infrared Radiations: wavelength longer than light but shorter than radio waves, used for short range communication like remote control.
+4. Light Waves: used in fiber optics and Li-Fi.
+
+## Reference
+
+[Draw a neat labelled diagram of the osi reference model, Computer Engineering (expertsmind.com)](https://www.expertsmind.com/questions/draw-a-neat-labelled-diagram-of-the-osi-reference-model-30165013.aspx)
