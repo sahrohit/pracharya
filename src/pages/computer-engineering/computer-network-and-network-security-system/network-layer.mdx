@@ -1,51 +1,143 @@
 # Network layer
 
-## Addressing
+The layer in the OSI model and the TCP/IP layer that provides logical addressing and routing services for data packets as they are transmitted. Responsible for moving data between networks and is the layer where routing takes place.
 
-### Internet address
+At the network layer, data packets are encapsulated with IP addresses, which allow them to be directed to their destination across different networks. This layer provides several key services, including addressing, routing and fragmentation.
 
-### Classful address
+## **Addressing (Internet Address/ Classful Address)**
 
-## Subnetting
+### Internet Address
 
-## Routing Protocols
+It is a unique identifier assigned to every device connected to the internet. It is a numeric label that identifies the device’s location on a network, allowing it to send and receive data over the network. Two main version of IP Address are:
 
-### RIP
+1. IPv4: 32-bit represented in decimal format.
+2. IPv6: 128-bit represented in hexadecimal format.
 
-### OSPF
+The IP Address are divided into two parts: the network ID (identifies the network to which the device is connected) and the host ID (identifies the specific device on that network).
 
-### BGP
+### **Classful address**
 
-### Unicast
+method of dividing IP Address based on the range of their network ID. Under classful addressing, the IP Address is divided into 5 parts:
 
-### multicast routing protocols
+| Class | First Octet Range | Network ID |  Host Id | Usage |
+| --- | --- | --- | --- | --- |
+| Class A | 1-126 | First Octet | Last 3 Octet | Large Networks |
+| Class B | 128-191 | First 2 Octet | Last 2 Octet | Medium sized Networks |
+| Class C | 192-223 | First 3 Octet | Last Octet | Small Networks |
+| Class D | 224-239 | - | - | Multicast Addresses |
+| Class E | 240-255 | - | - | Reserved for Experimental Use |
 
-## Routing algorithms
+## **Subnetting**
 
-### shortest path algorithm
+Technique used in IP networking to divide a larger network into smaller more manageable sub-networks or subnets. This allow network admins to create more efficient and secure network by reducing broadcast traffic and isolating.
 
-### flooding
+It is based on the concept that network ID and the host ID in an IP address. In a classful network, the network ID and the host ID are fixed based on the class of the IP Address.
 
-### distance vector routing
+Example: If a network has an IP address of 192.168.0.0 and a subnet mask of 255.255.255.0, the first three octets (192.168.0) represent the network ID, while the last octet (0), represents the host ID. The subnet mask indicates that the first 24 bits (or 3 octet state) of the IP Address are used for the network ID, while the last 8 bit (or 1 octet) are used for the host ID. This allows the network to be divided into up to 256 different subnets, each with its own range of host addresses.
 
-### link state routing
+## **Routing Protocols**
 
-## Routing Protocols
+Protocols used by routers to exchange information with other routers in order to determine the best path for forwarding network traffic. It creates and maintains a routing table which contains information about the network topology and the best path to reach each destination on the network.
 
-### ARP
+### **Routing Information Protocol (RIP)**
 
-### RARP
+It works by broadcasting routing information to all routers in a network. Each routers update the information to update its routing table. It uses hop count metric to determine the best path to a destination, with the goal of minimizing the network hops required to reach the destination.
 
-### IP
+RIP cannot be used in a large networks as the limited number of hop count which is 15. It has slow convergence time, which leads to network instability.
 
-### ICMP
+### **Open Short Path First (OSPF)**
 
-## IPv6
+It works by exchaning link-state advertisements (LSAs) between routers to build  a complete map of the network topology. Each routers then uses the map to calculate the shortest path to each destination on a network.
 
-### Packet formats
+OSPF uses a cost metric based on the bandwidth of each link to determine the shortest path, with the goal of minimizing the overall cost. Because of this it provides faster convergence and most efficient use of network bandwidth than distance vector protocols like RIP.
 
-### Extension headers
+### **Border Gateway Protocol (BGP)**
 
-### Transition from IPv4 to IPv6
+Routing Protocol used in IP networks to exchange routing information between different Autonomous Systems (AS). It is controlled by a single entity, known as AS number.
 
-### Multicasting.
+It is designed to support large scale networks as it takes into account several path attributes, such as path length, local preference, and MED (Multi Exit Discriminator), to determine the best path to the destination.
+
+It is primarily used by ISPs and large enterprise solutions to maintain its own routing policies and preference, while ensuring traffic is routed in the most efficient and reliable way possible.
+
+1. P**olicy Based Routing**: defines complex routing policy based on factors such as cost, bandwidth and performance.
+2. **Route aggregation**: multiple network prefixes to be combined into a single route, which reduce the size of routing table and improve network performance.
+3. **Load Balancing**: allows network traffic to be distributed across multiple paths, which can improve network performance and reliability.
+
+### **Unicast Routing Protocol**
+
+It is a protocol used in computer network to forward packets from a single source to a single destination. It is designed to provide efficient and reliable routing for point to point communication and commonly used in small to mid size networks.
+
+1. **Distance-vector Routing Protocol**: calculates the best path to the destination based on the number of hops required to reach the destination.
+2. **Link state routing protocol**: builds a complete map of network topology by exchanging link-state information between routers
+3. **Path vector routing protocol**: uses vector of AS number to determine the path to a destination. Path-vector routing protocols are commonly used in large scale networks.
+
+### **Multicast Routing Protocols**
+
+It is a routing protocol used in computer networks to forward data packets to multiple recipients at the same time. It is designed to support one to many or many to many communications and commonly used in applications such as video streaming or online gaming.
+
+1. **Source Specific Multicast Routing Protocol**: designed to optimize the delivery of multicast traffic by using the source address to determine the best paths to the multicast group. E.g. PIM, MSDP etc.
+2. A**ny Source Multicast Routing Protocol**: designed to optimize the delivery of multicast traffic from any source to a multicast group. E.g. PIM-SM (Sparse Mode) and PIM-DM (Dense Mode).
+
+## **Routing algorithms**
+
+### **Distance vector routing**
+
+Calculates the shortest path based on the number of hops required to reach the destination.
+
+### **Link state routing**
+
+Algorithm builds a complete map of network topology by exchanging link-state information between routers. Each router uses the map to calculate the shortest path to each destination. E.g. Open Shortest Path First (OSPF) and Intermediate System-to-Intermediate System (IS-IS).
+
+### **Path-vector routing**
+
+Algorithm uses a vector of AS number to determine the best path to a destination. Commonly used in large scale networks. E.g. Border Gateway Protocol etc.
+
+### **Flooding**
+
+routing algorithm used in computer networks to forward packets to all connected nodes. Each nodes that receive a packet broadcasts the packets to all its neighbors, except from the node from which the packet was received. This process is repeated until all the nodes in the network have received the packet.
+
+Effective in small networks where the overhead of broadcasting packets is relatively low. However can be highly inefficient in larger networks.
+
+To address the limitation of flooding algorithms, several modifications have been developed:
+
+1. Randomized Flooding: introduces randomness into the flooding algorithms.
+2. Reverse Path Forwarding: uses the knowledge of shortest path back to the source to avoid unnecessary flooding.
+3. Selective Flooding: limit the scope of flooding to avoid un-necessary flooding.
+
+## **Routing Protocols**
+
+### **Address Resolution Protocol (ARP)**
+
+Protocol used to map a network address (such as IP Address) to a physical address (such as MAC Address).
+
+### **Reverse Address Resolution Protocol (RARP)**
+
+Protocol used to map a physical address (such as MAC Address) to a network address (such as IP Address).
+
+### **Internet Protocol (IP)**
+
+Protocol used to route data packets between devices. It is responsible for logical addressing, fragmentation and reassembly and error checking for data packets.
+
+### **Internet Control Message Protocol (ICMP)**
+
+## **IPv6**
+
+It is the successor of IPv4 and is designed to address the exhaustion of IPv4 addresses. Provides larger address space, improved security, and better support for mobile networks.
+
+### Address Format
+
+128-bit long as compared to 32-bit address for IPv4. Much larger address space.
+
+### **Packet formats**
+
+IPv6 has simpler header format than IPv4 packets allowing for faster processing and lower overhead. IPv6 also supports optional extension headers, which can be used to provide additional functionality.
+
+### **Extension headers**
+
+### **Transition from IPv4 to IPv6**
+
+Not widely deployed yet. There are mechanism in place to allow the co-existence of IPv4 and IPv6 networks. This includes dual-stack networks, where the host and router can run both IPv4 and IPv6 protocols, tunneling or translations of IP address from v4 to v6 or vice versa.
+
+### **Multicasting**
+
+IPv6 has native support for multicasting, which allows a single packet to be sent to multiple recipient at once. IPv6 multicast address uses special prefix and can be used to implement features like multi-cast routing and service discovery.

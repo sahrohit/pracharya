@@ -1,15 +1,104 @@
+import { Callout } from "nextra/components"
+
 # Transport layer
 
-## The transport service
+## **Transport Service**
 
-## Transport protocols
+Fourth layer of the OSI Model and is responsible for reliable end-to-end communications between applications running on different devices and also provides multiplexing and demultiplexing.
 
-## Port and Socket
+The Transport layer is divided into two protocols:
 
-## Connection establishment & Connection release
+1. **Transmission Control Protocol (TCP)**: reliable, connection-oriented communication between applications. Breaks data into smaller segments and uses a three-way handshake to establish connection between the source and the destination. Provides error checking and flow control to ensure the data is transmitted.
+2. **User Datagram Protocol (UDP)**: Connection-less communication that provides fast, unreliable communication between devices. It doesn’t provide flow control and error control. Used for fast, real-time communications such as video streaming and online gaming.
 
-## Flow control & buffering
+## **Transport protocols**
 
-## Multiplexing & de-multiplexing
+Set of protocols and functions that provides end-to-end communication between processes running on different hosts. It establishes a logical connection between the sender and receiver and ensures the data is transmitted reliably. It also provides control flow control, congestion control, and multiplexing of multiple connections over a single network.
 
-## Congestion control algorithm
+## **Port and Socket**
+
+Port and sockets are used to facilitate communications between applications running on different devices.
+
+### Port
+
+The port number is used to identify the specific applications running on a device. It ensures that data sent to the device is correctly directed to the correct application. The ports allows different applications to use the same network connection. Port numbers are divided into three ranges:
+
+1. Well-known Ports
+2. Registered Ports
+3. Dynamic or Private Ports
+
+### Socket
+
+Socket is the combination of an IP address and a port number that identifies a unique endpoint in a network. It is used to establish connection between two applications running on different networks. A socket is created when an application requests a connection and is used to send and receive data between the two networks.
+
+## **Connection Establishment & Connection Release**
+
+### Connection Establishment
+
+Process of establishing a virtual circuit between two applications running on different devices. The process is used by connection-oriented protocols such as TCP. During this process, two devices exchange control messages to agree on the initial sequence numbers, window sizes and other parameters. Once the parameters are agreed upon, the data can be transmitted over the virtual circuit.
+
+### Connection Release
+
+Process of terminating the virtual connection between two applications. This process is used by connection-oriented protocols such as TCP to ensure that the virtual circuit is properly released and the resources used for the communication are released.
+
+## **Flow control & buffering**
+
+Process of regulating the amount of data sent by the sender to ensure that the receiver can process the data at the rate it is being sent. Prevents receiver from being overwhelmed by data it cannot process, leading to dropped packets, network congestion, and other issues.
+
+It also include techniques such as windowing, where the receiver sends message to the sender indicating the amount of data it can accept.
+
+### Buffering
+
+It is the process of temporarily storing data in a buffer before it is transmitted to the receiver. They are used to smooth out fluctuations in network traffic and to ensure the data is transmitted at a constant rate.
+
+Buffers are implemented in hardware or software and are sized according to the amount of data that needs to be transmitted, and are used to prevent data loss due to network congestion.
+
+## **Multiplexing & De-Multiplexing**
+
+Techniques used in Transport layer of computer networking to allow multiple applications to share a single network connection.
+
+Process of combining multiple data steams from different applications into a single data stream that can be easily transmitted over a single network. It allows multiple applications to share a single network connection, which can improve the overall efficiency of the network.
+
+Similarly, De-Multiplexing is the process of converting single data stream into multiple data streams for different applications. It is done at receiving end of the network connection. It is necessary to ensure that data is correctly directed to the correct application, and to prevent data corruption or loss.
+
+<Callout>
+Multiplexing can be done in many layers of the network stack, including the transport layer where its used to combine multiple application data streams into a single network.
+</Callout>
+
+### Time Division Multiplexing (TDM)
+
+Multiple signals are combined into a single signal by assigning each signal a specific time slot. Signals are transmitted in a time slot thus saving bandwidth.
+
+### Frequency Division Multiplexing (FDM)
+
+Multiple signal are combined into a single signal by assigning each signal a specific frequency bands. Each signal is transmitted at its assigned frequency bands, and the signals are separated at the receiving end based on their frequency bands. Mostly used in analog communications and is an efficient way to use bandwidth.
+
+### Statistical Multiplexing
+
+Multiple signals are combined into a single signal based on the bandwidth requirement of each signal. During low bandwidth usage, signals can share the available bandwidth whereas during high bandwidth usage, signals are given priority basis.
+
+### Wavelength Division Multiplexing
+
+Used in optical communications system in which multiple signals are combined into a single by assigning each signal a fixed wavelength. Signals are separated at the receiving end based on their wavelengths.
+
+### Code Division Multiplexing
+
+Multiple signals are combined into a single signal by assigning each signal a specific code. Signal is then separated at the receiving end using its assigned code. Used in wireless communications and an efficient way to use bandwidth.
+
+## **Congestion control algorithm**
+
+When there is a higher demand for network resource than the available capacity can accommodate. When congestion occurs, packets of data may be delayed, lost or dropped, resulting in degraded network performance and reduced throughput.
+
+It can be caused by various factors, such as an increase in traffic volume, network failures, or a misconfiguration of devices. It can also occur when the network is not designed to handle traffic load, such as when the network topology doesn’t provide enough bandwidth for traffic demand.
+
+### Leaky Bucket Algorithm
+
+It is commonly used in the context of network traffic shaping or rate limiting. It is designed to control the rate at which traffic is sent to the network and shape burst traffic to a steady traffic stream. One of the disadvantages of the leaky bucket algorithm is that it can result in efficient use of available network resources, including bandwidth.
+
+### Token Bucket Algorithm
+
+More flexible algorithm that does not lose information and is used in network traffic shaping or rate-limiting. In this algorithm, the tokens in the bucket are used to determine when traffic should be sent. Contains predefined number of tokens, each token represents a packet of a certain size. When packet is sent, the token is removed from the bucket. When no tokens are there, it restricts the flow of traffic.
+
+<Callout>
+Token Bucket Algorithm can accommodate bursts of traffic, up to the number of token in a bucket.
+</Callout>
