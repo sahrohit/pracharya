@@ -1,33 +1,81 @@
-# Application layer
+# Application Layer
+
+Application layer is the top most layer in the OSI layer and is responsible for providing network services to user applications. This layer directly interacts with the end user application providing network services to user applications. This layer supports various protocols including HTTP, SMTP, FTP, DNS, Telnet and others.
 
 ## Web (HTTP & HTTPS)
+
+HTTP stands for Hypertext Transfer Protocol and is mainly used for transmitting webpages, images and other content over the network. It is a stateless protocol meaning, it doesn’t maintain any session or connection information between the client and the server. It uses port 80.
+
+HTTPs is a secure version of HTTP, which uses encryption layer to protect the data being transmitted over the network. It uses SSL (Secure Socket Layer) or Transport Layer Security (TLS) to encrypt the data, making it more difficult for unauthorized access. It uses port 443.
 
 ## File Transfer
 
 ### FTP
 
+Client-Server protocol for transferring files over the internet. It uses two separate channels, a command channel for sending commands and another data channel for sending data. It is commonly used for uploading and downloading files from a web server.
+
 ### PuTTY
 
-### Win SCP
+Free and open source terminal emulator and network file transfer application. It supports various network protocol, including SSH (Secure Shell), Telnet, rlogin, and serial communications. It is primarily used for remote terminal access and file transfer over the network.
+
+### WinSCP
+
+Free and open source SFTP (Simple File Transfer Protocol) and SCP (Secure Copy Protocol) client for windows. It is used for commonly transferring files between the local and remote computer over the internet. WinSCP supports various authentication methods, including passwords, public key authentication, and Kerberos.
 
 ## Electronic Mail
 
-## DNS
+Method of exchanging digital messages between individuals and organizations over the internet. Email message may include text, images and attachments such as files and documents. It typically consists of mail server, which stores and manages the email message and mail client.
+
+Email is based on the SMTP (Simple Mail Transfer Protocol) which is responsible for sending and recieveing messages where as Post Office Protocol (POP) or Internet Message Access Protocol (IMAP), which is mainly used by mail clients to retrieve email messages from server.
+
+## Domain Name System (DNS)
+
+This is a system used to translate human-readable domain names into IP addresses, which are used by computer to identify and communicate with each other over internet.
+
+Each device is assigned IP address, which is hard to remember. DNS is used to map domain names to IP Address. DNS resolver on the computer sends the query to a DNS Server asking for the associated IP address
 
 ## P2P Applications
 
+Software programs that allows computer to connect with each other directly without the need of central server or intermediary.
+
+1. BitTorrent: file sharing protocol to share files such as movies and music on the internet.
+2. Skype: communication tools allowing user to make voice and video calls.
+3. Napster: file sharing program for sharing music which was shutdown due to copyright infringement issues.
+4. Bitcoin: digital currency that uses P2P connection to validate transactions and maintain ledger.
+5. FileZilla: FTP client allowing users to upload and download files from FTP Server.
+
 ## Socket Programming
 
-## Application server concept
+In socket programming, the program creates a socket and then establishes a connection to another program on the network using the IP address and port number of the other program. Once the connection is established, the two programs can send and receive data between each other.
 
-## Concept of traffic analyzer
+## Application Server Concept
 
-### MRTG
+It is a type of server that provides a runtime environment for web and enterprise applications. It provides an infrastructure for developing, deploying and managing web based applications that can be accessed by multiple user simultaneously over a network.
 
-### PRTG
+It includes software components for load balancing, session management, security and database connectivity. Allow applications to run securely with high availability an scalability.
 
-### SNMP
+It is used in wide range of web and enterprise applications such as eCommerce websites, banking applications, customer relationship management etc.
+
+## Concept of Traffic Analyzer
+
+It is a tool used to capture and analyze network traffic in order to monitor and manage network performance. It allows network administrators to identify and diagnose network problems.
+
+### MRTG (Multi Request Traffic Grapher)
+
+Open source tool that provides way to monitor traffic load on network links.
+
+### PRTG (Paessler Router Traffic Graph)
+
+Commercial network tool that can be used to monitor bandwidth usage, network availability and network performance.
+
+### SNMP (Simple Network Management Protocol)
+
+protocol used to manage and monitor network typologies.
 
 ### Packet tracer
 
-### Wireshark.
+Simulate network traffic and test network configuration.
+
+### Wireshark
+
+Open source packet analyzer that is used to capture and analyze network traffic. View network traffic at the packet level, allowing network admins to diagnose network problem and optimize network performance.
