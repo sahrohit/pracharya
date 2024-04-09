@@ -1,47 +1,219 @@
+import { Callout } from "nextra/components"
+
 # Introduction to AI and intelligent agent
 
 ## Concept of Artificial Intelligence
 
+Means man-made intelligence.
+
+Replicate human intelligence
+
+Solve knowledge intensive tasks
+
+Connection of Perception and action
+
+Building machines that can play chess, drive a car etc.
+
+### Applications
+
+1. High accuracy with less errors
+2. High speed
+3. High reliability
+4. Useful for risky areas
+5. Digital Assistant
+6. Useful as a public utility
+
+### Disadvantages
+
+1. High Cost
+2. Can’t think out of the box
+3. No feeling or emotions
+4. Increase dependency
+5. No Original Creativity
+
 ## AI Perspectives
+
+1. Symbolic AI Prospective: using symbolic representation and logical inference to create intelligent systems.
+2. Connectionist AI Perspective: also known as neural network. creating artificial neural network that can learn from data, recognize patterns, and make predictions.
+3. Evolutionary AI Perspective: based on the principle of natural selection and evolution. Creating algorithms that adapt to the environment.
+4. Bayesian AI Perspective: creating model that can reason about uncertain information and make decisions based on probabilities.
+5. Behavior-based AI Perspective: creating machine that can exhibit intelligent behavior without relying on explicit representation of the world.
+6. Cognitive AI Perspective: inspired by cognitive psychology and focuses on creating machines that can learn and reason in ways that are similar to humans.
 
 ## History of AI
 
+1943: First mathematical model of neural network proposed.
+
+1950: Alan Turing introduced Turing Test, which proposed a way to evaluate a machine’s ability to exhibit intelligent behavior equivalent to human.
+
+1956: marked birth of AI as a formal research field, which led to creation of term “artificial intelligence”.
+
+1959: AI program that could solve complex problem by breaking down into smaller sub problems.
+
+1966-1974: reduced funding in AI due to unrealistic expectations and lack of progress.
+
+1980: type of program that uses rules based logic to solve specific domain problems.
+
+1990: type of AI that allow computers to learn from data and, become popular with the rise of neural networks and algorithms.
+
+2010: type of neural network that can learn to recognize patterns and make predictions with unprecedented accuracy.
+
 ## Applications of AI
+
+AI for everything.
 
 ## Foundations of AI
 
+The science and engineering of making intelligent machines, especially intelligent computer programs
+
 ## Introduction of agents
+
+Agents are the software program or a machine that is designed to perform a specific task or set of tasks.
+
+A simple reactive agent is designed to respond to its environment based on a set of predefined rules. It is limited to its programmed behavior and cannot deviate from that.
+
+Multi-agent systems consists of multiple agents that work together to achieve a common goal. Each agent in a MAS has its own objective and behaviors, but they are designed to work together to achieve a common goal.
 
 ## Structure of Intelligent agent
 
+### Perceptions
+
+It is the component of an intelligent agent, which is responsible for receiving input from the environment. The input can be in the form of text, video, audio etc. It converts the input into a format that the agent can understand.
+
+### Knowledge Base
+
+It is used for storing the information that the agent has acquired. The information can be in the form of rules, facts, or heuristics.
+
+### Reasoning
+
+It is responsible for making decisions based on the information stored in the knowledge base. The reasoning component can use various techniques such as logic, probabilistic reasoning or decision trees to make decision.
+
+### Planning
+
+It is responsible for creating a sequence of actions that the agent can take to achieve its objectives. The planning component can use various techniques such as search algorithms, optimization algorithm, or rule based algorithms.
+
+### Action
+
+responsible for executing the action that is planned. The action component interacts with the environment and perform the necessary action to achieve the agent’s objective.
+
+### Learning
+
+It is responsible for acquiring new knowledge and adapting to new situations. It can use various components such as supervised learning, un-supervised learning or re-enforcement learning.
+
 ## Properties of Intelligent Agents
 
-## PEAS description of Agents
+1. Autonomy
+2. Adaptability
+3. Reactivity
+4. Proactivity
+5. Communication
+6. Rationality
+
+## PEAS (Performance Measure, Environment, Actuator and Sensor) description of Agents
+
+### Rational Agent
+
+It considers all possibilities and choose to perform a highly efficient action. For example, it chooses the shortest path with low cost for high efficiency.
+
+### Performance Measure
+
+It is a unit to define success of an agent. Performance varies with agents based on their different precepts.
+
+### Environments
+
+It is the surrounding of an agent at every instant. It keeps changing with time. There are five major types of environments:
+
+1. Fully Observable & Partially Observable
+2. Static & Dynamic
+3. Deterministic & Stochastic
+4. Episodic and Sequential
+5. Discrete & Continous
 
 ## Types of Agents
 
+Agents are classified based on whether they are reactive or proactive, whether they have a fixed or dynamic environment, and whether they are single or multi-agent systems.
+
+Reactive agents are those that responds to immediate stimuli from their environment and take action based on those stimuli.
+
+Proactive agents take initiative and plan ahead to achieve their goals.
+
 ### Simple Reflexive
+
+It ignores the rest of the percept history and act only on the basis of the current percept.
+
+<Callout>
+For simple reflex agents operating in partially observable environments, infinite loops are often unavoidable. It may be possible to escape from infinite loops if the agent can randomize its actions.
+</Callout>
+
+**Problems:**
+
+1. Very limited intelligence
+2. No knowledge of non-perceptual parts of  the state.
+3. Too big to generate and store.
+4. If there occurs any change in the environment, the collection of rules needs to be updated.
 
 ### Model Based
 
+It works by finding a rule that matches the current situation. It can handle partially observable environments by the use of a model about the world. The current state is stored inside the agent maintains, some kind of structure describing the part of the world which cannot be seen.
+
+Updating the state requires information about how the world evolves independently from the agent, how the agent’s action affect the world.
+
 ### Goal Based
 
+Takes decision based on how far the goal is. Their every action is intended to reduce the distance from the goal.
+
+The knowledge that supports its decision is represented explicitly and can be modified, which makes the agent more flexible. The goal based agent behavior can be changed easily.
+
 ### Utility Based
+
+The agents which are developed having their end users as building block are called utility based agents. They choose action based on a preference (utility) for each state.
 
 ## Environment Types
 
 ### Deterministic
 
+When a uniqueness in the agent’s current state completely determines the next state of the agent, the environment is said to be deterministic.
+
+Example: there would be only a few possible moves for a coin at the current state and these moves.
+
 ### Stochastic
+
+The stochastic environment is random in nature which is not unique and cannot be completely determined by the agent.
+
+Example: The actions of self-driving car are not unique, it varies from time to time.
 
 ### Static
 
+An idle environment with no change in its state is called static environment.
+
+Example: An empty house is static as there’s no change in the surroundings when an agent enters.
+
 ### Dynamic
+
+An environment that keeps constantly changing itself when the agent is up with some action is said to be dynamic.
+
+Example: A rollercoaster ride is dynamic as it is set in motion and the environment keeps changing every instant.
 
 ### Observable
 
+Maintaining a fully observable environment is easy as there is no need to keep track of the history of the surrounding.
+
+Example: Chess board is fully observable, and so are the opponent’s move.
+
 ### Semi-observable
+
+When an agent sensor is capable to sense or access the complete state of an agent at each point in time, it is said to be a fully observable environment else its semi-observable.
+
+Example: In driving, the environment is partially observable because what’s around the corner is unknown.
 
 ### Single Agent
 
+An environment consisting of only a single agent is called single agent environment.
+
+Example: a person left alone in the maze.
+
 ### Multi Agent
+
+An environment involving more than one agent is called multi agent environment.
+
+Example: A football game with 11 players.

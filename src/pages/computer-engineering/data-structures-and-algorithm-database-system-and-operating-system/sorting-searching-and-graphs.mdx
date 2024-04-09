@@ -1,16 +1,32 @@
 # Sorting, searching, and graphs
 
-## Types of sorting
+## Types of Sorting
 
-### internal and external
+### Internal Sorting
 
-### Insertion and selection sort
+1. Insertion Sort: sorting one element at a time, and inserting each element into its proper place.
+2. Selection Sort: finding smallest element in the list and swapping it with first element and second place for second smallest element.
+3. Bubble/Exchange Sort: by comparing and swapping adjacent elements in the list by swapping them if they are in the wrong order.
+4. Quick Sort: divide and conquer algorithm that works by selecting pivot element, and doing partition around the pivot and recursively sorting each sub list.
+5. Merge Sort: dividing list into two halves, and sorting each half and then merging the two sorted halves.
+6. Heap Sort: based on heap data structure which is a binary tree, where each node is greater than or equals to its child.
+7. Shell Sort: Based on insertion sort, and works by comparing elements that are further apart in the list first, and moving them closer.
 
-### Exchange sort
+| Sorting Algorithm | Time Complexity | Space Complexity | Application |
+| --- | --- | --- | --- |
+| Insertion Sort | O(n^2) | O(1) | Small data set, partially sorted values |
+| Selection Sort | O(n^2) | O(1) | Small data set, with duplicate values  |
+| Bubble/Exchange Sort | O(n^2) | O(1) | Small data set, Education |
+| Quick Sort | O(n^2), θ(nlogn) | O(logn) | Large Dataset, randomly ordered |
+| Merge Sort | O(nlogn) | O(n) | Large dataset, partially stored data |
+| Heap Sort | O(nlogn) | O(1) | Efficient, data with duplicates |
+| Shell Sort | O(nlogn^2) | O(1) | Efficient for data with small number of possible values. |
 
-### Merge and Redix sort
+### External Sorting
 
-### Shell sort
+Technique used to sort large amount of data the doesn’t fit in the memory entirely. Works by dividing the data into smaller pieces that can be sorted separately.
+
+Example: External Merge Sort and Distribution Sort.
 
 ### Heap sort as a priority queue
 
